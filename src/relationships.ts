@@ -1,0 +1,43 @@
+import {compatible} from './identity';
+import type {GameState,PendingChoice} from './engine';
+export function canDate(s:GameState,id:string):boolean {
+ const p=s.people.find(p=>p.id===id),r=s.relations.find(r=>r.id===id);
+ return !!(s.month>=192&&!s.partnerId&&!s.spouseId&&p?.alive&&p.kind==='friend'&&s.month-p.birthMonth>=192&&!p.spouseId&&p.gender&&p.orientation&&compatible(s.identity,{gender:p.gender,orientation:p.orientation})&&r&&r.closeness>=58&&r.trust>=48);
+}
+export function canMarry(s:GameState):boolean {
+ const p=s.people.find(p=>p.id===s.partnerId);const r=s.relations.find(r=>r.id===s.partnerId);
+ return !!(s.month>=216&&!s.spouseId&&p?.alive&&p.kind==='friend'&&s.month-p.birthMonth>=216&&!p.spouseId&&r&&r.closeness>=50&&r.trust>=45);
+}
+export function canHaveChild(s:GameState):boolean {return !!(s.month>=216&&s.month<600&&s.children<4&&s.month-(s.lastSeen.birth??-999)>=24&&s.people.some(p=>p.id===s.spouseId&&p.alive&&p.kind==='friend'&&s.month-p.birthMonth>=216));}
+export function lifeDecision(s:GameState,action:'date'|'marry'|'child',id?:string):PendingChoice|null {
+ if(action==='date'&&id&&canDate(s,id))return {eventId:'romance-proposal',text:s.people.find(p=>p.id===id)!.name+'との交際を始める？',personId:id,choices:[{label:'交際を始める',effects:[],lifeAction:'date'},{label:'友人のままでいる',effects:[]}]};
+ if(action==='marry'&&canMarry(s))return {eventId:'marriage-proposal',text:'交際相手と結婚について話し合った。',personId:s.partnerId!,choices:[{label:'結婚する',effects:[],lifeAction:'marry'},{label:'今は結婚しない',effects:[]}]};
+ if(action==='child'&&canHaveChild(s))return {eventId:'family-plan',text:'子どもを迎え、育てることについて話し合った。',personId:s.spouseId!,choices:[{label:'子どもを迎える',effects:[],lifeAction:'child'},{label:'今は見送る',effects:[]}]};
+ return null;
+}
+export function addChild(s:GameState,log:(text:string)=>void){
+ const id='child-'+s.nextPersonId++;s.children++;
+ s.people.push({id,name:`子ども・${s.children}`,kind:'family',birthMonth:s.month,alive:true,health:90,personality:'kind',values:'family',occupation:'student',childCount:0,parentIds:['player',s.spouseId??'unknown']});
+ s.relations.push({id,closeness:75,trust:70,lastContactMonth:s.month});s.flags.parent=true;
+ log('【家族】子どもを迎えた。子育ての時間と費用を家計に織り込む。');
+}
+export function npcMonth(s:GameState,random:()=>number,log:(text:string)=>void){
+ for(const p of s.people){
+  if(!p.alive)continue;const age=(s.month-p.birthMonth)/12;
+  p.health??=85;p.childCount??=0;
+  if(age>=18&&!p.education)p.education=age>=22&&p.values==='career'?'university':'high';
+  if(age>=65){p.occupation='retired';p.health-=0.08;}
+  if(age>=18&&p.occupation==='student')p.occupation='unemployed';
+  if(age>=18&&age<65&&p.occupation==='unemployed'&&random()<0.035)p.occupation='employed';
+  if(random()<(age>70?0.003:0.0005)){p.illness=true;p.health-=8;log(p.name+'が体調を崩した。');}
+  if(p.illness&&random()<0.10){p.illness=false;p.health=Math.min(90,p.health+5);log(p.name+'の体調が回復した。');}
+  if(age>=100||age>=65&&random()<Math.max(0,(age-60)*0.00012)||p.health<=0){p.alive=false;p.occupation='retired';log('【死別】'+p.name+'が亡くなった。');if(s.partnerId===p.id||s.spouseId===p.id){s.partnerId=null;s.spouseId=null;s.stats.happiness=Math.max(0,s.stats.happiness-12);s.flags.bereaved=true;}if(p.spouseId){const other=s.people.find(x=>x.id===p.spouseId);if(other)other.spouseId=null;p.spouseId=null;}continue;}
+  if(p.movedAway&&random()<0.002){p.movedAway=false;log(p.name+'が戻り、久しぶりに再会した。');const r=s.relations.find(r=>r.id===p.id);if(r){r.closeness=Math.min(100,r.closeness+5);r.lastContactMonth=s.month;}}
+  if(p.kind!=='friend'||s.partnerId===p.id||s.spouseId===p.id||age<18)continue;
+  if(p.spouseId&&random()<0.0008){const other=s.people.find(x=>x.id===p.spouseId);if(other)other.spouseId=null;p.spouseId=null;log(p.name+'が離婚し、新しい生活を始めた。');}
+  if(!p.spouseId&&random()<0.004){const other=s.people.find(x=>x.id!==p.id&&x.kind==='friend'&&x.alive&&!x.spouseId&&x.id!==s.partnerId&&x.id!==s.spouseId&&s.month-x.birthMonth>=216&&p.gender&&p.orientation&&x.gender&&x.orientation&&compatible({gender:p.gender,orientation:p.orientation},{gender:x.gender,orientation:x.orientation}));if(other&&age>=18){p.spouseId=other.id;other.spouseId=p.id;s.npcLinks.push({a:p.id,b:other.id,kind:'married',since:s.month});log(p.name+'と'+other.name+'が結婚した。');}}
+  if(p.spouseId&&age<45&&p.childCount<3&&random()<0.002){p.childCount++;const other=s.people.find(x=>x.id===p.spouseId);if(other)other.childCount=p.childCount;log(p.name+'の家庭に子どもが生まれた。');}
+ }
+ if(s.month%12===0){const a=s.people.find(p=>p.kind==='friend'&&p.alive&&!p.movedAway);const b=s.people.find(p=>p.kind==='friend'&&p.alive&&p.id!==a?.id&&!p.movedAway);if(a&&b){const kind=random()<0.2?'conflict':'friends';s.npcLinks=s.npcLinks.filter(l=>!(l.a===a.id&&l.b===b.id&&l.kind!=='married'));s.npcLinks.push({a:a.id,b:b.id,kind,since:s.month});log(a.name+'と'+b.name+(kind==='friends'?'は交流を続けている。':'の意見がぶつかった。'));}}
+ s.npcLinks=s.npcLinks.filter(l=>s.people.some(p=>p.id===l.a&&p.alive)&&s.people.some(p=>p.id===l.b&&p.alive)&&(l.kind!=='married'||s.people.find(p=>p.id===l.a)?.spouseId===l.b)).slice(-100);
+}

@@ -65,7 +65,7 @@ export function settleBudget(s:GameState,random:()=>number,log:(text:string)=>vo
  if(s.retired)s.monthlyIncome=85000+Math.min(100000,s.lifetimeWork*100);
  const university=s.education==='university';const factor=({basic:0.72,standard:1,comfortable:1.45})[s.living];
  s.tax=Math.round(Math.max(0,s.monthlyIncome-100000)*0.18);
- s.expenseBreakdown={住居:s.housing==='owned'?18000:s.housing==='family'?15000:55000,生活:Math.round((university?40000:75000)*factor),税社会保険:s.tax,扶養:s.children*25000+(s.spouseId?15000:0),教育:university?(s.scholarship?20000:60000):s.education==='vocational'?45000:0,医療:s.illness?10000:3000};
+ s.expenseBreakdown={住居:s.housing==='owned'?18000:s.housing==='family'?15000:55000,生活:Math.round((university?40000:75000)*factor),税社会保険:s.tax,扶養:Math.max(s.people.filter(p=>p.parentIds?.includes('player')&&p.alive&&s.month-p.birthMonth<216).length,s.children-s.people.filter(p=>p.parentIds?.includes('player')).length)*25000+(s.spouseId?15000:0),教育:university?(s.scholarship?20000:60000):s.education==='vocational'?45000:0,医療:s.illness?10000:3000};
  if(s.benefits.comfort>=s.month)s.expenseBreakdown.生活-=3000;
  s.monthlyExpenses=Object.values(s.expenseBreakdown).reduce((a,b)=>a+b,0);
  let balance=s.stats.money+s.monthlyIncome-s.monthlyExpenses;
