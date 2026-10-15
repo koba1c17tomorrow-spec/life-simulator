@@ -18,9 +18,9 @@ export function socialMonth(s:SocialState,month:number,random:()=>number,log:(te
  }
  s.lastSocialTick=month;
 }
-export function contact(s:SocialState,month:number,id:string):string|null {
+export function contact(s:SocialState,month:number,id:string,mode:'spend'|'talk'='spend'):string|null {
  const person=s.people.find(x=>x.id===id);const r=s.relations.find(x=>x.id===id);
  if(!person?.alive||!r)return null;
- r.closeness=Math.min(100,r.closeness+5);r.trust=Math.min(100,r.trust+2);r.lastContactMonth=month;
- return person.name+'と交流し、少し親しくなった。';
+ r.closeness=Math.min(100,r.closeness+(mode==='spend'?7:2));r.trust=Math.min(100,r.trust+(mode==='talk'?6:2));r.lastContactMonth=month;
+ return mode==='talk'?person.name+'とじっくり話し、信頼を深めた。':person.name+'と一緒に過ごし、親しくなった。';
 }
