@@ -1,5 +1,5 @@
 import {randomIdentity,type Identity} from './identity';
-export type Person = Partial<Identity>&{ id:string; name:string; kind:'family'|'friend'; birthMonth:number; alive:boolean; personality?:'kind'|'bold'|'quiet'|'ambitious'; values?:'family'|'career'|'freedom'; occupation?:'student'|'employed'|'unemployed'; movedAway?:boolean };
+export type Person = Partial<Identity>&{ id:string; name:string; kind:'family'|'friend'|'teacher'; birthMonth:number; alive:boolean; personality?:'kind'|'bold'|'quiet'|'ambitious'; values?:'family'|'career'|'freedom'; occupation?:'student'|'employed'|'unemployed'|'retired';education?:'high'|'vocational'|'university'; movedAway?:boolean };
 export type Relation = { id:string; closeness:number; trust:number; lastContactMonth:number; romance?:number };
 export type SocialState = { people:Person[]; relations:Relation[]; nextPersonId:number; lastSocialTick:number };
 export function initialSocial():SocialState {return {people:[{id:'mother',name:'母',kind:'family',birthMonth:-336,alive:true},{id:'father',name:'父',kind:'family',birthMonth:-360,alive:true}],relations:[{id:'mother',closeness:80,trust:85,lastContactMonth:0},{id:'father',closeness:65,trust:75,lastContactMonth:0}],nextPersonId:1,lastSocialTick:0};}

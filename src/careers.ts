@@ -6,7 +6,8 @@ export function jobOffers(s:{month:number;stats:{knowledge:number;sociability:nu
  const scored=JOBS.map(job=>{const suitability=100-Math.abs(s.stats.knowledge-job.knowledge)*0.7-Math.abs(s.stats.sociability-job.sociability)*0.5+(s.graduatedUniversity&&job.educationBonus?12:0);const hash=(Math.imul(s.seed^job.id.length,1664525)+job.salary)>>>0;return {job,score:suitability+(hash%37)-18};});
  return scored.sort((a,b)=>b.score-a.score).slice(0,count).map(x=>x.job);
 }
-export function offerChance(s:{stats:{knowledge:number;sociability:number;health:number};graduatedUniversity:boolean},job:Job):number{
- const ability=45+(s.stats.knowledge-job.knowledge)*0.5+(s.stats.sociability-job.sociability)*0.35+(s.stats.health-50)*0.12+(s.graduatedUniversity&&job.educationBonus?14:0);
+export function offerChance(s:{stats:{knowledge:number;sociability:number;health:number};graduatedUniversity:boolean;workExperience?:number;degree?:string|null;traits?:string[];flags?:Record<string,boolean>;benefits?:Record<string,number>;month?:number},job:Job):number{
+ const bonus=Math.min(10,(s.workExperience??0)/36)+(s.degree==='vocational'?5:0)+(s.flags?.qualified?4:0)+(s.traits?.includes('creative')&&['design','writing','media'].includes(job.id)?8:0)+(s.benefits?.qualification!==undefined&&s.benefits.qualification>=(s.month??0)?7:0);
+ const ability=45+bonus+(s.stats.knowledge-job.knowledge)*0.5+(s.stats.sociability-job.sociability)*0.35+(s.stats.health-50)*0.12+(s.graduatedUniversity&&job.educationBonus?14:0);
  return Math.max(8,Math.min(95,Math.round(ability)));
 }
