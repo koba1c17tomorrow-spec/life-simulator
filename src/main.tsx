@@ -5,7 +5,7 @@ import {traitNames,traitDescriptions} from './traits';
 import {relativeScore,type RelativeStat} from './balance';
 import React,{useEffect,useRef,useState} from 'react';
 import{createRoot}from'react-dom/client';
-import{advanceMonth,ageLabel,choose,newGame,takeAction,meetPerson,setCareer,setAutoChoices,autoResolve,setUniversity,startRomance,marry,separate,haveChild,type EventDefinition,type GameState}from './engine';
+import{normalizeGameState,advanceMonth,ageLabel,choose,newGame,takeAction,meetPerson,setCareer,setAutoChoices,autoResolve,setUniversity,startRomance,marry,separate,haveChild,type EventDefinition,type GameState}from './engine';
 import {normalizeSocial,relationLabel,personalityLabel} from './social';
 import {normalizeProgression,careerOptions,careerName,jobChance,annualSalary} from './progression';
 import {genderLabel,orientationLabel,compatible,type Gender,type Orientation} from './identity';
@@ -15,7 +15,7 @@ function App(){
 const historyRef=useRef<HTMLDivElement>(null);
 const latestId=useRef<string|undefined>(undefined);
 const[events,setEvents]=useState<EventDefinition[]>([]);
-const[game,setGame]=useState<GameState>(()=>{try{const raw=localStorage.getItem(SAVE);if(raw){const s=JSON.parse(raw) as GameState;if(s.version===1&&typeof s.month==='number'&&Array.isArray(s.history))return normalizeProgression(normalizeSocial({...s,identity:s.identity??newGame(s.seed??123456).identity,traits:s.traits??newGame(s.seed??123456).traits,origin:s.origin??randomOrigin(()=>0.5),jobId:s.jobId??null,autoChoices:s.autoChoices??false,insolvencyMonths:s.insolvencyMonths??0,lastActionMonth:s.lastActionMonth??-1}));}}catch{}return newGame();});
+const[game,setGame]=useState<GameState>(()=>{try{const raw=localStorage.getItem(SAVE);if(raw)return normalizeGameState(JSON.parse(raw));}catch{}return newGame();});
 const[playing,setPlaying]=useState(false);
 const[setupOpen,setSetupOpen]=useState(false);
 const[chosenGender,setChosenGender]=useState<Gender|'random'>('random');

@@ -57,3 +57,14 @@ export function startRomance(original:GameState,id:string):GameState{const s=nor
 export function marry(original:GameState):GameState{const s=normalizeProgression(normalizeSocial(structuredClone(original)));if(s.pending||s.finished||s.month<216||!s.partnerId||s.spouseId)return s;const p=s.people.find(p=>p.id===s.partnerId);if(!p)return s;s.spouseId=s.partnerId;log(s,p.name+'と結婚した。');return s;}
 export function separate(original:GameState):GameState{const s=normalizeProgression(normalizeSocial(structuredClone(original)));if(s.pending||s.finished||(!s.partnerId&&!s.spouseId))return s;const id=s.spouseId??s.partnerId;const p=s.people.find(p=>p.id===id);log(s,(p?.name??'相手')+'と別れることになった。');s.partnerId=null;s.spouseId=null;return s;}
 export function haveChild(original:GameState):GameState{const s=normalizeProgression(normalizeSocial(structuredClone(original)));if(s.pending||s.finished||!s.spouseId||s.month<216||s.month>=600||s.children>=4)return s;s.children++;log(s,'家族に子どもが生まれた。');return s;}
+
+/** Migrate supported v1 saves without resetting their random stream or progress. */
+export function normalizeGameState(value: unknown): GameState {
+ if(!value || typeof value!=='object') throw Error('セーブデータが不正です。');
+ const v=value as Partial<GameState>;
+ if(v.version!==1 || !Number.isInteger(v.month) || v.month!<0 || v.month!>1440 || !v.stats || !Array.isArray(v.history)) throw Error('対応していないセーブデータです。');
+ for(const key of Object.keys(initialStats) as Stat[]) if(!Number.isFinite(v.stats[key])) throw Error('能力値が不正です。');
+ if(!v.history.every(e=>e&&typeof e.text==='string'&&Number.isFinite(e.month))) throw Error('記録が不正です。');
+ const base=newGame(v.seed??123456);
+ return normalizeProgression(normalizeSocial({...base,...structuredClone(v),origin:{...base.origin,...v.origin}}));
+}
