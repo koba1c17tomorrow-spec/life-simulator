@@ -21,5 +21,5 @@ export function progressionMonth(s:GameState,log:(message:string)=>void):void{
  s.monthlyIncome+=familySupport;
 
 }
-export function careerOptions(s:Progression&{month:number;stats:{knowledge:number}}):Career[]{if(s.month<192)return [];const options:Career[]=['parttime','service','creative','office'];if(s.stats.knowledge>=45)options.push('technical');return options;}
+export function careerOptions(s:Progression&{month:number;stats:{knowledge:number}}):Career[]{if(s.month<192||s.month>=780)return [];const options:Career[]=['parttime','service','creative','office'];if(s.stats.knowledge>=45)options.push('technical');return options;}
 export function careerName(c:Career):string{return ({none:'無職',parttime:'アルバイト',office:'事務職',technical:'技術職',creative:'クリエイティブ職',service:'サービス職'})[c];}

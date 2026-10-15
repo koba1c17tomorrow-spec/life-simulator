@@ -2,11 +2,15 @@ import type {Trait} from './traits';
 import type {Origin} from './origins';
 export type RuleStat='health'|'happiness'|'knowledge'|'sociability'|'money';
 export type RuleField=RuleStat|'schoolPerformance'|'debt'|'ageMonths'|'friendCloseness';
-export type Requirement={field?:RuleField;min?:number;max?:number;trait?:Trait;wealth?:Origin['wealth'];career?:string;education?:string};
+export type Requirement={flag?:string;notFlag?:string;region?:string;jobId?:string;field?:RuleField;min?:number;max?:number;trait?:Trait;wealth?:Origin['wealth'];career?:string;education?:string};
 export type RollRule={base:number;stat?:RuleStat;statFactor?:number;gradeFactor?:number;trait?:Trait;traitBonus?:number;wealth?:Origin['wealth'];wealthBonus?:number};
-export type RuleContext={month:number;stats:Record<RuleStat,number>;origin?:Origin;traits?:Trait[];career?:string;education?:string;debt?:number;friendCloseness?:number};
+export type RuleContext={month:number;stats:Record<RuleStat,number>;origin?:Origin;traits?:Trait[];career?:string;education?:string;debt?:number;friendCloseness?:number;flags?:Record<string,boolean>;jobId?:string|null;benefits?:Record<string,number>};
 export function satisfies(ctx:RuleContext,requirements:Requirement[]=[]):boolean{
  return requirements.every(r=>{
+  if(r.flag&&!ctx.flags?.[r.flag])return false;
+  if(r.notFlag&&ctx.flags?.[r.notFlag])return false;
+  if(r.region&&ctx.origin?.region!==r.region)return false;
+  if(r.jobId&&ctx.jobId!==r.jobId)return false;
   if(r.trait&&!ctx.traits?.includes(r.trait))return false;
   if(r.wealth&&ctx.origin?.wealth!==r.wealth)return false;
   if(r.career&&ctx.career!==r.career)return false;
@@ -22,6 +26,7 @@ export function satisfies(ctx:RuleContext,requirements:Requirement[]=[]):boolean
 }
 export function rollChance(ctx:RuleContext,rule:RollRule):number{
  let chance=rule.base;
+ if(rule.trait==='creative'&&ctx.benefits?.creative!==undefined&&ctx.benefits.creative>=ctx.month)chance+=5;
  if(rule.stat)chance+=(ctx.stats[rule.stat]??0)*(rule.statFactor??0);
  chance+=(ctx.origin?.schoolPerformance??0)*(rule.gradeFactor??0);
  if(rule.trait&&ctx.traits?.includes(rule.trait))chance+=rule.traitBonus??0;
