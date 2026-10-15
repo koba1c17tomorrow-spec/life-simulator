@@ -15,5 +15,5 @@ export function progressionMonth(s:Progression&{month:number;stats:{money:number
  s.monthlyExpenses=s.month>=216?Math.round(120000+s.children*30000+(s.spouseId?25000:0)):0;
  s.stats.money+=s.monthlyIncome-s.monthlyExpenses;
 }
-export function careerOptions(s:Progression&{month:number;stats:{knowledge:number}}):Career[]{if(s.month<192)return [];return ['parttime','service','creative','office',...(s.stats.knowledge>=45?['technical' as const]:[])].filter((x):x is Career=>true);}
+export function careerOptions(s:Progression&{month:number;stats:{knowledge:number}}):Career[]{if(s.month<192)return [];const options:Career[]=['parttime','service','creative','office'];if(s.stats.knowledge>=45)options.push('technical');return options;}
 export function careerName(c:Career):string{return ({none:'無職',parttime:'アルバイト',office:'事務職',technical:'技術職',creative:'クリエイティブ職',service:'サービス職'})[c];}
