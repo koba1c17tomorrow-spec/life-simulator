@@ -1,4 +1,4 @@
-# 人生の記録 — v1.3 開発版
+# 人生の記録 — v1.4 開発版
 
 月単位で人生を進める日本語ブラウザゲーム。React・TypeScript・Vite製で、プレイ中のAIや外部APIは不要です。
 
@@ -25,6 +25,9 @@ npm run dev
 - NPCの性格・性別・性的指向・親密度・信頼度、交流、恋愛、結婚、家族
 - 学校・進学・就職・転職・昇進・失業
 - 出生時にランダム生成される1〜3個の特性（学習・健康・交流への影響）
+- 出生時の家庭環境（経済状況、親の学歴、養育環境、きょうだい）
+- 学習習慣と家庭環境による学業成績、大学受験の合格率と乱数判定
+- 大学の学費と家庭からの援助（簡易モデル）
 - 同年代平均を50とした相対ステータス、月ごとの自然減少、就労による健康への負荷
 - 年収目安とステータス依存の採用確率、乱数による合否判定
 - NPCの自律的な就職・失業・転居（初期実装）
@@ -44,8 +47,8 @@ npm run build
 
 主要コード：`src/engine.ts`（進行・イベント）、`src/social.ts`（NPC）、`src/identity.ts`（属性）、`src/progression.ts`（学校・仕事・家計）、`src/main.tsx`（画面）、`public/worlds/modern/events.json`（イベント）。
 
-**現状：v1.3のコードはGitHubに反映済みですが、最新状態のビルド・ブラウザ動作検証は未実施です。**
+**現状：v1.4のコードはGitHubに反映済みですが、最新状態のビルド・ブラウザ動作検証は未実施です。**
 
 今後の優先順位は [ROADMAP.md](ROADMAP.md) を参照。起動方法は [SETUP.md](SETUP.md)、更新履歴は [FEEDBACK_V1_1.md](FEEDBACK_V1_1.md)。
 
-初期構想と残件：[INITIAL_VISION_AUDIT.md](INITIAL_VISION_AUDIT.md)
+初期構想と残件：[INITIAL_VISION_AUDIT.md](INITIAL_VISION_AUDIT.md)。再定義した開発計画：[ROADMAP.md](ROADMAP.md)。
