@@ -7,8 +7,11 @@ export function socialMonth(s:SocialState,month:number,random:()=>number,log:(te
  if(s.lastSocialTick>=month)return;
  for(const r of s.relations){const p=s.people.find(x=>x.id===r.id);if(p?.alive&&p.kind==='friend'&&month-r.lastContactMonth>=6)r.closeness=Math.max(0,r.closeness-0.2);}
  if(month>=72&&s.people.filter(p=>p.kind==='friend').length<10&&random()<0.025){
- const id='friend-'+s.nextPersonId++;const names=['葵','陽菜','悠斗','凛','蓮','美咲','結衣','湊'];
- const name=names[Math.floor(random()*names.length)]+'（'+s.nextPersonId+'）';
+ const names=['葵','陽菜','悠斗','凛','蓮','美咲','結衣','湊','紬','颯太','琴音','優花','直樹','莉子','大和','咲良','蒼','千尋','海斗','花音','樹'];
+ const available=names.filter(name=>!s.people.some(person=>person.name===name));
+ if(available.length===0){s.lastSocialTick=month;return;}
+ const name=available[Math.floor(random()*available.length)];
+ const id='friend-'+s.nextPersonId++;
  s.people.push({id,name,kind:'friend',birthMonth:month-72-Math.floor(random()*48),alive:true});
  s.relations.push({id,closeness:30,trust:30,lastContactMonth:month});
  log(name+'と知り合った。');
