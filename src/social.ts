@@ -18,7 +18,7 @@ export function socialMonth(s:SocialState,month:number,random:()=>number,log:(te
  const id='friend-'+s.nextPersonId++;
  const personalities=['kind','bold','quiet','ambitious'] as const;
  const values=['family','career','freedom'] as const;
- s.people.push({...identity,id,name,kind:'friend',birthMonth:month-72-Math.floor(random()*48),alive:true,personality:personalities[Math.floor(random()*personalities.length)],values:values[Math.floor(random()*values.length)],occupation:'student'});
+ s.people.push({...identity,id,name,kind:'friend',birthMonth:-Math.floor(random()*36)+Math.floor(random()*12),alive:true,personality:personalities[Math.floor(random()*personalities.length)],values:values[Math.floor(random()*values.length)],occupation:'student'});
  s.relations.push({id,closeness:30,trust:30,lastContactMonth:month});
  log(name+'と知り合った。');
  }
