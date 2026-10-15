@@ -1,14 +1,18 @@
-# 人生の記録 v0.3 — 起動手順
+# 起動と検証
 
-1. Node.js の LTS 版をインストールします。
-2. GitHub の緑色の Code → Download ZIP からリポジトリをダウンロードして解凍します。
-3. package.json のあるフォルダで PowerShell を開きます（エクスプローラーのアドレス欄に powershell と入力）。
-4. `npm install` を実行します（初回のみ）。
-5. `npm run dev` を実行し、表示された http://127.0.0.1:5173/ などのURLをブラウザで開きます。
-6. 終了は PowerShell で Ctrl+C。
+Node.js 24 LTSで、チェックアウト内の `package.json` がある場所から実行します。
 
-`npm test` でテスト、`npm run build` でビルド確認ができます。
+```bash
+npm ci
+npm test
+npm run build
+npm run dev
+```
 
-## 現状
+Windows PowerShellでも同じコマンドを使えます。`npm ci` はコミット済みのロックファイルから導入します。依存関係を更新する開発作業では `npm install` を使い、ロックファイルの差分も確認してください。
 
-月次進行、最新順の人生ログ、選択イベント停止・再開、外部JSONイベント、簡易ステータス、自主行動、ローカル保存を実装。NPC、職業、ワールド切替、複雑な条件式は未実装です。死亡は仮に90歳または健康0としています。
+ブラウザ検証は初回に `npx playwright install chromium`、その後 `npm run test:browser`。LinuxのシステムChromiumを使う場合は `CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:browser`。
+
+外部API、秘密情報、データベースは不要です。ワールドJSONを読み込むため、HTMLを直接開かずViteまたはHTTPサーバーを使ってください。本番配信は `npm run build` の生成物 `dist/` を静的ホスティングへ配置します。
+
+詳細：[README.md](README.md) / [VALIDATION.md](VALIDATION.md)。
