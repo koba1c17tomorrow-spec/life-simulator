@@ -1,8 +1,9 @@
-export type Person = { id:string; name:string; kind:'family'|'friend'; birthMonth:number; alive:boolean; personality?:'kind'|'bold'|'quiet'|'ambitious'; values?:'family'|'career'|'freedom' };
+import {randomIdentity,type Identity} from './identity';
+export type Person = Partial<Identity>&{ id:string; name:string; kind:'family'|'friend'; birthMonth:number; alive:boolean; personality?:'kind'|'bold'|'quiet'|'ambitious'; values?:'family'|'career'|'freedom' };
 export type Relation = { id:string; closeness:number; trust:number; lastContactMonth:number; romance?:number };
 export type SocialState = { people:Person[]; relations:Relation[]; nextPersonId:number; lastSocialTick:number };
 export function initialSocial():SocialState {return {people:[{id:'mother',name:'母',kind:'family',birthMonth:-336,alive:true},{id:'father',name:'父',kind:'family',birthMonth:-360,alive:true}],relations:[{id:'mother',closeness:80,trust:85,lastContactMonth:0},{id:'father',closeness:65,trust:75,lastContactMonth:0}],nextPersonId:1,lastSocialTick:0};}
-export function normalizeSocial<T extends object>(state:T):T&SocialState {const s=state as Partial<SocialState>;const d=initialSocial();const people=Array.isArray(s.people)?s.people.map(p=>({...p})):d.people;const used=new Set<string>();for(const p of people){const base=p.name.replace(/（[0-9]+）$|\([0-9]+\)$/u,'');let name=base;let index=2;while(used.has(name)){name=base+'・'+index++;}p.name=name;used.add(name);}return {...state,people,relations:Array.isArray(s.relations)?s.relations:d.relations,nextPersonId:Number.isInteger(s.nextPersonId)?s.nextPersonId!:d.nextPersonId,lastSocialTick:Number.isInteger(s.lastSocialTick)?s.lastSocialTick!:d.lastSocialTick};}
+export function normalizeSocial<T extends object>(state:T):T&SocialState {const s=state as Partial<SocialState>;const d=initialSocial();const people=Array.isArray(s.people)?s.people.map(p=>({...p,gender:p.gender??(p.id==='father'?'male':p.id==='mother'?'female':undefined),orientation:p.orientation??(p.kind==='family'?'heterosexual':undefined)})):d.people;const used=new Set<string>();for(const p of people){const base=p.name.replace(/（[0-9]+）$|\([0-9]+\)$/u,'');let name=base;let index=2;while(used.has(name)){name=base+'・'+index++;}p.name=name;used.add(name);}return {...state,people,relations:Array.isArray(s.relations)?s.relations:d.relations,nextPersonId:Number.isInteger(s.nextPersonId)?s.nextPersonId!:d.nextPersonId,lastSocialTick:Number.isInteger(s.lastSocialTick)?s.lastSocialTick!:d.lastSocialTick};}
 export function socialMonth(s:SocialState,month:number,random:()=>number,log:(text:string)=>void):void {
  if(s.lastSocialTick>=month)return;
  for(const r of s.relations){const p=s.people.find(x=>x.id===r.id);if(p?.alive&&p.kind==='friend'&&month-r.lastContactMonth>=6)r.closeness=Math.max(0,r.closeness-0.2);}
@@ -11,10 +12,11 @@ export function socialMonth(s:SocialState,month:number,random:()=>number,log:(te
  const available=names.filter(name=>!s.people.some(person=>person.name===name));
  if(available.length===0){s.lastSocialTick=month;return;}
  const name=available[Math.floor(random()*available.length)];
+ const identity=randomIdentity(random);
  const id='friend-'+s.nextPersonId++;
  const personalities=['kind','bold','quiet','ambitious'] as const;
  const values=['family','career','freedom'] as const;
- s.people.push({id,name,kind:'friend',birthMonth:month-72-Math.floor(random()*48),alive:true,personality:personalities[Math.floor(random()*personalities.length)],values:values[Math.floor(random()*values.length)]});
+ s.people.push({...identity,id,name,kind:'friend',birthMonth:month-72-Math.floor(random()*48),alive:true,personality:personalities[Math.floor(random()*personalities.length)],values:values[Math.floor(random()*values.length)]});
  s.relations.push({id,closeness:30,trust:30,lastContactMonth:month});
  log(name+'と知り合った。');
  }
