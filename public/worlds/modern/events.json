@@ -226,7 +226,7 @@
     "weight": 7,
     "cooldownMonths": 24,
     "requiresFriendCloseness": 55,
-    "text": "親しい友人から悩みを打ち明けられた。",
+    "text": "{npc}から悩みを打ち明けられた。",
     "choices": [
       {
         "label": "時間をかけて話を聞く",
@@ -239,7 +239,8 @@
             "stat": "sociability",
             "delta": 3
           }
-        ]
+        ],
+        "relationshipDelta": 7
       },
       {
         "label": "今は余裕がないと伝える",
@@ -248,9 +249,11 @@
             "stat": "happiness",
             "delta": -1
           }
-        ]
+        ],
+        "relationshipDelta": -5
       }
-    ]
+    ],
+    "usesFriendName": true
   },
   {
     "id": "club_activity",
@@ -410,7 +413,7 @@
     "maxAge": 780,
     "weight": 4,
     "cooldownMonths": 24,
-    "text": "友人の誕生日を祝う機会があった。",
+    "text": "{npc}の誕生日を祝う機会があった。",
     "choices": [
       {
         "label": "贈り物を用意する",
@@ -419,7 +422,8 @@
             "stat": "happiness",
             "delta": 4
           }
-        ]
+        ],
+        "relationshipDelta": 4
       },
       {
         "label": "メッセージを送る",
@@ -428,9 +432,12 @@
             "stat": "sociability",
             "delta": 2
           }
-        ]
+        ],
+        "relationshipDelta": 2
       }
-    ]
+    ],
+    "usesFriendName": true,
+    "requiresFriendCloseness": 20
   },
   {
     "id": "hobby_circle",
