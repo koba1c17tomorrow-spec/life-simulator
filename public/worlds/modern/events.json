@@ -251,5 +251,455 @@
         ]
       }
     ]
+  },
+  {
+    "id": "club_activity",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 144,
+    "maxAge": 216,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "部活動に打ち込む日々が続いた。",
+    "choices": [
+      {
+        "label": "練習を続ける",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 3
+          }
+        ]
+      },
+      {
+        "label": "友人と遊ぶ",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "family_trip",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 60,
+    "maxAge": 216,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "家族で小旅行に行く機会ができた。",
+    "choices": [
+      {
+        "label": "一緒に出かける",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "家で過ごす",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "graduation",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 204,
+    "maxAge": 264,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "将来の進路について考えた。",
+    "choices": [
+      {
+        "label": "新しいことに挑戦する",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "label": "身近な人に相談する",
+        "effects": [
+          {
+            "stat": "sociability",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "work_challenge",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "仕事で新しい役割を任された。",
+    "choices": [
+      {
+        "label": "挑戦する",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 3
+          }
+        ]
+      },
+      {
+        "label": "慎重に進める",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "career_stress",
+    "category": "health",
+    "presentation": "choice",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "忙しい日々で疲れがたまっている。",
+    "choices": [
+      {
+        "label": "休暇を取る",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "仕事を優先する",
+        "effects": [
+          {
+            "stat": "money",
+            "delta": 20000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "friend_birthday",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 144,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "友人の誕生日を祝う機会があった。",
+    "choices": [
+      {
+        "label": "贈り物を用意する",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "label": "メッセージを送る",
+        "effects": [
+          {
+            "stat": "sociability",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hobby_circle",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 180,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "趣味の集まりに誘われた。",
+    "choices": [
+      {
+        "label": "参加する",
+        "effects": [
+          {
+            "stat": "sociability",
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "label": "今回は見送る",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "skill_training",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "新しい技能を学ぶ機会があった。",
+    "choices": [
+      {
+        "label": "学ぶ",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "見送る",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "housing",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 240,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "住まいを見直す機会が訪れた。",
+    "choices": [
+      {
+        "label": "引っ越す",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "label": "今の家で暮らす",
+        "effects": [
+          {
+            "stat": "money",
+            "delta": 5000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "family_support",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 240,
+    "maxAge": 900,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "家族が助けを必要としている。",
+    "choices": [
+      {
+        "label": "力を貸す",
+        "effects": [
+          {
+            "stat": "sociability",
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "label": "できる範囲で応援する",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "health_check",
+    "category": "health",
+    "presentation": "choice",
+    "minAge": 240,
+    "maxAge": 900,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "健康診断の結果が気になった。",
+    "choices": [
+      {
+        "label": "生活習慣を改善する",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "しばらく様子を見る",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "retirement_plan",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 600,
+    "maxAge": 840,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "老後の生活について考えた。",
+    "choices": [
+      {
+        "label": "貯蓄を増やす",
+        "effects": [
+          {
+            "stat": "money",
+            "delta": 30000
+          }
+        ]
+      },
+      {
+        "label": "今を楽しむ",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "old_friend",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 480,
+    "maxAge": 960,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "長い付き合いの知人と昔話をした。",
+    "choices": [
+      {
+        "label": "思い出を語る",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "label": "近況を尋ねる",
+        "effects": [
+          {
+            "stat": "sociability",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "volunteer",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 360,
+    "maxAge": 960,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "地域の活動への参加を頼まれた。",
+    "choices": [
+      {
+        "label": "協力する",
+        "effects": [
+          {
+            "stat": "sociability",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "寄付する",
+        "effects": [
+          {
+            "stat": "money",
+            "delta": -5000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "personal_project",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 300,
+    "maxAge": 900,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "長年やりたかったことに取り組む機会が来た。",
+    "choices": [
+      {
+        "label": "挑戦する",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "label": "生活を優先する",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 2
+          }
+        ]
+      }
+    ]
   }
 ]
