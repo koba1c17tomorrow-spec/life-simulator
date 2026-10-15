@@ -1,18 +1,21 @@
 {
   "name": "life-simulator",
-  "version": "0.3.0",
+  "version": "2.0.0-beta.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "test:long": "vitest run tests/longSimulation.test.ts"
   },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.58.2",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "typescript": "^5.8.3",

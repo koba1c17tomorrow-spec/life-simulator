@@ -1,9 +1,83 @@
-import {describe,it,expect} from 'vitest';
-import {satisfies,rollChance} from '../src/eventRules';
-import {newGame,advanceMonth,choose,type EventDefinition} from '../src/engine';
-describe('v1.5 conditional events',()=>{
- it('gates on age, grade, trait and family wealth',()=>{const s=newGame(12);s.traits=['creative'];s.origin.schoolPerformance=70;expect(satisfies(s,[{field:'schoolPerformance',min:60},{trait:'creative'}])).toBe(true);expect(satisfies(s,[{field:'schoolPerformance',min:80}])).toBe(false);expect(satisfies(s,[{wealth:s.origin.wealth}])).toBe(true);});
- it('computes clamped and stat-dependent chances',()=>{const s=newGame();const rule={base:10,stat:'knowledge' as const,statFactor:0.5};expect(rollChance({...s,stats:{...s.stats,knowledge:60}},rule)).toBeGreaterThan(rollChance(s,rule));expect(rollChance(s,{base:150})).toBe(100);});
- it('filters unavailable choices before presenting',()=>{const s=newGame(9);s.month=120;s.monthStarted=true;s.queue=['gate'];const events:EventDefinition[]=[{id:'gate',category:'growth',presentation:'choice',weight:1,text:'試験',choices:[{label:'上級',effects:[],requires:[{field:'knowledge',min:90}]},{label:'普通',effects:[]}]}];const n=advanceMonth(s,events);expect(n.pending?.choices.map(c=>c.label)).toEqual(['普通']);});
- it('resolves seeded success and failure outcomes deterministically',()=>{const e:EventDefinition={id:'roll',category:'growth',presentation:'choice',weight:1,text:'挑戦',choices:[{label:'挑戦',effects:[],roll:{base:100},successEffects:[{stat:'knowledge',delta:4}],failureEffects:[{stat:'health',delta:-5}]}]};const s=newGame(5);s.month=10;s.monthStarted=true;s.pending={eventId:'roll',text:'挑戦',choices:e.choices!};const a=choose(s,0,[e]);const b=choose(s,0,[e]);expect(a).toEqual(b);expect(a.stats.knowledge).toBe(19);expect(a.history.some(x=>x.text.includes('成功率 100%'))).toBe(true);});
+import { describe, it, expect } from "vitest";
+import { satisfies, rollChance } from "../src/eventRules";
+import {
+  newGame,
+  advanceMonth,
+  choose,
+  type EventDefinition,
+} from "../src/engine";
+describe("v1.5 conditional events", () => {
+  it("gates on age, grade, trait and family wealth", () => {
+    const s = newGame(12);
+    s.traits = ["creative"];
+    s.origin.schoolPerformance = 70;
+    expect(
+      satisfies(s, [
+        { field: "schoolPerformance", min: 60 },
+        { trait: "creative" },
+      ]),
+    ).toBe(true);
+    expect(satisfies(s, [{ field: "schoolPerformance", min: 80 }])).toBe(false);
+    expect(satisfies(s, [{ wealth: s.origin.wealth }])).toBe(true);
+  });
+  it("computes clamped and stat-dependent chances", () => {
+    const s = newGame();
+    const rule = { base: 10, stat: "knowledge" as const, statFactor: 0.5 };
+    expect(
+      rollChance({ ...s, stats: { ...s.stats, knowledge: 60 } }, rule),
+    ).toBeGreaterThan(rollChance(s, rule));
+    expect(rollChance(s, { base: 150 })).toBe(100);
+  });
+  it("filters unavailable choices before presenting", () => {
+    const s = newGame(9);
+    s.month = 120;
+    s.monthStarted = true;
+    s.queue = ["gate"];
+    const events: EventDefinition[] = [
+      {
+        id: "gate",
+        category: "growth",
+        presentation: "choice",
+        weight: 1,
+        text: "試験",
+        choices: [
+          {
+            label: "上級",
+            effects: [],
+            requires: [{ field: "knowledge", min: 90 }],
+          },
+          { label: "普通", effects: [] },
+        ],
+      },
+    ];
+    const n = advanceMonth(s, events);
+    expect(n.pending?.choices.map((c) => c.label)).toEqual(["普通"]);
+  });
+  it("resolves seeded success and failure outcomes deterministically", () => {
+    const e: EventDefinition = {
+      id: "roll",
+      category: "growth",
+      presentation: "choice",
+      weight: 1,
+      text: "挑戦",
+      choices: [
+        {
+          label: "挑戦",
+          effects: [],
+          roll: { base: 100 },
+          successEffects: [{ stat: "knowledge", delta: 4 }],
+          failureEffects: [{ stat: "health", delta: -5 }],
+        },
+      ],
+    };
+    const s = newGame(5);
+    s.month = 10;
+    s.monthStarted = true;
+    s.pending = { eventId: "roll", text: "挑戦", choices: e.choices! };
+    const a = choose(s, 0, [e]);
+    const b = choose(s, 0, [e]);
+    expect(a).toEqual(b);
+    expect(a.stats.knowledge).toBe(19);
+    expect(a.history.some((x) => x.text.includes("成功率 100%"))).toBe(true);
+  });
 });

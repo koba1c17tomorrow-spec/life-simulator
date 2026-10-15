@@ -1,9 +1,66 @@
-import {it,expect} from 'vitest';
-import {newGame,advanceMonth,choose,autoResolve} from '../src/engine';
-import {setStudyPath} from '../src/education';
-import {offerChance,JOBS} from '../src/careers';
-it('school has a teacher and a club milestone',()=>{let s=newGame();s.month=71;s=advanceMonth(s,[]);expect(s.people.some(p=>p.kind==='teacher')).toBe(true);s.month=143;s=advanceMonth(s,[]);expect(s.pending?.eventId).toBe('club-plan');s=choose(s,0,[]);expect(s.club).toBe('arts');});
-it('vocational school charges tuition, graduates and offers jobs',()=>{let s=newGame(9);s.month=190;s=setStudyPath(s,'vocational');s.month=215;s=advanceMonth(s,[]);expect(s.education).toBe('vocational');expect(s.expenseBreakdown.教育).toBe(45000);s.month=239;s=advanceMonth(s,[]);expect(s.degree).toBe('vocational');expect(s.flags.qualified).toBe(true);expect(s.pending?.eventId).toBe('career-start');});
-it('dropout is a decision and cannot silently graduate later',()=>{let s=newGame();s.month=220;s.studyPath='university';s.graduatedUniversity=true;s.debt=2000000;s=advanceMonth(s,[]);expect(s.pending?.eventId).toBe('dropout-plan');s=choose(s,1,[]);expect(s.dropout).toBe(true);expect(s.graduatedUniversity).toBe(false);expect(s.degree).not.toBe('university');});
-it('skills and experience improve hiring, childhood is reproducible',()=>{const s=newGame(10),job=JOBS[7];const low=offerChance(s,job);s.workExperience=180;s.degree='vocational';s.flags.qualified=true;expect(offerChance(s,job)).toBeGreaterThan(low);expect(newGame(10).origin).toEqual(newGame(10).origin);expect(s.origin.parentOccupation).toBeTruthy();});
-it('unemployment support expires, full-time work accumulates experience',()=>{let s=newGame();s.month=300;s.experience=10;s=advanceMonth(s,[]);expect(s.unemployedMonths).toBe(1);expect(s.monthlyIncome).toBe(90000);s.career='office';s.pending=null;s.monthStarted=false;s=advanceMonth(s,[]);expect(s.workExperience).toBe(1);});
+import { it, expect } from "vitest";
+import { newGame, advanceMonth, choose, autoResolve } from "../src/engine";
+import { setStudyPath } from "../src/education";
+import { offerChance, JOBS } from "../src/careers";
+it("school has a teacher and a club milestone", () => {
+  let s = newGame();
+  s.month = 71;
+  s = advanceMonth(s, []);
+  expect(s.people.some((p) => p.kind === "teacher")).toBe(true);
+  s.month = 143;
+  s = advanceMonth(s, []);
+  expect(s.pending?.eventId).toBe("club-plan");
+  s = choose(s, 0, []);
+  expect(s.club).toBe("arts");
+});
+it("vocational school charges tuition, graduates and offers jobs", () => {
+  let s = newGame(9);
+  s.month = 190;
+  s = setStudyPath(s, "vocational");
+  s.month = 215;
+  s = advanceMonth(s, []);
+  expect(s.education).toBe("vocational");
+  expect(s.expenseBreakdown.教育).toBe(45000);
+  s.month = 239;
+  s = advanceMonth(s, []);
+  expect(s.degree).toBe("vocational");
+  expect(s.flags.qualified).toBe(true);
+  expect(s.pending?.eventId).toBe("career-start");
+});
+it("dropout is a decision and cannot silently graduate later", () => {
+  let s = newGame();
+  s.month = 220;
+  s.studyPath = "university";
+  s.graduatedUniversity = true;
+  s.debt = 2000000;
+  s = advanceMonth(s, []);
+  expect(s.pending?.eventId).toBe("dropout-plan");
+  s = choose(s, 1, []);
+  expect(s.dropout).toBe(true);
+  expect(s.graduatedUniversity).toBe(false);
+  expect(s.degree).not.toBe("university");
+});
+it("skills and experience improve hiring, childhood is reproducible", () => {
+  const s = newGame(10),
+    job = JOBS[7];
+  const low = offerChance(s, job);
+  s.workExperience = 180;
+  s.degree = "vocational";
+  s.flags.qualified = true;
+  expect(offerChance(s, job)).toBeGreaterThan(low);
+  expect(newGame(10).origin).toEqual(newGame(10).origin);
+  expect(s.origin.parentOccupation).toBeTruthy();
+});
+it("unemployment support expires, full-time work accumulates experience", () => {
+  let s = newGame();
+  s.month = 300;
+  s.experience = 10;
+  s = advanceMonth(s, []);
+  expect(s.unemployedMonths).toBe(1);
+  expect(s.monthlyIncome).toBe(90000);
+  s.career = "office";
+  s.pending = null;
+  s.monthStarted = false;
+  s = advanceMonth(s, []);
+  expect(s.workExperience).toBe(1);
+});

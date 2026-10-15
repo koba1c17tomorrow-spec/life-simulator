@@ -1,0 +1,1465 @@
+[
+  {
+    "id": "first_steps",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 1,
+    "maxAge": 3,
+    "weight": 4,
+    "cooldownMonths": 999,
+    "text": "初めて自分の足で歩いた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 3
+      }
+    ]
+  },
+  {
+    "id": "picture_book",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 3,
+    "maxAge": 10,
+    "weight": 4,
+    "cooldownMonths": 12,
+    "text": "絵本に夢中になった。",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "school_friend",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 72,
+    "maxAge": 216,
+    "weight": 5,
+    "cooldownMonths": 18,
+    "text": "クラスメイトに放課後遊ぼうと誘われた。",
+    "choices": [
+      {
+        "label": "一緒に遊ぶ",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 5
+          },
+          {
+            "stat": "sociability",
+            "delta": 1
+          }
+        ]
+      },
+      {
+        "label": "家で過ごす",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 1
+          }
+        ]
+      }
+    ],
+    "priority": 0
+  },
+  {
+    "id": "exam",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 120,
+    "maxAge": 240,
+    "weight": 5,
+    "cooldownMonths": 16,
+    "text": "大切な試験が近づいている。",
+    "choices": [
+      {
+        "label": "勉強する",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 1
+          },
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ],
+        "roll": {
+          "base": 18,
+          "stat": "knowledge",
+          "statFactor": 0.45,
+          "gradeFactor": 0.35,
+          "trait": "quickLearner",
+          "traitBonus": 8
+        },
+        "successEffects": [
+          {
+            "stat": "knowledge",
+            "delta": 1
+          },
+          {
+            "stat": "happiness",
+            "delta": 3
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "happiness",
+            "delta": -4
+          }
+        ],
+        "successText": "努力が実り、試験で良い結果を残した。",
+        "failureText": "努力したが試験の結果は振るわなかった。"
+      },
+      {
+        "label": "気分転換する",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 4
+          }
+        ]
+      }
+    ],
+    "priority": 0
+  },
+  {
+    "id": "part_time",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 192,
+    "maxAge": 780,
+    "weight": 5,
+    "cooldownMonths": 18,
+    "text": "臨時の仕事を紹介された。",
+    "effects": [
+      {
+        "stat": "money",
+        "delta": 50000
+      },
+      {
+        "stat": "happiness",
+        "delta": -2
+      }
+    ]
+  },
+  {
+    "id": "walk",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 36,
+    "weight": 5,
+    "cooldownMonths": 12,
+    "text": "散歩をして気持ちのよい一日を過ごした。",
+    "effects": [
+      {
+        "stat": "health",
+        "delta": 0.5
+      },
+      {
+        "stat": "happiness",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "illness",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 12,
+    "weight": 3,
+    "cooldownMonths": 24,
+    "text": "体調を崩して数日休んだ。",
+    "effects": [
+      {
+        "stat": "health",
+        "delta": -3
+      }
+    ]
+  },
+  {
+    "id": "reunion",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 240,
+    "weight": 4,
+    "cooldownMonths": 36,
+    "text": "昔の知人から久しぶりに連絡があった。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 5
+      },
+      {
+        "stat": "sociability",
+        "delta": 1
+      },
+      {
+        "stat": "money",
+        "delta": -3000
+      }
+    ]
+  },
+  {
+    "id": "hobby",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 96,
+    "weight": 4,
+    "cooldownMonths": 12,
+    "text": "趣味に熱中し、新しい発見があった。",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 1
+      },
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "friend_support",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 120,
+    "weight": 7,
+    "cooldownMonths": 24,
+    "requiresFriendCloseness": 55,
+    "text": "{npc}から悩みを打ち明けられた。",
+    "choices": [
+      {
+        "label": "時間をかけて話を聞く",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 2
+          },
+          {
+            "stat": "sociability",
+            "delta": 1
+          }
+        ],
+        "relationshipDelta": 7
+      },
+      {
+        "label": "今は余裕がないと伝える",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": -1
+          }
+        ],
+        "relationshipDelta": -5
+      }
+    ],
+    "usesFriendName": true,
+    "priority": 0
+  },
+  {
+    "id": "club_activity",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 144,
+    "maxAge": 216,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "部活動に打ち込む日々が続いた。",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "family_trip",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 60,
+    "maxAge": 216,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "家族で小旅行に行く機会ができた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 5
+      }
+    ]
+  },
+  {
+    "id": "graduation",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 204,
+    "maxAge": 264,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "将来の進路について考えた。",
+    "choices": [
+      {
+        "label": "新しいことに挑戦する",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 1
+          }
+        ]
+      },
+      {
+        "label": "身近な人に相談する",
+        "effects": [
+          {
+            "stat": "sociability",
+            "delta": 1
+          }
+        ]
+      }
+    ],
+    "priority": 0
+  },
+  {
+    "id": "work_challenge",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "仕事で新しい役割を任された。",
+    "choices": [
+      {
+        "label": "挑戦する",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 1
+          }
+        ]
+      },
+      {
+        "label": "慎重に進める",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 0.5
+          }
+        ]
+      }
+    ],
+    "requires": [
+      {
+        "employed": true
+      }
+    ],
+    "priority": 0
+  },
+  {
+    "id": "career_stress",
+    "category": "health",
+    "presentation": "choice",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "忙しい日々で疲れがたまっている。",
+    "choices": [
+      {
+        "label": "休暇を取る",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 0.5
+          }
+        ]
+      },
+      {
+        "label": "仕事を優先する",
+        "effects": [
+          {
+            "stat": "money",
+            "delta": 20000
+          }
+        ]
+      }
+    ],
+    "requires": [
+      {
+        "employed": true
+      }
+    ],
+    "priority": 0
+  },
+  {
+    "id": "friend_birthday",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 144,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "{npc}の誕生日を祝う機会があった。",
+    "usesFriendName": true,
+    "requiresFriendCloseness": 20,
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 4
+      }
+    ]
+  },
+  {
+    "id": "hobby_circle",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 180,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "趣味の集まりに誘われた。",
+    "effects": [
+      {
+        "stat": "sociability",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "skill_training",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "新しい技能を学ぶ機会があった。",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "housing",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 240,
+    "maxAge": 780,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "住まいを見直す機会が訪れた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 4
+      }
+    ]
+  },
+  {
+    "id": "family_support",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 240,
+    "maxAge": 900,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "家族が助けを必要としている。",
+    "effects": [
+      {
+        "stat": "sociability",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "health_check",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 240,
+    "maxAge": 900,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "健康診断の結果が気になった。",
+    "effects": [
+      {
+        "stat": "health",
+        "delta": 0.5
+      }
+    ]
+  },
+  {
+    "id": "retirement_plan",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 600,
+    "maxAge": 840,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "老後の生活について考えた。",
+    "choices": [
+      {
+        "label": "家計を見直して老後に備える",
+        "effects": [],
+        "setFlag": "mindfulBudget"
+      },
+      {
+        "label": "今を楽しむ",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 5
+          }
+        ]
+      }
+    ],
+    "priority": 0
+  },
+  {
+    "id": "old_friend",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 480,
+    "maxAge": 960,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "長い付き合いの知人と昔話をした。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 4
+      }
+    ]
+  },
+  {
+    "id": "volunteer",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 360,
+    "maxAge": 960,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "地域の活動への参加を頼まれた。",
+    "effects": [
+      {
+        "stat": "sociability",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "personal_project",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 300,
+    "maxAge": 900,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "text": "長年やりたかったことに取り組む機会が来た。",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "unexpected_bonus",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "text": "思いがけない臨時収入があった。",
+    "effects": [
+      {
+        "stat": "money",
+        "delta": 30000
+      }
+    ],
+    "requires": [
+      {
+        "employed": true
+      }
+    ]
+  },
+  {
+    "id": "lost_wallet",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 144,
+    "weight": 3,
+    "cooldownMonths": 40,
+    "text": "財布をなくしてしまった。",
+    "effects": [
+      {
+        "stat": "money",
+        "delta": -10000
+      },
+      {
+        "stat": "happiness",
+        "delta": -3
+      }
+    ]
+  },
+  {
+    "id": "illness_recovery",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 12,
+    "weight": 4,
+    "cooldownMonths": 20,
+    "text": "体調が回復し、元気を取り戻した。",
+    "effects": [
+      {
+        "stat": "health",
+        "delta": 0.5
+      }
+    ]
+  },
+  {
+    "id": "creative_opportunity",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 3,
+    "cooldownMonths": 48,
+    "requires": [
+      {
+        "field": "knowledge",
+        "min": 35
+      }
+    ],
+    "text": "創作の仕事につながる企画への参加を持ちかけられた。",
+    "choices": [
+      {
+        "label": "企画に挑戦する",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ],
+        "roll": {
+          "base": 12,
+          "stat": "knowledge",
+          "statFactor": 0.4,
+          "trait": "creative",
+          "traitBonus": 22
+        },
+        "successEffects": [
+          {
+            "stat": "money",
+            "delta": 80000
+          },
+          {
+            "stat": "happiness",
+            "delta": 5
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "money",
+            "delta": -10000
+          },
+          {
+            "stat": "happiness",
+            "delta": -3
+          }
+        ],
+        "successText": "企画が評価され、報酬を得た。",
+        "failureText": "企画はうまくいかず、準備費用だけが残った。"
+      },
+      {
+        "label": "今回は見送る",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 0.5
+          }
+        ]
+      }
+    ],
+    "priority": 0
+  },
+  {
+    "id": "scholarship",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 180,
+    "maxAge": 215,
+    "weight": 2,
+    "cooldownMonths": 999,
+    "requires": [
+      {
+        "field": "schoolPerformance",
+        "min": 55
+      }
+    ],
+    "text": "学校から奨学金への応募を勧められた。",
+    "choices": [
+      {
+        "label": "奨学金に応募する",
+        "effects": [],
+        "roll": {
+          "base": 12,
+          "gradeFactor": 0.7,
+          "trait": "careful",
+          "traitBonus": 5
+        },
+        "successEffects": [
+          {
+            "stat": "money",
+            "delta": 120000
+          },
+          {
+            "stat": "happiness",
+            "delta": 3
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ],
+        "successText": "奨学金の採用が決まった。",
+        "failureText": "奨学金の選考に通らなかった。"
+      },
+      {
+        "label": "応募を見送る",
+        "effects": []
+      }
+    ],
+    "priority": 1
+  },
+  {
+    "id": "childhood_library",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 72,
+    "maxAge": 143,
+    "weight": 3,
+    "cooldownMonths": 60,
+    "text": "図書館で気に入った本を見つけた。この経験は学びの原点になった。",
+    "setFlag": "libraryChild",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 0.5
+      }
+    ]
+  },
+  {
+    "id": "library_return",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 360,
+    "weight": 2,
+    "cooldownMonths": 240,
+    "requires": [
+      {
+        "flag": "libraryChild"
+      }
+    ],
+    "text": "子どもの頃に通った図書館に立ち寄り、学ぶ楽しさを思い出した。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 3
+      }
+    ]
+  },
+  {
+    "id": "community_project",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 240,
+    "maxAge": 840,
+    "weight": 2,
+    "priority": 2,
+    "cooldownMonths": 120,
+    "text": "地域の居場所づくりに参加するか、誘いが来た。",
+    "choices": [
+      {
+        "label": "長く関わってみる",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": -1
+          }
+        ],
+        "setFlag": "community",
+        "delayed": {
+          "months": 24,
+          "text": "続けてきた地域活動が、困った時に助け合えるつながりになった。",
+          "effects": [
+            {
+              "stat": "happiness",
+              "delta": 4
+            },
+            {
+              "stat": "sociability",
+              "delta": 1
+            }
+          ],
+          "flag": "communitySupport"
+        }
+      },
+      {
+        "label": "今回は見送る",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "recovery_story",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 216,
+    "weight": 3,
+    "cooldownMonths": 60,
+    "requires": [
+      {
+        "flag": "recovered"
+      }
+    ],
+    "text": "療養を乗り越えた経験から、無理をしない働き方を大切にするようになった。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "rural_roots",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 240,
+    "weight": 3,
+    "cooldownMonths": 60,
+    "requires": [
+      {
+        "region": "rural"
+      }
+    ],
+    "text": "故郷の祭りに呼ばれ、昔からのつながりを感じた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "creative_roots",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 240,
+    "maxAge": 779,
+    "weight": 2,
+    "cooldownMonths": 96,
+    "requires": [
+      {
+        "flag": "creativeBackground"
+      }
+    ],
+    "text": "学生時代の創作仲間から企画への誘いが届いた。",
+    "choices": [
+      {
+        "label": "一緒に作る",
+        "effects": [],
+        "roll": {
+          "base": 30,
+          "stat": "knowledge",
+          "statFactor": 0.3,
+          "trait": "creative",
+          "traitBonus": 15
+        },
+        "successFlag": "published",
+        "failureFlag": "projectFailure",
+        "successEffects": [
+          {
+            "stat": "money",
+            "delta": 60000
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ],
+        "delayed": {
+          "months": 12,
+          "text": "企画で得た経験が、次の一歩への自信になった。",
+          "effects": [
+            {
+              "stat": "knowledge",
+              "delta": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "label": "今の暮らしを優先する",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "published_followup",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 252,
+    "weight": 2,
+    "cooldownMonths": 120,
+    "requires": [
+      {
+        "flag": "published"
+      }
+    ],
+    "text": "以前の作品を覚えている人から声をかけられた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 3
+      }
+    ]
+  },
+  {
+    "id": "retry_project",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 264,
+    "weight": 2,
+    "cooldownMonths": 72,
+    "requires": [
+      {
+        "flag": "projectFailure"
+      }
+    ],
+    "text": "以前の失敗を振り返り、今度は準備して挑戦できそうだ。",
+    "choices": [
+      {
+        "label": "経験を生かして再挑戦する",
+        "effects": [],
+        "roll": {
+          "base": 50,
+          "stat": "knowledge",
+          "statFactor": 0.2
+        },
+        "successFlag": "published",
+        "successEffects": [
+          {
+            "stat": "money",
+            "delta": 40000
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "happiness",
+            "delta": -1
+          }
+        ]
+      },
+      {
+        "label": "違う道を選ぶ",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "family_care_memory",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 780,
+    "weight": 2,
+    "cooldownMonths": 120,
+    "requires": [
+      {
+        "flag": "parent"
+      }
+    ],
+    "text": "育っていった子どもと、慌ただしかった日々を懐かしんだ。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 3
+      }
+    ]
+  },
+  {
+    "id": "job_retail",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "retail",
+        "employed": true
+      }
+    ],
+    "text": "常連のお客さんに覚えてもらった。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_hospitality",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "hospitality",
+        "employed": true
+      }
+    ],
+    "text": "遠くから来た旅行者の旅を支えた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_warehouse",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "warehouse",
+        "employed": true
+      }
+    ],
+    "text": "作業手順の工夫が同僚に喜ばれた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_care",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "care",
+        "employed": true
+      }
+    ],
+    "text": "利用者の笑顔が仕事の励みになった。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_sales",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "sales",
+        "employed": true
+      }
+    ],
+    "text": "難しかった商談が次の信頼につながった。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_administration",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "administration",
+        "employed": true
+      }
+    ],
+    "text": "気づきにくいミスを防ぎ、職場を支えた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_accounting",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "accounting",
+        "employed": true
+      }
+    ],
+    "text": "期末の帳簿を無事まとめた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_software",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "software",
+        "employed": true
+      }
+    ],
+    "text": "利用者の不便を解消する仕組みを作った。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_mechanical",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "mechanical",
+        "employed": true
+      }
+    ],
+    "text": "設計した部品が製品に使われた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_electrical",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "electrical",
+        "employed": true
+      }
+    ],
+    "text": "設備の安全な運用を支えた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_research",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "research",
+        "employed": true
+      }
+    ],
+    "text": "長い検証から小さな発見が生まれた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_design",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "design",
+        "employed": true
+      }
+    ],
+    "text": "依頼主の思いを形にできた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_writing",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "writing",
+        "employed": true
+      }
+    ],
+    "text": "読者から感想が届いた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_media",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "media",
+        "employed": true
+      }
+    ],
+    "text": "仲間と映像を完成させた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_teaching",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "teaching",
+        "employed": true
+      }
+    ],
+    "text": "教え子の成長を間近で感じた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_logistics",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "logistics",
+        "employed": true
+      }
+    ],
+    "text": "待っている人に荷物を届けた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_construction",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "construction",
+        "employed": true
+      }
+    ],
+    "text": "完成した建物を見上げた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_publicservice",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "publicservice",
+        "employed": true
+      }
+    ],
+    "text": "地域の人の相談に応えた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_food",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "food",
+        "employed": true
+      }
+    ],
+    "text": "おいしかったという声をもらった。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "job_healthcare",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "maxAge": 779,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "requires": [
+      {
+        "jobId": "healthcare",
+        "employed": true
+      }
+    ],
+    "text": "チームで患者の日常を支えた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "coastal_season",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 60,
+    "weight": 4,
+    "cooldownMonths": 24,
+    "requires": [
+      {
+        "region": "coastal"
+      }
+    ],
+    "text": "季節の港を散歩した。潮風の中で、町の人たちと言葉を交わした。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  }
+]
