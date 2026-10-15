@@ -8,3 +8,5 @@
 .career-grid{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0 20px}.career-grid button{font-size:13px}.summary{max-height:min(70vh,850px);overflow-y:auto}.person .hint .hint{margin-top:3px}
 
 .effect-preview{display:block;margin-top:5px;color:#506b80;font-size:12px}.modal label{display:block;margin:14px 0}.modal label select{display:block;width:100%;margin-top:6px}.choice-buttons button{display:block;width:100%}
+
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}.shop-item{padding:15px;border:1px solid #d5dce5;border-radius:10px}.shop-item small{display:block;margin-top:8px}.summary dl>div{display:flex;justify-content:space-between}.summary dd{margin:0}input{font:inherit;max-width:100%;padding:8px}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #2673b8;outline-offset:3px}.feedhead{flex-wrap:wrap}.tabs{flex-wrap:wrap}.modal{max-height:90dvh;overflow:auto}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}

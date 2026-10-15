@@ -13,7 +13,7 @@ export function randomOrigin(random:()=>number):Origin{
  return {wealth,parentEducation,upbringing,siblings:Math.floor(random()*4),schoolPerformance:50,universityAccepted:null};
 }
 export function schoolPerformanceDelta(origin:Origin,traits:Trait[],priority:string):number{
- return (priority==='study'?0.48:-0.16)+(traits.includes('quickLearner')?0.20:0)+(origin.parentEducation==='university'?0.10:0)+(origin.upbringing==='unstable'?-0.18:0)+(origin.wealth==='struggling'?-0.08:0);
+ return (priority==='study'||priority==='learning'?0.035:-0.015)+(traits.includes('quickLearner')?0.012:0)+(origin.parentEducation==='university'?0.008:0)+(origin.upbringing==='unstable'?-0.012:0)+(origin.wealth==='struggling'?-0.005:0);
 }
 export function admissionChance(origin:Origin,knowledge:number,traits:Trait[]):number{
  const chance=12+knowledge*0.32+origin.schoolPerformance*0.40+(origin.parentEducation==='university'?7:0)+(traits.includes('quickLearner')?5:0)+(origin.wealth==='struggling'?-6:0);
