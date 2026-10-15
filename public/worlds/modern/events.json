@@ -217,5 +217,39 @@
         "delta": 2
       }
     ]
+  },
+  {
+    "id": "friend_support",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 120,
+    "weight": 7,
+    "cooldownMonths": 24,
+    "requiresFriendCloseness": 55,
+    "text": "親しい友人から悩みを打ち明けられた。",
+    "choices": [
+      {
+        "label": "時間をかけて話を聞く",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 2
+          },
+          {
+            "stat": "sociability",
+            "delta": 3
+          }
+        ]
+      },
+      {
+        "label": "今は余裕がないと伝える",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": -1
+          }
+        ]
+      }
+    ]
   }
 ]
