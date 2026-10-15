@@ -102,34 +102,20 @@
   {
     "id": "part_time",
     "category": "work",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 192,
     "maxAge": 780,
     "weight": 5,
     "cooldownMonths": 18,
     "text": "臨時の仕事を紹介された。",
-    "choices": [
+    "effects": [
       {
-        "label": "引き受ける",
-        "effects": [
-          {
-            "stat": "money",
-            "delta": 50000
-          },
-          {
-            "stat": "happiness",
-            "delta": -2
-          }
-        ]
+        "stat": "money",
+        "delta": 50000
       },
       {
-        "label": "断る",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 1
-          }
-        ]
+        "stat": "happiness",
+        "delta": -2
       }
     ]
   },
@@ -170,32 +156,23 @@
   {
     "id": "reunion",
     "category": "social",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 240,
     "weight": 4,
     "cooldownMonths": 36,
     "text": "昔の知人から久しぶりに連絡があった。",
-    "choices": [
+    "effects": [
       {
-        "label": "会いに行く",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 5
-          },
-          {
-            "stat": "sociability",
-            "delta": 2
-          },
-          {
-            "stat": "money",
-            "delta": -3000
-          }
-        ]
+        "stat": "happiness",
+        "delta": 5
       },
       {
-        "label": "見送る",
-        "effects": []
+        "stat": "sociability",
+        "delta": 2
+      },
+      {
+        "stat": "money",
+        "delta": -3000
       }
     ]
   },
@@ -258,60 +235,32 @@
   {
     "id": "club_activity",
     "category": "growth",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 144,
     "maxAge": 216,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "部活動に打ち込む日々が続いた。",
-    "choices": [
+    "effects": [
       {
-        "label": "練習を続ける",
-        "effects": [
-          {
-            "stat": "knowledge",
-            "delta": 3
-          }
-        ]
-      },
-      {
-        "label": "友人と遊ぶ",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 4
-          }
-        ]
+        "stat": "knowledge",
+        "delta": 3
       }
     ]
   },
   {
     "id": "family_trip",
     "category": "social",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 60,
     "maxAge": 216,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "家族で小旅行に行く機会ができた。",
-    "choices": [
+    "effects": [
       {
-        "label": "一緒に出かける",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 5
-          }
-        ]
-      },
-      {
-        "label": "家で過ごす",
-        "effects": [
-          {
-            "stat": "knowledge",
-            "delta": 2
-          }
-        ]
+        "stat": "happiness",
+        "delta": 5
       }
     ]
   },
@@ -408,184 +357,98 @@
   {
     "id": "friend_birthday",
     "category": "social",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 144,
     "maxAge": 780,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "{npc}の誕生日を祝う機会があった。",
-    "choices": [
-      {
-        "label": "贈り物を用意する",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 4
-          }
-        ],
-        "relationshipDelta": 4
-      },
-      {
-        "label": "メッセージを送る",
-        "effects": [
-          {
-            "stat": "sociability",
-            "delta": 2
-          }
-        ],
-        "relationshipDelta": 2
-      }
-    ],
     "usesFriendName": true,
-    "requiresFriendCloseness": 20
+    "requiresFriendCloseness": 20,
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 4
+      }
+    ]
   },
   {
     "id": "hobby_circle",
     "category": "social",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 180,
     "maxAge": 780,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "趣味の集まりに誘われた。",
-    "choices": [
+    "effects": [
       {
-        "label": "参加する",
-        "effects": [
-          {
-            "stat": "sociability",
-            "delta": 4
-          }
-        ]
-      },
-      {
-        "label": "今回は見送る",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 1
-          }
-        ]
+        "stat": "sociability",
+        "delta": 4
       }
     ]
   },
   {
     "id": "skill_training",
     "category": "growth",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 216,
     "maxAge": 780,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "新しい技能を学ぶ機会があった。",
-    "choices": [
+    "effects": [
       {
-        "label": "学ぶ",
-        "effects": [
-          {
-            "stat": "knowledge",
-            "delta": 5
-          }
-        ]
-      },
-      {
-        "label": "見送る",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 2
-          }
-        ]
+        "stat": "knowledge",
+        "delta": 5
       }
     ]
   },
   {
     "id": "housing",
     "category": "work",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 240,
     "maxAge": 780,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "住まいを見直す機会が訪れた。",
-    "choices": [
+    "effects": [
       {
-        "label": "引っ越す",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 4
-          }
-        ]
-      },
-      {
-        "label": "今の家で暮らす",
-        "effects": [
-          {
-            "stat": "money",
-            "delta": 5000
-          }
-        ]
+        "stat": "happiness",
+        "delta": 4
       }
     ]
   },
   {
     "id": "family_support",
     "category": "social",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 240,
     "maxAge": 900,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "家族が助けを必要としている。",
-    "choices": [
+    "effects": [
       {
-        "label": "力を貸す",
-        "effects": [
-          {
-            "stat": "sociability",
-            "delta": 4
-          }
-        ]
-      },
-      {
-        "label": "できる範囲で応援する",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 2
-          }
-        ]
+        "stat": "sociability",
+        "delta": 4
       }
     ]
   },
   {
     "id": "health_check",
     "category": "health",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 240,
     "maxAge": 900,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "健康診断の結果が気になった。",
-    "choices": [
+    "effects": [
       {
-        "label": "生活習慣を改善する",
-        "effects": [
-          {
-            "stat": "health",
-            "delta": 5
-          }
-        ]
-      },
-      {
-        "label": "しばらく様子を見る",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 1
-          }
-        ]
+        "stat": "health",
+        "delta": 5
       }
     ]
   },
@@ -622,90 +485,97 @@
   {
     "id": "old_friend",
     "category": "social",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 480,
     "maxAge": 960,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "長い付き合いの知人と昔話をした。",
-    "choices": [
+    "effects": [
       {
-        "label": "思い出を語る",
-        "effects": [
-          {
-            "stat": "happiness",
-            "delta": 4
-          }
-        ]
-      },
-      {
-        "label": "近況を尋ねる",
-        "effects": [
-          {
-            "stat": "sociability",
-            "delta": 3
-          }
-        ]
+        "stat": "happiness",
+        "delta": 4
       }
     ]
   },
   {
     "id": "volunteer",
     "category": "social",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 360,
     "maxAge": 960,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "地域の活動への参加を頼まれた。",
-    "choices": [
+    "effects": [
       {
-        "label": "協力する",
-        "effects": [
-          {
-            "stat": "sociability",
-            "delta": 5
-          }
-        ]
-      },
-      {
-        "label": "寄付する",
-        "effects": [
-          {
-            "stat": "money",
-            "delta": -5000
-          }
-        ]
+        "stat": "sociability",
+        "delta": 5
       }
     ]
   },
   {
     "id": "personal_project",
     "category": "growth",
-    "presentation": "choice",
+    "presentation": "log",
     "minAge": 300,
     "maxAge": 900,
     "weight": 4,
     "cooldownMonths": 24,
     "text": "長年やりたかったことに取り組む機会が来た。",
-    "choices": [
+    "effects": [
       {
-        "label": "挑戦する",
-        "effects": [
-          {
-            "stat": "knowledge",
-            "delta": 4
-          }
-        ]
+        "stat": "knowledge",
+        "delta": 4
+      }
+    ]
+  },
+  {
+    "id": "unexpected_bonus",
+    "category": "work",
+    "presentation": "log",
+    "minAge": 216,
+    "weight": 4,
+    "cooldownMonths": 30,
+    "text": "思いがけない臨時収入があった。",
+    "effects": [
+      {
+        "stat": "money",
+        "delta": 30000
+      }
+    ]
+  },
+  {
+    "id": "lost_wallet",
+    "category": "social",
+    "presentation": "log",
+    "minAge": 144,
+    "weight": 3,
+    "cooldownMonths": 40,
+    "text": "財布をなくしてしまった。",
+    "effects": [
+      {
+        "stat": "money",
+        "delta": -10000
       },
       {
-        "label": "生活を優先する",
-        "effects": [
-          {
-            "stat": "health",
-            "delta": 2
-          }
-        ]
+        "stat": "happiness",
+        "delta": -3
+      }
+    ]
+  },
+  {
+    "id": "illness_recovery",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 12,
+    "weight": 4,
+    "cooldownMonths": 20,
+    "text": "体調が回復し、元気を取り戻した。",
+    "effects": [
+      {
+        "stat": "health",
+        "delta": 4
       }
     ]
   }
