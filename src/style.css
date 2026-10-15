@@ -6,3 +6,5 @@
 .person-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.person-actions button{font-size:12px;padding:8px 10px}@media(max-width:740px){.person{align-items:flex-start;flex-direction:column}.person-actions{justify-content:flex-start}}
 
 .career-grid{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0 20px}.career-grid button{font-size:13px}.summary{max-height:min(70vh,850px);overflow-y:auto}.person .hint .hint{margin-top:3px}
+
+.effect-preview{display:block;margin-top:5px;color:#506b80;font-size:12px}.modal label{display:block;margin:14px 0}.modal label select{display:block;width:100%;margin-top:6px}.choice-buttons button{display:block;width:100%}
