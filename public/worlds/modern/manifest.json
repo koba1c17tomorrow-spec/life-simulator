@@ -1,0 +1,6 @@
+{
+  "id": "modern",
+  "name": "架空の現代世界",
+  "version": "0.3.0",
+  "events": "events.json"
+}
