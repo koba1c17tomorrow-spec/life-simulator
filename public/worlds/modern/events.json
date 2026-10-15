@@ -86,7 +86,33 @@
             "stat": "happiness",
             "delta": -2
           }
-        ]
+        ],
+        "roll": {
+          "base": 18,
+          "stat": "knowledge",
+          "statFactor": 0.45,
+          "gradeFactor": 0.35,
+          "trait": "quickLearner",
+          "traitBonus": 8
+        },
+        "successEffects": [
+          {
+            "stat": "knowledge",
+            "delta": 3
+          },
+          {
+            "stat": "happiness",
+            "delta": 3
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "happiness",
+            "delta": -4
+          }
+        ],
+        "successText": "努力が実り、試験で良い結果を残した。",
+        "failureText": "努力したが試験の結果は振るわなかった。"
       },
       {
         "label": "気分転換する",
@@ -576,6 +602,121 @@
       {
         "stat": "health",
         "delta": 4
+      }
+    ]
+  },
+  {
+    "id": "creative_opportunity",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 216,
+    "maxAge": 780,
+    "weight": 3,
+    "cooldownMonths": 48,
+    "requires": [
+      {
+        "field": "knowledge",
+        "min": 35
+      }
+    ],
+    "text": "創作の仕事につながる企画への参加を持ちかけられた。",
+    "choices": [
+      {
+        "label": "企画に挑戦する",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ],
+        "roll": {
+          "base": 12,
+          "stat": "knowledge",
+          "statFactor": 0.4,
+          "trait": "creative",
+          "traitBonus": 22
+        },
+        "successEffects": [
+          {
+            "stat": "money",
+            "delta": 80000
+          },
+          {
+            "stat": "happiness",
+            "delta": 5
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "money",
+            "delta": -10000
+          },
+          {
+            "stat": "happiness",
+            "delta": -3
+          }
+        ],
+        "successText": "企画が評価され、報酬を得た。",
+        "failureText": "企画はうまくいかず、準備費用だけが残った。"
+      },
+      {
+        "label": "今回は見送る",
+        "effects": [
+          {
+            "stat": "health",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "scholarship",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 180,
+    "maxAge": 215,
+    "weight": 2,
+    "cooldownMonths": 999,
+    "requires": [
+      {
+        "field": "schoolPerformance",
+        "min": 55
+      }
+    ],
+    "text": "学校から奨学金への応募を勧められた。",
+    "choices": [
+      {
+        "label": "奨学金に応募する",
+        "effects": [],
+        "roll": {
+          "base": 12,
+          "gradeFactor": 0.7,
+          "trait": "careful",
+          "traitBonus": 5
+        },
+        "successEffects": [
+          {
+            "stat": "money",
+            "delta": 120000
+          },
+          {
+            "stat": "happiness",
+            "delta": 3
+          }
+        ],
+        "failureEffects": [
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ],
+        "successText": "奨学金の採用が決まった。",
+        "failureText": "奨学金の選考に通らなかった。"
+      },
+      {
+        "label": "応募を見送る",
+        "effects": []
       }
     ]
   }
