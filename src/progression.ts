@@ -1,7 +1,7 @@
 export type Education='preschool'|'elementary'|'middle'|'high'|'university'|'working';
 export type Career='none'|'parttime'|'office'|'technical'|'creative'|'service';
-export type Progression={education:Education;career:Career;careerLevel:number;experience:number;graduatedUniversity:boolean;partnerId:string|null;spouseId:string|null;children:number;monthlyIncome:number;monthlyExpenses:number};
-export function initialProgression():Progression{return {education:'preschool',career:'none',careerLevel:0,experience:0,graduatedUniversity:false,partnerId:null,spouseId:null,children:0,monthlyIncome:0,monthlyExpenses:0};}
+export type Progression={education:Education;career:Career;careerLevel:number;experience:number;graduatedUniversity:boolean;partnerId:string|null;spouseId:string|null;children:number;monthlyIncome:number;monthlyExpenses:number;debt:number;lastCareerPromptMonth:number;lastChoiceMonth:number};
+export function initialProgression():Progression{return {education:'preschool',career:'none',careerLevel:0,experience:0,graduatedUniversity:false,partnerId:null,spouseId:null,children:0,monthlyIncome:0,monthlyExpenses:0,debt:0,lastCareerPromptMonth:-999,lastChoiceMonth:-999};}
 export function normalizeProgression<T extends object>(s:T):T&Progression{return {...initialProgression(),...s} as T&Progression;}
 export function educationAt(month:number,university:boolean):Education{if(month<72)return 'preschool';if(month<144)return 'elementary';if(month<180)return 'middle';if(month<216)return 'high';if(month<264&&university)return 'university';return 'working';}
 export function progressionMonth(s:Progression&{month:number;stats:{money:number;knowledge:number;happiness:number}},log:(message:string)=>void):void{
@@ -13,7 +13,9 @@ export function progressionMonth(s:Progression&{month:number;stats:{money:number
  const base:Record<Career,number>={none:0,parttime:90000,office:220000,technical:260000,creative:200000,service:190000};
  s.monthlyIncome=s.month>=216?Math.round(base[s.career]*(1+s.careerLevel*0.18)):0;
  s.monthlyExpenses=s.month>=216?Math.round(120000+s.children*30000+(s.spouseId?25000:0)):0;
- s.stats.money+=s.monthlyIncome-s.monthlyExpenses;
+ const balance=s.stats.money+s.monthlyIncome-s.monthlyExpenses;
+ if(balance<0){s.debt+=-balance;s.stats.money=0;}else if(s.debt>0){const payment=Math.min(s.debt,balance);s.debt-=payment;s.stats.money=balance-payment;}else{s.stats.money=balance;}
+ if(s.debt>0){s.debt=Math.round(s.debt*1.003);if(s.debt>1000000&&s.month%12===0)log('借金が増え、生活が厳しくなっている。');}
 }
 export function careerOptions(s:Progression&{month:number;stats:{knowledge:number}}):Career[]{if(s.month<192)return [];const options:Career[]=['parttime','service','creative','office'];if(s.stats.knowledge>=45)options.push('technical');return options;}
 export function careerName(c:Career):string{return ({none:'無職',parttime:'アルバイト',office:'事務職',technical:'技術職',creative:'クリエイティブ職',service:'サービス職'})[c];}
