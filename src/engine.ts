@@ -2,7 +2,7 @@ import {initialSocial,normalizeSocial,socialMonth,contact,type SocialState} from
 export type Stat='health'|'happiness'|'knowledge'|'sociability'|'money';
 export type Effect={stat:Stat;delta:number};
 export type Choice={label:string;effects:Effect[]};
-export type EventDefinition={id:string;category:string;presentation:'log'|'choice'|'silent';minAge?:number;maxAge?:number;weight:number;cooldownMonths?:number;text:string;effects?:Effect[];choices?:Choice[]};
+export type EventDefinition={id:string;category:string;presentation:'log'|'choice'|'silent';minAge?:number;maxAge?:number;weight:number;cooldownMonths?:number;requiresFriendCloseness?:number;text:string;effects?:Effect[];choices?:Choice[]};
 export type LogEntry={id:string;month:number;text:string};
 export type PendingChoice={eventId:string;text:string;choices:Choice[]};
 export type Priority='study'|'social'|'health'|'rest';
@@ -14,7 +14,7 @@ function clamp(value:number,stat:Stat){return stat==='money'?Math.max(-10000000,
 export function applyEffects(s:GameState,effects:Effect[]=[]){for(const e of effects){if(Object.prototype.hasOwnProperty.call(s.stats,e.stat)&&Number.isFinite(e.delta))s.stats[e.stat]=clamp(s.stats[e.stat]+e.delta,e.stat);}}
 function log(s:GameState,text:string){s.history.unshift({id:`${s.month}-${s.history.length}-${s.seed}`,month:s.month,text});if(s.history.length>1500)s.history.length=1500;}
 export function ageLabel(month:number){return `${Math.floor(month/12)}歳${month%12}か月`;}
-function eligible(s:GameState,e:EventDefinition){return s.month>=(e.minAge??0)&&s.month<=(e.maxAge??9999)&&s.month-(s.lastSeen[e.id]??-99999)>=(e.cooldownMonths??0)&&e.weight>0;}
+function eligible(s:GameState,e:EventDefinition){return s.month>=(e.minAge??0)&&s.month<=(e.maxAge??9999)&&s.month-(s.lastSeen[e.id]??-99999)>=(e.cooldownMonths??0)&&e.weight>0&&(e.requiresFriendCloseness===undefined||s.relations.some(r=>s.people.some(p=>p.id===r.id&&p.kind==='friend'&&p.alive)&&r.closeness>=e.requiresFriendCloseness!));}
 export function selectEvents(s:GameState,events:EventDefinition[]){const picked:string[]=[];for(const category of ['growth','social','work','health']){if(random(s)>0.28)continue;const pool=events.filter(e=>e.category===category&&eligible(s,e));const total=pool.reduce((n,e)=>n+e.weight,0);if(total<=0)continue;let roll=random(s)*total;for(const e of pool){roll-=e.weight;if(roll<0){picked.push(e.id);break;}}}return picked;}
 export function advanceMonth(original:GameState,events:EventDefinition[]):GameState{const s=normalizeSocial(structuredClone(original));if(s.finished||s.pending)return s;if(!s.monthStarted){s.month++;s.monthStarted=true;const growth:Record<Priority,Stat>={study:'knowledge',social:'sociability',health:'health',rest:'happiness'};applyEffects(s,[{stat:growth[s.priority],delta:0.2}]);if(s.month>240)applyEffects(s,[{stat:'health',delta:-0.055}]);if(s.month>=1080||s.stats.health<=0){s.finished=true;log(s,'あなたの人生は幕を閉じた。');s.monthStarted=false;return s;}socialMonth(s,s.month,()=>random(s),text=>log(s,text));s.queue=selectEvents(s,events);}
 while(s.queue.length){const id=s.queue.shift()!;const e=events.find(x=>x.id===id);if(!e||!eligible(s,e))continue;s.lastSeen[e.id]=s.month;if(e.presentation==='choice'&&e.choices?.length){s.pending={eventId:e.id,text:e.text,choices:e.choices};return s;}applyEffects(s,e.effects);if(e.presentation==='log')log(s,e.text);}
