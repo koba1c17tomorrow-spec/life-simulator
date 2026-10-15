@@ -1,0 +1,221 @@
+[
+  {
+    "id": "first_steps",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 1,
+    "maxAge": 3,
+    "weight": 4,
+    "cooldownMonths": 999,
+    "text": "初めて自分の足で歩いた。",
+    "effects": [
+      {
+        "stat": "happiness",
+        "delta": 3
+      }
+    ]
+  },
+  {
+    "id": "picture_book",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 3,
+    "maxAge": 10,
+    "weight": 4,
+    "cooldownMonths": 12,
+    "text": "絵本に夢中になった。",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 2
+      }
+    ]
+  },
+  {
+    "id": "school_friend",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 72,
+    "maxAge": 216,
+    "weight": 5,
+    "cooldownMonths": 18,
+    "text": "クラスメイトに放課後遊ぼうと誘われた。",
+    "choices": [
+      {
+        "label": "一緒に遊ぶ",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 5
+          },
+          {
+            "stat": "sociability",
+            "delta": 3
+          }
+        ]
+      },
+      {
+        "label": "家で過ごす",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "exam",
+    "category": "growth",
+    "presentation": "choice",
+    "minAge": 120,
+    "maxAge": 240,
+    "weight": 5,
+    "cooldownMonths": 16,
+    "text": "大切な試験が近づいている。",
+    "choices": [
+      {
+        "label": "勉強する",
+        "effects": [
+          {
+            "stat": "knowledge",
+            "delta": 5
+          },
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ]
+      },
+      {
+        "label": "気分転換する",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "part_time",
+    "category": "work",
+    "presentation": "choice",
+    "minAge": 192,
+    "maxAge": 780,
+    "weight": 5,
+    "cooldownMonths": 18,
+    "text": "臨時の仕事を紹介された。",
+    "choices": [
+      {
+        "label": "引き受ける",
+        "effects": [
+          {
+            "stat": "money",
+            "delta": 50000
+          },
+          {
+            "stat": "happiness",
+            "delta": -2
+          }
+        ]
+      },
+      {
+        "label": "断る",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "walk",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 36,
+    "weight": 5,
+    "cooldownMonths": 8,
+    "text": "散歩をして気持ちのよい一日を過ごした。",
+    "effects": [
+      {
+        "stat": "health",
+        "delta": 2
+      },
+      {
+        "stat": "happiness",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "illness",
+    "category": "health",
+    "presentation": "log",
+    "minAge": 12,
+    "weight": 3,
+    "cooldownMonths": 24,
+    "text": "体調を崩して数日休んだ。",
+    "effects": [
+      {
+        "stat": "health",
+        "delta": -7
+      }
+    ]
+  },
+  {
+    "id": "reunion",
+    "category": "social",
+    "presentation": "choice",
+    "minAge": 240,
+    "weight": 4,
+    "cooldownMonths": 36,
+    "text": "昔の知人から久しぶりに連絡があった。",
+    "choices": [
+      {
+        "label": "会いに行く",
+        "effects": [
+          {
+            "stat": "happiness",
+            "delta": 5
+          },
+          {
+            "stat": "sociability",
+            "delta": 2
+          },
+          {
+            "stat": "money",
+            "delta": -3000
+          }
+        ]
+      },
+      {
+        "label": "見送る",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "hobby",
+    "category": "growth",
+    "presentation": "log",
+    "minAge": 96,
+    "weight": 4,
+    "cooldownMonths": 10,
+    "text": "趣味に熱中し、新しい発見があった。",
+    "effects": [
+      {
+        "stat": "knowledge",
+        "delta": 1
+      },
+      {
+        "stat": "happiness",
+        "delta": 2
+      }
+    ]
+  }
+]
