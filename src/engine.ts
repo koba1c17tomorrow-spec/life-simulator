@@ -1,3 +1,5 @@
+import { validateRandomStreams, type RandomStreams } from "./randomStreams";
+import { recordWorldEvent, validateWorldHistory, type WorldHistory } from "./worldHistory";
 import { assertRawStateFormat, STATE_VERSION } from "./saveFormat";
 import { record as log } from "./journal";
 import { validateEvents, WORLDS } from "./content";
@@ -143,6 +145,8 @@ export type GameState = SocialState &
   School &
   Vitality & {
     version: 1;
+    randomStreams?: RandomStreams;
+    worldHistory?: WorldHistory;
     month: number;
     seed: number;
     stats: Record<Stat, number>;
@@ -736,6 +740,11 @@ export function choose(
       r.trust = Math.max(0, Math.min(100, r.trust + c.relationshipDelta));
     }
   }
+  recordWorldEvent(s, {
+    month: s.month, kind: "pc.choice", personIds: ["player", ...(p.personId ? [p.personId] : [])],
+    data: { eventId: p.eventId, choiceIndex: index, choiceLabel: c.label },
+    visibility: "participants", pcKnowledge: { month: s.month, source: "direct" },
+  });
   log(s, `${p.text} → ${c.label}`);
   s.pending = null;
   return advanceMonth(s, events);
@@ -1237,5 +1246,7 @@ export function normalizeGameState(value: unknown): GameState {
       .filter((e) => /【|卒業|進学|結婚|交際|就職/.test(e.text))
       .map(({ month, text }) => ({ month, text }))
       .reverse();
+  validateRandomStreams(s.randomStreams);
+  validateWorldHistory(s.worldHistory, s.month);
   return s;
 }

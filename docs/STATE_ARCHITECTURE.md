@@ -69,3 +69,7 @@ UI・PWA・ゲームルールに変更はない。保存の識別・妥当性検
 ## 5. 継続して残る課題
 
 `normalizeGameState` は初期化・互換補完・検証がまだ同じ関数にある。全体を機械的に別ファイルへ移すとnewGame、WORLDS、イベント検証、循環依存への影響が広がるため、今回行わない。歴史的な関係、親子のunknown/player参照、片側の婚姻情報、死亡月不明の扱いも自動修復しない。具体的な保留理由は [SAVE_MIGRATION](SAVE_MIGRATION.md) を参照する。
+
+## P0-3追記
+
+任意のrandomStreams（基盤のみ、月次への全面適用保留）とworldHistory（構造化事実）を追加した。P0-2時点の現状表は上に履歴として保存する。GameStateの一括分割はしていない。責務・互換性は [RANDOM_AND_HISTORY](RANDOM_AND_HISTORY.md) を参照。
