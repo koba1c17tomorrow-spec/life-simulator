@@ -93,3 +93,7 @@ Pagesの最初の最終試行では、同時起動した別Playwright suiteが�
 内部履歴を保持するため100人生の試験時間はP1-2で約136秒となった。現行の180秒上限は変更せず通過したが、保存サイズと履歴複製の処理量は今後の課題。記録を黙って切り捨てていない。
 
 旧保存の故人の死亡月は捏造せず不明表示。旧PCログを削除せず、過去の公開済み知識を新たに推定しない。新しいNPC事実の公開境界だけを構造化している。詳細は [RANDOM_AND_HISTORY](docs/RANDOM_AND_HISTORY.md)、[KNOWLEDGE_BOUNDARY](docs/KNOWLEDGE_BOUNDARY.md)、[SAVE_MIGRATION](docs/SAVE_MIGRATION.md)。mainへはマージせず、P1-3以降には着手しない。
+
+## P1-3 暫定バランス調整
+
+main 638762d起点。`npm test` 164件成功、本番ビルド成功。変更前後60人生と再起24ケースの測定は [BALANCE_P1_3](docs/BALANCE_P1_3.md) を参照。旧セーブの値や形式は変更せず、今後の獲得・昇進のみ調整。

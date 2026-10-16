@@ -52,7 +52,7 @@ import {
   type Origin,
 } from "./origins";
 import { randomTraits, traitMonthlyEffects, type Trait } from "./traits";
-import { monthlyDrift } from "./balance";
+import { monthlyDrift, abilityGain } from "./balance";
 import {
   randomIdentity,
   compatible,
@@ -238,7 +238,11 @@ export function applyEffects(s: GameState, effects: Effect[] = []) {
       if (e.stat === "money" && e.delta < 0 && s.stats.money + e.delta < 0) {
         s.debt += -(s.stats.money + e.delta);
         s.stats.money = 0;
-      } else s.stats[e.stat] = clamp(s.stats[e.stat] + e.delta, e.stat);
+      } else {
+        const delta = e.stat === "knowledge" || e.stat === "sociability"
+          ? abilityGain(s.stats[e.stat], e.delta) : e.delta;
+        s.stats[e.stat] = clamp(s.stats[e.stat] + delta, e.stat);
+      }
     }
   }
 }
