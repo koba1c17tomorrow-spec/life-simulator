@@ -1,3 +1,4 @@
+import { validateRelationshipModel } from "./directedRelations";
 import { actionReason, actionHours, actionCost, actionFactor, budgetFor, chargeTime, remainingHours, validateTimeExtensions, type TimeBudget, type FocusPlan, type Intensity } from "./timeBudget";
 import { initialCapabilities, practiceHours, validateCapabilities, type Capabilities } from "./capabilities";
 import { recordNpcFact, shareWorldEvents } from "./npcEvents";
@@ -883,10 +884,6 @@ export function meetPerson(
   const message = contact(s, s.month, id, mode);
   if (!message) return s;
   chargeTime(s, "交流", 8);
-  if (s.traits?.includes("outgoing")) {
-    const relation = s.relations.find((r) => r.id === id);
-    if (relation) relation.closeness = Math.min(100, relation.closeness + 2);
-  }
   s.lastActionMonth = s.month;
   applyEffects(
     s,
@@ -1041,6 +1038,7 @@ export function normalizeGameState(value: unknown): GameState {
   if (v.capabilities === undefined) delete s.capabilities;
   else validateCapabilities(v.capabilities, s.month, s.traits);
   validateTimeExtensions(s);
+  validateRelationshipModel(s);
   s.birthSeed = v.birthSeed ?? null;
   s.initialIdentityChoice = v.initialIdentityChoice ?? {};
   const options: Record<string, readonly string[]> = {

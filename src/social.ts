@@ -1,3 +1,4 @@
+import { interact, type RelationshipModel } from "./directedRelations";
 import { npcFact, type NpcReporter } from "./npcEvents";
 import type { Trait } from "./traits";
 import type { Origin } from "./origins";
@@ -33,6 +34,7 @@ export type Relation = {
   romance?: number;
 };
 export type SocialState = {
+  relationshipModel?: RelationshipModel;
   npcLinks: { a: string; b: string; kind: string; since: number }[];
   people: Person[];
   relations: Relation[];
@@ -257,20 +259,8 @@ export function contact(
   const person = s.people.find((x) => x.id === id);
   const r = s.relations.find((x) => x.id === id);
   if (!person?.alive || !r) return null;
-  const bonus =
-    person.personality === "kind"
-      ? 2
-      : person.personality === "quiet" && mode === "talk"
-        ? 2
-        : person.personality === "bold" && mode === "spend"
-          ? 2
-          : 0;
-  r.closeness = Math.min(100, r.closeness + (mode === "spend" ? 7 : 2) + bonus);
-  r.trust = Math.min(100, r.trust + (mode === "talk" ? 6 : 2) + bonus);
-  r.lastContactMonth = month;
-  return mode === "talk"
-    ? person.name + "とじっくり話し、信頼を深めた。"
-    : person.name + "と一緒に過ごし、親しくなった。";
+  const response = interact(s, month, "player", id, mode);
+  return response ? person.name + "と" + response.attitude : null;
 }
 
 export function relationLabel(r: Relation): string {
