@@ -1,5 +1,5 @@
 import { actionReason, actionHours, actionCost, actionFactor, budgetFor, chargeTime, remainingHours, validateTimeExtensions, type TimeBudget, type FocusPlan, type Intensity } from "./timeBudget";
-import { initialCapabilities, practiceSkill, validateCapabilities, type Capabilities } from "./capabilities";
+import { initialCapabilities, practiceHours, validateCapabilities, type Capabilities } from "./capabilities";
 import { recordNpcFact, shareWorldEvents } from "./npcEvents";
 import { validateRandomStreams, type RandomStreams } from "./randomStreams";
 import { recordWorldEvent, validateWorldHistory, type WorldHistory } from "./worldHistory";
@@ -420,9 +420,14 @@ export function advanceMonth(
       (text) => log(s, text),
     );
     progressionMonth(s, (text) => log(s, text));
-    if (s.month >= 72 && s.education !== "working" && s.education !== "preschool") practiceSkill(s, "learning", 0.1);
-    if (s.career !== "none" && !s.retired && s.month >= 192) practiceSkill(s, "professional", 0.1);
     s.timeBudget = budgetFor(s);
+    const absent = !!s.illness && s.stats.health < 40;
+    s.timeBudget.participation = {
+      school: absent ? 0 : s.timeBudget.allocations.学業,
+      work: absent ? 0 : s.timeBudget.allocations.仕事,
+    };
+    practiceHours(s, "learning", s.timeBudget.participation.school, "school");
+    practiceHours(s, "professional", s.timeBudget.participation.work, "job");
     settleBudget(
       s,
       () => random(s),
@@ -863,7 +868,7 @@ export function takeAction(
   );
   if (kind === "study" && s.traits?.includes("quickLearner"))
     applyEffects(s, [{ stat: "knowledge", delta: factor * (s.month < 72 ? 0.04 : 0.8) }]);
-  if (kind !== "rest") practiceSkill(s, kind === "study" ? "learning" : "professional", factor);
+  if (kind !== "rest") practiceHours(s, kind === "study" ? "learning" : "professional", actionHours(intensity));
   log(s, a.text);
   return s;
 }
@@ -892,7 +897,7 @@ export function meetPerson(
           { stat: "sociability", delta: 1 },
         ],
   );
-  practiceSkill(s, "communication");
+  practiceHours(s, "communication", 8);
   log(s, message);
   if (mode === "talk") shareWorldEvents(s, id);
   return s;
