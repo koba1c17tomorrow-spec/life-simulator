@@ -44,3 +44,15 @@
 - 大学と専門学校はゲーム上の進路。学校ごとの複雑な入試制度や実在の奨学金・税制度は再現していない。
 - UIをPC/モバイルのChromiumで確認。Firefox/WebKit・実機・スクリーンリーダーの包括検証、全人生の手動プレイは未実施。
 - GitHubへの反映とクラウド環境の公開は別。環境設定のドラフト保存だけでは新しい環境スナップショットの公開完了にはならない。
+
+## GitHub Pages / PWA対応（2026-10-16）
+
+- Vite base `/life-simulator/` でビルド。manifest・favicon・Appleアイコン・アプリJS/CSS・両ワールドJSONの公開パスを確認。
+- `npm test`：18ファイル・91件成功（100シード長期検証を含む）。新たに2ワールドのサブパスURL回帰テストを追加。
+- `npm run build`：型チェック・本番ビルド・Workboxサービスワーカー生成成功。依存関係は更新済みロックから `npm ci` で再導入。
+- 既存 `test:browser`：PC/モバイルのChromium 10ケース成功。
+- ビルド済みサイトに対する `test:pages -- --project android-chrome`：Android Chrome相当のタッチ操作・各タブの幅、ホーム画面用manifest/PNGアイコン、JSONとスロットの往復、再読込保存、オフライン再起動とワールド切替、新SWの待機と保存後の更新、破損セーブ保護の計5ケース成功。
+- 次回デプロイのSWをテスト専用サーバーから配信して実際のworker更新を確認。`dist/` 自体を変更せず、公開物へテスト用エンドポイントは含めない。
+- GitHub Actionsはmain更新時に検証済みdistを公開。PRは検証だけ。CIではChromium/WebKitを導入し、iPhone相当のWebKitでも公開物のUI・データ・保存・オフラインを検証する構成。worker更新の内部状態確認2ケースはChromium限定で、WebKitでは明示的にスキップ。
+- このクラウド環境ではWebKit配布先 `cdn.playwright.dev` / `playwright.download.prss.microsoft.com` が403 `Domain forbidden` のため、ローカルWebKit実行は未実施。iPhone実機での検証も未実施。CIでのWebKit結果はGitHub Actionsで確認する必要がある。
+- GitHub Pages APIへのアクセスもForbiddenだったため、既存のPages設定やリモート公開完了はここでは確認できない。初回のSource設定と確認/再実行手順はREADMEに記載した。GitHubへのpush成功と実際の公開成功は区別する。

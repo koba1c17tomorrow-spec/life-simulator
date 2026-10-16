@@ -23,3 +23,9 @@ v2.0.0-beta.1。統合ロードマップの全領域に基本実装が入り、�
 - `record` の単調増加IDを使う。履歴長をIDにすると1500件上限後に重複する。
 - 年齢は月、金額は円。学校・投資・保険・債務の数字はゲーム用の抽象化であり、現実制度の説明ではない。
 - 親の資質への30%抽選バイアスは科学的な遺伝モデルではない。特性は家庭の経済状況とは別に生成する。
+
+## GitHub PagesとPWA
+
+`vite.config.ts` のbase/start_url/scopeは `/life-simulator/`。イベントURLは `import.meta.env.BASE_URL` から作る。`src/PwaStatus.tsx` は標準Service Worker APIで登録し、明示的な保存後だけ更新する。自動skipWaitingや他タブの強制再読込へ変更しない。localStorageキー/スロット/入出力は維持。
+
+公開ワークフローは `.github/workflows/pages.yml`。GitHub Settings → Pages → SourceをGitHub Actionsに設定したらmain更新で自動公開。`npm run build` の後 `npm run test:pages` でビルド済みサイトを検証する。現在のクラウド環境ではWebKit配布先へのアクセスが403なので、iPhone WebKitの実行結果はCIで確認が必要。iPhone/Android実機でホーム画面追加、ファイル保存/再インポート、端末再起動後の保持を追加確認する。

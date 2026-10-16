@@ -23,10 +23,11 @@ export function validateManifest(
 }
 export async function loadWorld(id: string): Promise<EventDefinition[]> {
   if (!WORLDS.some((w) => w.id === id)) throw Error("未知のワールドです");
-  const manifestResponse = await fetch(`/worlds/${id}/manifest.json`);
+  const worldRoot = `${import.meta.env.BASE_URL}worlds/${id}/`;
+  const manifestResponse = await fetch(`${worldRoot}manifest.json`);
   if (!manifestResponse.ok) throw Error("ワールドを読み込めません");
   const manifest = validateManifest(await manifestResponse.json(), id);
-  const response = await fetch(`/worlds/${id}/${manifest.events}`);
+  const response = await fetch(`${worldRoot}${manifest.events}`);
   if (!response.ok) throw Error("イベントを読み込めません");
   return validateEvents(await response.json());
 }

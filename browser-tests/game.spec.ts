@@ -12,10 +12,10 @@ const test = base.extend({
 });
 const key = "life-sim-modern-v1";
 async function fixture(page: any, patch: string) {
-  await page.goto("/");
+  await page.goto("./");
   await page.evaluate(
     async ({ key, patch }: { key: string; patch: string }) => {
-      const engine = await import("/src/engine.ts");
+      const engine = await import("/life-simulator/src/engine.ts");
       const s = engine.newGame(42);
       Object.assign(s, JSON.parse(patch));
       localStorage.setItem(key, JSON.stringify(s));
@@ -32,7 +32,7 @@ test("render, monthly progression, autosave and mobile layout", async ({
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto("/");
+  await page.goto("./");
   await expect(
     page.getByRole("heading", { name: "人生の記録", exact: true }),
   ).toBeVisible();
@@ -143,7 +143,7 @@ test("major decision pauses, traps keyboard focus and supports minimization", as
 test("world creation, invalid import protection and ending", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   page.on("dialog", (d) => d.accept());
   await page.getByRole("button", { name: "新しい人生", exact: true }).click();
   const dialog = page.getByRole("dialog");
@@ -190,7 +190,7 @@ test("world creation, invalid import protection and ending", async ({
 test("corrupt automatic save is preserved until explicit recovery", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   await page.evaluate(
     (key) => localStorage.setItem(key, '{"version":99}'),
     key,

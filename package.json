@@ -8,7 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
     "test:browser": "playwright test",
-    "test:long": "vitest run tests/longSimulation.test.ts"
+    "test:long": "vitest run tests/longSimulation.test.ts",
+    "preview": "vite preview",
+    "test:pages": "playwright test --config playwright.pages.config.ts"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -20,6 +22,7 @@
     "@types/react-dom": "^19.1.0",
     "typescript": "^5.8.3",
     "vite": "^7.0.0",
+    "vite-plugin-pwa": "2.0.0",
     "vitest": "^3.2.0"
   }
 }

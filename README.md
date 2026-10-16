@@ -2,6 +2,23 @@
 
 文章中心の日本語ブラウザ人生シミュレーター。出生条件・資質・学校・仕事・家族・健康・偶然が積み重なり、一人の人生を月単位で進めます。React・TypeScript・Vite製。プレイ中の生成AI・外部API・アカウントは不要です。
 
+## iPhone・Androidで遊ぶ / GitHub Pages公開
+
+公開先（初回設定とデプロイ成功後）： **https://koba1c17tomorrow-spec.github.io/life-simulator/**
+
+初回だけ、リポジトリの **Settings → Pages → Build and deployment → Source** を **GitHub Actions** に設定してください。以降は `main` へのpushで、テスト・本番ビルド・モバイル向けPages/PWAテストを通した `dist/` が自動公開されます。Pull Requestでは検証だけを行い、公開しません。独自トークンやSecretsの登録は不要です。
+
+設定前の初回実行が失敗した場合は、設定後に **Actions → Test and deploy GitHub Pages → Run workflow → main** から再実行できます。公開の成功とURLはActionsの `deploy` ジョブまたはSettings → Pagesで確認してください。組織ポリシーでActions/Pagesが制限されている場合は管理者による許可が必要です。`github-pages` 環境に承認ルールがある場合、その承認はリポジトリ側の設定に従います。
+
+- **iPhone**：Safariで公開先を開き、「共有」→「ホーム画面に追加」。対応するiOSでは「Webアプリとして開く」を有効にします。
+- **Android**：Chromeで公開先を開き、メニューから「アプリをインストール」または「ホーム画面に追加」。項目名はOS/Chromeの版によって異なります。
+- 最初はオンラインで開き、「オフラインでも遊べる準備ができました」の表示を待ってください。その後は、再起動や2つのワールドの切替もオフラインで行えます。
+- 新版は「保存して更新」を押すまで待機します。更新前に現在の人生を保存します。破損した元セーブの保護中や保存失敗時は更新による上書きを止めます。初回読込が完了していない端末ではオフライン起動できません。
+
+セーブのキー・3スロット・JSON入出力は維持しています。デプロイやPWA更新処理でlocalStorageを削除しません。PCのローカル開発環境と公開サイト、SafariとChrome、ブラウザとホーム画面アプリなど、保存領域が異なる場合はJSONをエクスポートして移してください。ホーム画面に追加する前にもJSONバックアップを推奨します。端末やブラウザによるサイトデータ削除・整理からの復旧にはバックアップが必要です。
+
+`vite.config.ts` のbaseとPWAのstart_url/scopeは `/life-simulator/`。ワールドJSONとアイコンもこの配下に配置します。別名のリポジトリへ移す場合はbaseを変更し、PagesテストのURLも更新してください。ドメイン直下への配信とこのプロジェクト用サブパスを混在させないでください。
+
 ## 起動
 
 Node.js 24 LTS（検証版24.19.0）とnpmを使用します。
@@ -11,7 +28,7 @@ npm ci
 npm run dev
 ```
 
-`package.json` があるフォルダで実行してください。開発サーバーはローカルで動作します。停止はCtrl+C。固定ポートで起動する場合は `npm run dev -- --port 5173 --strictPort`。
+`package.json` があるフォルダで実行してください。開発サーバーはローカルで動作し、表示される `/life-simulator/` 配下のURLを開きます。停止はCtrl+C。固定ポートで起動する場合は `npm run dev -- --port 5173 --strictPort`。
 
 ## 遊び方
 
@@ -52,6 +69,8 @@ npm run build        # TypeScript型チェックと本番ビルド
 npm run test:long    # 長期検証だけを実行（約1〜2分）
 npx playwright install chromium
 npm run test:browser # PCとスマートフォン幅の10ケース
+npx playwright install --with-deps chromium webkit
+npm run test:pages   # ビルド済みサブパス、Android Chrome/iPhone WebKit、PWA・保存を検証
 ```
 
 システムChromiumがあるLinuxでは `CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:browser` を使えます。ブラウザのダウンロードはその場合不要です。Playwrightテストは専用ブラウザコンテキストを使い、通常のプレイ用セーブを変更しません。

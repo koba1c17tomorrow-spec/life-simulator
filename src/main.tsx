@@ -1,3 +1,4 @@
+import { PwaStatus } from "./PwaStatus";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -213,6 +214,26 @@ function App() {
           新しい人生
         </button>
       </header>
+      <PwaStatus
+        beforeUpdate={() => {
+          if (saveBlocked) {
+            setError(
+              "元の保存データを保護しています。JSONかスロットから復元、または新しい人生を開始してから更新してください。",
+            );
+            return false;
+          }
+          try {
+            localStorage.setItem(SAVE, JSON.stringify(game));
+            setPlaying(false);
+            return true;
+          } catch {
+            setError(
+              "保存できなかったため更新を中止しました。JSONバックアップを保存してください。",
+            );
+            return false;
+          }
+        }}
+      />
       {(error || loadError) && (
         <div className="notice" role="alert">
           {error || loadError}
