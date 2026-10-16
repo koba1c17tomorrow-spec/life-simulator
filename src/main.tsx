@@ -1,3 +1,4 @@
+import { observedAttitude } from "./directedRelations";
 import { FocusControls } from "./FocusControls";
 import { actionReason, remainingHours } from "./timeBudget";
 import { CapabilityPanel } from "./CapabilityPanel";
@@ -479,7 +480,7 @@ function App() {
                           ／ {person.education ?? "在学中"}
                         </div>
                         <div className="hint">
-                          親密度 {Math.round(r?.closeness ?? 0)} ／ 信頼度{" "}
+                          あなたの気持ち：親密さ {Math.round(r?.closeness ?? 0)} ／ 信頼{" "}
                           {Math.round(r?.trust ?? 0)} ·{" "}
                           {r ? relationLabel(r) : "知人"}{" "}
                           {game.spouseId === person.id
@@ -488,6 +489,7 @@ function App() {
                               ? "交際中"
                               : ""}
                         </div>
+                        <div className="hint">観測した応対：{observedAttitude(game, person.id)}</div>
                         <div className="hint">
                           配偶者：
                           {game.spouseId === person.id

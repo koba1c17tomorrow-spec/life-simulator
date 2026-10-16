@@ -85,3 +85,7 @@ UI・PWA・ゲームルールに変更はない。保存の識別・妥当性検
 ## P2-2 実装差分
 
 時間計算・条件確認・計画設定をtimeBudget.tsに分離。engineは実行と月末解決を担当し、economyは同じ予算から購入時間を確保する。任意の保存拡張で旧状態を保持。UIは共通の条件判定を参照し、不実行理由を表示する。シーン時計・詳細な家事分担・NPC時間予算は未実装。[TIME_AND_ACTIONS](TIME_AND_ACTIONS.md)参照。
+
+## P2-3 / P3-1
+
+実参加時間はtimeBudget、成長計算はcapabilities、代表rollの技能寄与はeventRulesに分離した。方向別関係はdirectedRelationsが所有し、PCのcloseness/trustは旧relationsを唯一の正本として参照する。通常UIはNPCの観測済み応対だけを読む。NPCの目標や実際の遅延更新はこの段階では未実装。
