@@ -70,3 +70,26 @@ PWAのアプリ実装・キャッシュ戦略・セーブ形式は変更しな�
 CIは再試行0回で実行し、レポートと失敗時トレース/スクリーンショットを7日保存する。公開後は `dist/deployment.json` のSHAが今回のコミットと一致し、HTML・JS/CSS・manifest・アイコン・両ワールド・SWが公開URLから取得できた場合だけdeployジョブを成功にする。CDNへの公開反映待ちだけ最大12回まで確認する。この反映待ちはテスト失敗を再試行で隠す処理ではない。確定したリモート実行結果は [Actions](https://github.com/koba1c17tomorrow-spec/life-simulator/actions/workflows/pages.yml) から確認できる。
 
 実機Safariの追加受入手順：プレイ用データをJSONで保管した上で、公開URLをSafariで開き、オフライン準備完了と月次進行・保存・スロットを確認する。ホーム画面アプリへ必要ならJSONを移行し、機内モードかつWi-Fiオフでアプリを終了・再起動し、保存年齢・世界・スロット復元・別世界の開始と進行を確認する。再接続後の保存・更新も確認する。これはPlaywrightのiPhone相当WebKit検証とは別で、今回の自動テストを実機試験済みとは記録しない。
+
+## 夜間バッチ P0-3 → P1-1 → P1-2（2026-10-17 JST）
+
+起点main `57193e7dcb4730b7ebcfc61b383051f2a352c853`、ブランチ `feat/v3-overnight-p0-3-p1-1-p1-2`。Node24.19.0/npm11.9.0、Linux、Playwright1.64.1、システムChromium154。従来の記録は上に保存する。
+
+| タスク/検証 | 結果 |
+|---|---|
+| P0-3 `npm test` / `npm run build` | 21ファイル143件成功、ビルド成功。入力検査調整後に新規10件とビルドも再確認 |
+| P1-1 `npm test` / `npm run build` | 22ファイル152件成功、ビルド成功。後処理guard調整後に死亡/関係14件とビルドを再確認 |
+| P1-1 表示のブラウザ試験 | modern/coastal×PC/モバイル4件成功。12月経過・再読込で固定/不明表示を検証。初回は通常の選択待ちで止まったため、表示試験の状態を明示的にランダム選択モードへ設定して再実行 |
+| P1-2/最終 `npm test` / `npm run build` | 23ファイル161件成功、ビルド成功。P0-1/P0-2のテスト・fixtureは変更なし |
+| 最終 `npm run test:long` | 100/100人生完走、1件成功（約126秒）。全テストとは別途実行 |
+| 最終 `CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:browser` | 22件成功（従来14+故人4+知識境界4） |
+| 最終 `CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:pages` | Chromium5件成功。WebKit3件は本体不在で起動失敗、既存更新2件はskip。全体成功とはしない |
+| WebKit導入 | 書込可能なworkspaceへ導入試行、配布CDN/mirrorが403 Domain forbidden。実機Safari/iPhone/Android、ホーム画面やOS再起動は未検証 |
+
+Pagesの最初の最終試行では、同時起動した別Playwright suiteが共通test-resultsを掃除し、traceファイルのENOENTが発生した。これはアプリ操作のassert失敗とは別。両suiteが終了後、設定を変えずPages単独で再実行し上表のChromium5件を確認した。skip/retryの追加・テスト削除で回避していない。
+
+100人生の既存統計はP0-3/P1-1/P1-2の全テスト実行で一致（最低77.5歳/平均92.514歳/最高100歳、40歳就労99/100、純資産平均63,030,311.56円）。乱数方式の全面適用を保留したため、既存の単一seedの消費とバランス係数は維持。一方、新しい構造化記録・死亡月・公開マーカーは保存に追加されるので旧版との状態オブジェクトの全フィールド一致を主張しない。
+
+内部履歴を保持するため100人生の試験時間はP1-2で約136秒となった。現行の180秒上限は変更せず通過したが、保存サイズと履歴複製の処理量は今後の課題。記録を黙って切り捨てていない。
+
+旧保存の故人の死亡月は捏造せず不明表示。旧PCログを削除せず、過去の公開済み知識を新たに推定しない。新しいNPC事実の公開境界だけを構造化している。詳細は [RANDOM_AND_HISTORY](docs/RANDOM_AND_HISTORY.md)、[KNOWLEDGE_BOUNDARY](docs/KNOWLEDGE_BOUNDARY.md)、[SAVE_MIGRATION](docs/SAVE_MIGRATION.md)。mainへはマージせず、P1-3以降には着手しない。

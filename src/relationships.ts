@@ -1,3 +1,4 @@
+import { npcFact, type NpcReporter } from "./npcEvents";
 import { randomTraits } from "./traits";
 import { compatible } from "./identity";
 import type { GameState, PendingChoice } from "./engine";
@@ -116,11 +117,7 @@ export function addChild(
   s.flags.parent = true;
   log("【家族】子どもを迎えた。子育ての時間と費用を家計に織り込む。");
 }
-export function npcMonth(
-  s: GameState,
-  random: () => number,
-  log: (text: string) => void,
-) {
+export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
   for (const p of s.people) {
     if (!p.alive) continue;
     const age = (s.month - p.birthMonth) / 12;
@@ -143,12 +140,18 @@ export function npcMonth(
     if (random() < (age > 70 ? 0.003 : 0.0005)) {
       p.illness = true;
       p.health -= 8;
-      log(p.name + "が体調を崩した。");
+      log(
+        p.name + "が体調を崩した。",
+        npcFact("npc.illness", [p.id], { ill: true }),
+      );
     }
     if (p.illness && random() < 0.1) {
       p.illness = false;
       p.health = Math.min(90, p.health + 5);
-      log(p.name + "の体調が回復した。");
+      log(
+        p.name + "の体調が回復した。",
+        npcFact("npc.recovery", [p.id], { ill: false }),
+      );
     }
     if (
       age >= 100 ||
@@ -158,7 +161,16 @@ export function npcMonth(
       p.alive = false;
       p.deathMonth = s.month;
       p.occupation = "retired";
-      log("【死別】" + p.name + "が亡くなった。");
+      log(
+        "【死別】" + p.name + "が亡くなった。",
+        npcFact("npc.death", [p.id], {
+          deathMonth: p.deathMonth,
+          birthMonth: p.birthMonth,
+          pcPartner: s.partnerId === p.id || s.spouseId === p.id,
+          formerPartnerId: p.partnerId ?? null,
+          formerSpouseId: p.spouseId ?? null,
+        }),
+      );
       if (s.partnerId === p.id || s.spouseId === p.id) {
         s.partnerId = null;
         s.spouseId = null;
@@ -179,7 +191,10 @@ export function npcMonth(
     }
     if (p.movedAway && random() < 0.002) {
       p.movedAway = false;
-      log(p.name + "が戻り、久しぶりに再会した。");
+      log(
+        p.name + "が戻り、久しぶりに再会した。",
+        npcFact("npc.reunion", ["player", p.id], {}, "participants"),
+      );
       const r = s.relations.find((r) => r.id === p.id);
       if (r) {
         r.closeness = Math.min(100, r.closeness + 5);
@@ -198,6 +213,7 @@ export function npcMonth(
       s.month - (p.marriedSince ?? 0) >= 24 &&
       random() < 0.0008
     ) {
+      const formerSpouseId = p.spouseId;
       const other = s.people.find((x) => x.id === p.spouseId);
       if (other?.alive) {
         other.spouseId = null;
@@ -205,7 +221,10 @@ export function npcMonth(
       }
       p.spouseId = null;
       p.partnerId = null;
-      log(p.name + "が離婚し、新しい生活を始めた。");
+      log(
+        p.name + "が離婚し、新しい生活を始めた。",
+        npcFact("npc.divorce", [p.id, formerSpouseId]),
+      );
     }
     if (
       !p.spouseId &&
@@ -242,7 +261,10 @@ export function npcMonth(
           kind: "dating",
           since: s.month,
         });
-        log(p.name + "と" + other.name + "が交際を始めた。");
+        log(
+          p.name + "と" + other.name + "が交際を始めた。",
+          npcFact("npc.dating", [p.id, other.id]),
+        );
       }
     }
     if (
@@ -265,7 +287,10 @@ export function npcMonth(
           kind: "married",
           since: s.month,
         });
-        log(p.name + "と" + other.name + "が結婚した。");
+        log(
+          p.name + "と" + other.name + "が結婚した。",
+          npcFact("npc.marriage", [p.id, other.id]),
+        );
       }
     }
     if (
@@ -284,7 +309,10 @@ export function npcMonth(
         other.childCount = p.childCount;
         other.lastChildMonth = s.month;
       }
-      log(p.name + "の家庭に子どもが生まれた。");
+      log(
+        p.name + "の家庭に子どもが生まれた。",
+        npcFact("npc.birth", [p.id, p.spouseId], { childCount: p.childCount }),
+      );
     }
   }
   if (s.month % 12 === 0) {
@@ -312,6 +340,7 @@ export function npcMonth(
           (kind === "friends"
             ? "は交流を続けている。"
             : "の意見がぶつかった。"),
+        npcFact("npc." + kind, [a.id, b.id]),
       );
     }
   }

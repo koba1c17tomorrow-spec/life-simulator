@@ -1,3 +1,4 @@
+import { recordNpcFact, shareWorldEvents } from "./npcEvents";
 import { validateRandomStreams, type RandomStreams } from "./randomStreams";
 import { recordWorldEvent, validateWorldHistory, type WorldHistory } from "./worldHistory";
 import { assertRawStateFormat, STATE_VERSION } from "./saveFormat";
@@ -123,7 +124,7 @@ export type EventDefinition = {
   choices?: Choice[];
   requires?: Requirement[];
 };
-export type LogEntry = { id: string; month: number; text: string };
+export type LogEntry = { id: string; month: number; text: string; worldEventId?: string };
 export type PendingChoice = {
   eventId: string;
   text: string;
@@ -372,12 +373,12 @@ export function advanceMonth(
       s,
       s.month,
       () => random(s),
-      (text) => log(s, text),
+      (text, fact) => recordNpcFact(s, text, fact),
     );
     npcMonth(
       s,
       () => random(s),
-      (text) => log(s, text),
+      (text, fact) => recordNpcFact(s, text, fact),
     );
     if (s.priority === "relationships") {
       for (const r of s.relations)
@@ -740,12 +741,12 @@ export function choose(
       r.trust = Math.max(0, Math.min(100, r.trust + c.relationshipDelta));
     }
   }
-  recordWorldEvent(s, {
+  const choiceEvent = recordWorldEvent(s, {
     month: s.month, kind: "pc.choice", personIds: ["player", ...(p.personId ? [p.personId] : [])],
     data: { eventId: p.eventId, choiceIndex: index, choiceLabel: c.label },
     visibility: "participants", pcKnowledge: { month: s.month, source: "direct" },
   });
-  log(s, `${p.text} → ${c.label}`);
+  log(s, `${p.text} → ${c.label}`, choiceEvent.id);
   s.pending = null;
   return advanceMonth(s, events);
 }
@@ -863,6 +864,7 @@ export function meetPerson(
         ],
   );
   log(s, message);
+  if (mode === "talk") shareWorldEvents(s, id);
   return s;
 }
 
@@ -988,6 +990,7 @@ export function normalizeGameState(value: unknown): GameState {
         e &&
         typeof e.id === "string" &&
         typeof e.text === "string" &&
+        (e.worldEventId === undefined || typeof e.worldEventId === "string") &&
         Number.isInteger(e.month),
     )
   )

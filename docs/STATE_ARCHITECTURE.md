@@ -73,3 +73,7 @@ UI・PWA・ゲームルールに変更はない。保存の識別・妥当性検
 ## P0-3追記
 
 任意のrandomStreams（基盤のみ、月次への全面適用保留）とworldHistory（構造化事実）を追加した。P0-2時点の現状表は上に履歴として保存する。GameStateの一括分割はしていない。責務・互換性は [RANDOM_AND_HISTORY](RANDOM_AND_HISTORY.md) を参照。
+
+## P1-1 / P1-2追記
+
+人物年齢は生存時に現在月、死亡時に任意deathMonthを使い、欠落は不明とする。新しいNPC通知はNpcFact→worldHistory→明示的な知識遷移→journalの順に分離した。更新callbackの型が公開根拠を要求し、文字列フィルタでは判定しない。詳細は [KNOWLEDGE_BOUNDARY](KNOWLEDGE_BOUNDARY.md)。旧PCログ・型のフラット構造は維持。
