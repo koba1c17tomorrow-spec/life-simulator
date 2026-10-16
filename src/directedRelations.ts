@@ -178,6 +178,9 @@ export function interact(
           : "挨拶を交わしたが、大きな変化はなかった。",
   };
 }
+export function registerInterest(s: SocialState, month: number, from: string, to: string, delta: number): void {
+  if ([from,to].every(id => id === "player" || s.people.some(p => p.id === id && p.alive))) add(edge(s,month,from,to),"attraction",delta);
+}
 export function observedAttitude(s: SocialState, id: string): string {
   return (
     s.relationshipModel?.edges.find((e) => e.from === id && e.to === "player")
