@@ -1,0 +1,938 @@
+{
+  "format": "life-simulator",
+  "formatVersion": 1,
+  "state": {
+    "education": "middle",
+    "career": "none",
+    "careerLevel": 0,
+    "experience": 0,
+    "graduatedUniversity": false,
+    "partnerId": null,
+    "spouseId": null,
+    "children": 0,
+    "monthlyIncome": 0,
+    "monthlyExpenses": 0,
+    "debt": 0,
+    "lastCareerPromptMonth": -999,
+    "lastChoiceMonth": 144,
+    "lastJobApplicationMonth": -999,
+    "worldId": "coastal",
+    "birthSeed": 7919,
+    "initialIdentityChoice": {},
+    "capabilities": {
+      "version": 1,
+      "observedSinceMonth": 0,
+      "legacyBaseline": false,
+      "skills": {
+        "learning": 9.022888946674628,
+        "professional": 0,
+        "communication": 29.274433149623245
+      },
+      "practice": {
+        "learning": 7.29999999999999,
+        "professional": 0,
+        "communication": 35
+      },
+      "revealedTraits": [
+        "quickLearner",
+        "creative"
+      ]
+    },
+    "version": 1,
+    "month": 144,
+    "seed": 3238643041,
+    "stats": {
+      "health": 84.08421765624689,
+      "happiness": 61.06413704418458,
+      "knowledge": 29.098999999999975,
+      "sociability": 41.51999999999973,
+      "money": 0
+    },
+    "history": [
+      {
+        "id": "log-25",
+        "month": 144,
+        "text": "ゆっくり休息した。"
+      },
+      {
+        "id": "log-24",
+        "month": 144,
+        "text": "中学校でどんな放課後を過ごそう？ → 放課後は自由に過ごす",
+        "worldEventId": "world-15"
+      },
+      {
+        "id": "log-23",
+        "month": 144,
+        "text": "中学校の時期を迎えた。"
+      },
+      {
+        "id": "log-22",
+        "month": 144,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-21",
+        "month": 144,
+        "text": "学年が進んだ。現在の学業成績は51点。"
+      },
+      {
+        "id": "log-20",
+        "month": 142,
+        "text": "樹と知り合った。",
+        "worldEventId": "world-14"
+      },
+      {
+        "id": "log-19",
+        "month": 132,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-18",
+        "month": 132,
+        "text": "学年が進んだ。現在の学業成績は51点。"
+      },
+      {
+        "id": "log-17",
+        "month": 120,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-16",
+        "month": 120,
+        "text": "学年が進んだ。現在の学業成績は51点。"
+      },
+      {
+        "id": "log-15",
+        "month": 108,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-14",
+        "month": 108,
+        "text": "学年が進んだ。現在の学業成績は50点。"
+      },
+      {
+        "id": "log-13",
+        "month": 96,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-12",
+        "month": 96,
+        "text": "学年が進んだ。現在の学業成績は50点。"
+      },
+      {
+        "id": "log-11",
+        "month": 91,
+        "text": "担任の先生から声をかけられ、親しく過ごした。",
+        "worldEventId": "world-13"
+      },
+      {
+        "id": "log-10",
+        "month": 84,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-9",
+        "month": 84,
+        "text": "千尋と知り合った。",
+        "worldEventId": "world-12"
+      },
+      {
+        "id": "log-8",
+        "month": 84,
+        "text": "学年が進んだ。現在の学業成績は50点。"
+      },
+      {
+        "id": "log-7",
+        "month": 80,
+        "text": "担任の先生から声をかけられ、親しく過ごした。",
+        "worldEventId": "world-11"
+      },
+      {
+        "id": "log-6",
+        "month": 72,
+        "text": "小学校の時期を迎えた。"
+      },
+      {
+        "id": "log-5",
+        "month": 72,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-4",
+        "month": 72,
+        "text": "学年が進んだ。現在の学業成績は50点。"
+      },
+      {
+        "id": "log-3",
+        "month": 18,
+        "text": "父から声をかけられ、親しく過ごした。",
+        "worldEventId": "world-4"
+      },
+      {
+        "id": "log-2",
+        "month": 17,
+        "text": "父から声をかけられ、親しく過ごした。",
+        "worldEventId": "world-3"
+      },
+      {
+        "id": "log-1",
+        "month": 7,
+        "text": "母から声をかけられ、親しく過ごした。",
+        "worldEventId": "world-2"
+      },
+      {
+        "id": "birth",
+        "month": 0,
+        "text": "あなたはこの世界に生まれた。"
+      }
+    ],
+    "lastSeen": {
+      "club-plan": 144
+    },
+    "pending": null,
+    "queue": [],
+    "monthStarted": false,
+    "finished": false,
+    "priority": "rest",
+    "lastActionMonth": 144,
+    "identity": {
+      "gender": "male",
+      "orientation": "heterosexual"
+    },
+    "traits": [
+      "creative",
+      "quickLearner"
+    ],
+    "origin": {
+      "parentTraits": [
+        [
+          "creative",
+          "frail",
+          "quickLearner"
+        ],
+        [
+          "careful",
+          "frail"
+        ]
+      ],
+      "wealth": "struggling",
+      "parentEducation": "vocational",
+      "upbringing": "supportive",
+      "siblings": 1,
+      "schoolPerformance": 51.2919999999998,
+      "universityAccepted": null,
+      "region": "coastal",
+      "parentOccupation": "会社員"
+    },
+    "jobId": null,
+    "autoChoices": true,
+    "insolvencyMonths": 0,
+    "npcLinks": [
+      {
+        "a": "mother",
+        "b": "father",
+        "kind": "friends",
+        "since": 119
+      },
+      {
+        "a": "teacher",
+        "b": "mother",
+        "kind": "friends",
+        "since": 123
+      },
+      {
+        "a": "father",
+        "b": "teacher",
+        "kind": "friends",
+        "since": 127
+      }
+    ],
+    "people": [
+      {
+        "gender": "female",
+        "orientation": "heterosexual",
+        "id": "mother",
+        "name": "母",
+        "kind": "family",
+        "birthMonth": -336,
+        "alive": true,
+        "traits": [
+          "creative",
+          "frail",
+          "quickLearner"
+        ],
+        "occupation": "employed",
+        "education": "vocational",
+        "personality": "kind",
+        "values": "family",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "gender": "male",
+        "orientation": "heterosexual",
+        "id": "father",
+        "name": "父",
+        "kind": "family",
+        "birthMonth": -360,
+        "alive": true,
+        "traits": [
+          "careful",
+          "frail"
+        ],
+        "occupation": "employed",
+        "education": "vocational",
+        "personality": "kind",
+        "values": "family",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "id": "teacher",
+        "name": "担任の先生",
+        "kind": "teacher",
+        "birthMonth": -360,
+        "alive": true,
+        "personality": "kind",
+        "occupation": "employed",
+        "education": "university",
+        "values": "career",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "gender": "female",
+        "orientation": "heterosexual",
+        "id": "friend-1",
+        "name": "千尋",
+        "kind": "friend",
+        "birthMonth": 0,
+        "alive": true,
+        "personality": "bold",
+        "values": "career",
+        "occupation": "student",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "gender": "male",
+        "orientation": "heterosexual",
+        "id": "friend-2",
+        "name": "樹",
+        "kind": "friend",
+        "birthMonth": -30,
+        "alive": true,
+        "personality": "kind",
+        "values": "family",
+        "occupation": "student",
+        "health": 85,
+        "childCount": 0
+      }
+    ],
+    "relations": [
+      {
+        "id": "mother",
+        "closeness": 100,
+        "trust": 100,
+        "lastContactMonth": 139
+      },
+      {
+        "id": "father",
+        "closeness": 100,
+        "trust": 97,
+        "lastContactMonth": 133
+      },
+      {
+        "id": "teacher",
+        "closeness": 100,
+        "trust": 77,
+        "lastContactMonth": 133
+      },
+      {
+        "id": "friend-1",
+        "closeness": 23.99999999999999,
+        "trust": 35,
+        "lastContactMonth": 84
+      },
+      {
+        "id": "friend-2",
+        "closeness": 35,
+        "trust": 35,
+        "lastContactMonth": 142
+      }
+    ],
+    "nextPersonId": 3,
+    "lastSocialTick": 144,
+    "lifetimeWork": 0,
+    "scholarship": false,
+    "illness": null,
+    "savings": 0,
+    "investments": 0,
+    "living": "standard",
+    "housing": "rent",
+    "purchases": {},
+    "benefits": {},
+    "lastSpendMonth": -1,
+    "restructured": false,
+    "unemployedMonths": 0,
+    "retired": false,
+    "tax": 0,
+    "expenseBreakdown": {},
+    "studyPath": "job",
+    "degree": null,
+    "club": "none",
+    "teacherSupport": 0.77,
+    "childhoodConfidence": 1.75,
+    "dropout": false,
+    "flags": {},
+    "workExperience": 0,
+    "logSequence": 25,
+    "stress": 0,
+    "illnessUntil": 0,
+    "caregivingMonths": 0,
+    "deathCause": null,
+    "timeline": [],
+    "scheduled": [],
+    "achievements": [],
+    "randomStreams": {
+      "version": 1,
+      "states": {
+        "pcHealth": 2647488609,
+        "npcRelations": 3271306526,
+        "events": 1033384175,
+        "worldSociety": 2299806808
+      }
+    },
+    "npcAgency": {
+      "version": 1,
+      "startMonth": 1,
+      "startSeed": 7919,
+      "streamSource": "currentSeed",
+      "lastTick": 144,
+      "actors": {
+        "father": {
+          "sinceMonth": 1,
+          "goal": "family",
+          "goalChangedMonth": 1,
+          "lastTick": 144,
+          "fatigue": 28.79999999999993,
+          "budgetMonth": 144,
+          "availableHours": 200,
+          "usedHours": 0,
+          "lastAction": {
+            "month": 133,
+            "kind": "contact-player",
+            "success": true,
+            "targetId": "player"
+          }
+        },
+        "mother": {
+          "sinceMonth": 1,
+          "goal": "family",
+          "goalChangedMonth": 69,
+          "lastTick": 144,
+          "fatigue": 28.59999999999993,
+          "budgetMonth": 144,
+          "availableHours": 200,
+          "usedHours": 0,
+          "lastAction": {
+            "month": 139,
+            "kind": "contact-player",
+            "success": true,
+            "targetId": "player"
+          }
+        },
+        "teacher": {
+          "sinceMonth": 72,
+          "goal": "connection",
+          "goalChangedMonth": 72,
+          "lastTick": 144,
+          "fatigue": 14.59999999999998,
+          "budgetMonth": 144,
+          "availableHours": 200,
+          "usedHours": 0,
+          "lastAction": {
+            "month": 133,
+            "kind": "contact-player",
+            "success": true,
+            "targetId": "player"
+          }
+        },
+        "friend-1": {
+          "sinceMonth": 84,
+          "goal": "connection",
+          "goalChangedMonth": 84,
+          "lastTick": null,
+          "fatigue": 0,
+          "budgetMonth": 144,
+          "availableHours": 360,
+          "usedHours": 0
+        },
+        "friend-2": {
+          "sinceMonth": 142,
+          "goal": "family",
+          "goalChangedMonth": 142,
+          "lastTick": null,
+          "fatigue": 0,
+          "budgetMonth": 144,
+          "availableHours": 360,
+          "usedHours": 0
+        }
+      },
+      "knownAfterEventId": 1,
+      "knownPeople": {
+        "father": {
+          "observedMonth": 1,
+          "afterEventId": 1,
+          "alive": true,
+          "occupation": "employed"
+        },
+        "mother": {
+          "observedMonth": 1,
+          "afterEventId": 1,
+          "alive": true,
+          "occupation": "employed"
+        },
+        "teacher": {
+          "observedMonth": 72,
+          "afterEventId": 9,
+          "alive": true,
+          "occupation": "employed"
+        },
+        "friend-1": {
+          "observedMonth": 84,
+          "afterEventId": 13,
+          "alive": true,
+          "occupation": "student"
+        },
+        "friend-2": {
+          "observedMonth": 142,
+          "afterEventId": 15,
+          "alive": true,
+          "occupation": "student"
+        }
+      },
+      "knownLinks": []
+    },
+    "timeBudget": {
+      "version": 1,
+      "month": 144,
+      "allocations": {
+        "睡眠": 240,
+        "休息": 60,
+        "家事": 60,
+        "学業": 140,
+        "仕事": 0,
+        "家庭": 0,
+        "療養": 0,
+        "疲労回復": 0,
+        "生活方針": 24
+      },
+      "activities": [
+        {
+          "kind": "rest",
+          "hours": 8
+        }
+      ],
+      "overload": 0,
+      "legacyBaseline": false,
+      "participation": {
+        "school": 140,
+        "work": 0
+      }
+    },
+    "relationshipModel": {
+      "version": 1,
+      "observedSinceMonth": 5,
+      "edges": [
+        {
+          "from": "father",
+          "to": "mother",
+          "sinceMonth": 5,
+          "liking": 74,
+          "trust": 66,
+          "closeness": 82,
+          "respect": 58,
+          "attraction": null
+        },
+        {
+          "from": "mother",
+          "to": "father",
+          "sinceMonth": 5,
+          "liking": 74,
+          "trust": 66,
+          "closeness": 82,
+          "respect": 58,
+          "attraction": null
+        },
+        {
+          "from": "mother",
+          "to": "player",
+          "sinceMonth": 7,
+          "liking": 89,
+          "trust": 76,
+          "closeness": 100,
+          "respect": 63,
+          "attraction": null,
+          "observed": {
+            "month": 139,
+            "attitude": "会話や同席に応じ、穏やかに過ごした"
+          }
+        },
+        {
+          "from": "player",
+          "to": "mother",
+          "sinceMonth": 7,
+          "liking": 89,
+          "trust": null,
+          "closeness": null,
+          "respect": 63,
+          "attraction": null
+        },
+        {
+          "from": "father",
+          "to": "player",
+          "sinceMonth": 17,
+          "liking": 83,
+          "trust": 72,
+          "closeness": 94,
+          "respect": 61,
+          "attraction": null,
+          "observed": {
+            "month": 133,
+            "attitude": "会話や同席に応じ、穏やかに過ごした"
+          }
+        },
+        {
+          "from": "player",
+          "to": "father",
+          "sinceMonth": 17,
+          "liking": 83,
+          "trust": null,
+          "closeness": null,
+          "respect": 61,
+          "attraction": null
+        },
+        {
+          "from": "teacher",
+          "to": "father",
+          "sinceMonth": 73,
+          "liking": 62,
+          "trust": 58,
+          "closeness": 66,
+          "respect": 54,
+          "attraction": null
+        },
+        {
+          "from": "father",
+          "to": "teacher",
+          "sinceMonth": 73,
+          "liking": 62,
+          "trust": 58,
+          "closeness": 66,
+          "respect": 54,
+          "attraction": null
+        },
+        {
+          "from": "teacher",
+          "to": "mother",
+          "sinceMonth": 78,
+          "liking": 65,
+          "trust": 60,
+          "closeness": 70,
+          "respect": 55,
+          "attraction": null
+        },
+        {
+          "from": "mother",
+          "to": "teacher",
+          "sinceMonth": 78,
+          "liking": 65,
+          "trust": 60,
+          "closeness": 70,
+          "respect": 55,
+          "attraction": null
+        },
+        {
+          "from": "teacher",
+          "to": "player",
+          "sinceMonth": 80,
+          "liking": 83,
+          "trust": 72,
+          "closeness": 94,
+          "respect": 61,
+          "attraction": null,
+          "observed": {
+            "month": 133,
+            "attitude": "会話や同席に応じ、穏やかに過ごした"
+          }
+        },
+        {
+          "from": "player",
+          "to": "teacher",
+          "sinceMonth": 80,
+          "liking": 83,
+          "trust": null,
+          "closeness": null,
+          "respect": 61,
+          "attraction": null
+        }
+      ],
+      "lastInteraction": {
+        "month": 139,
+        "from": "mother",
+        "to": "player",
+        "outcome": 1
+      }
+    },
+    "worldHistory": {
+      "version": 1,
+      "nextId": 16,
+      "events": [
+        {
+          "kind": "npc.social",
+          "personIds": [
+            "father",
+            "mother"
+          ],
+          "data": {
+            "relationship": "friends",
+            "text": "父と母は交流し、親しく過ごした。"
+          },
+          "visibility": "private",
+          "month": 5,
+          "id": "world-1"
+        },
+        {
+          "kind": "npc.contact",
+          "personIds": [
+            "mother",
+            "player"
+          ],
+          "data": {
+            "text": "母から声をかけられ、親しく過ごした。"
+          },
+          "visibility": "participants",
+          "month": 7,
+          "id": "world-2",
+          "pcKnowledge": {
+            "month": 7,
+            "source": "direct"
+          }
+        },
+        {
+          "kind": "npc.contact",
+          "personIds": [
+            "father",
+            "player"
+          ],
+          "data": {
+            "text": "父から声をかけられ、親しく過ごした。"
+          },
+          "visibility": "participants",
+          "month": 17,
+          "id": "world-3",
+          "pcKnowledge": {
+            "month": 17,
+            "source": "direct"
+          }
+        },
+        {
+          "kind": "npc.contact",
+          "personIds": [
+            "father",
+            "player"
+          ],
+          "data": {
+            "text": "父から声をかけられ、親しく過ごした。"
+          },
+          "visibility": "participants",
+          "month": 18,
+          "id": "world-4",
+          "pcKnowledge": {
+            "month": 18,
+            "source": "direct"
+          }
+        },
+        {
+          "kind": "npc.employment",
+          "personIds": [
+            "mother"
+          ],
+          "data": {
+            "occupation": "unemployed",
+            "text": "母は仕事を離れ、次の生活を考え始めた。"
+          },
+          "visibility": "private",
+          "month": 67,
+          "id": "world-5"
+        },
+        {
+          "kind": "npc.goal",
+          "personIds": [
+            "mother"
+          ],
+          "data": {
+            "goal": "stability",
+            "disclosable": false,
+            "text": "母は生活の優先事項を見直した。"
+          },
+          "visibility": "private",
+          "month": 68,
+          "id": "world-6"
+        },
+        {
+          "kind": "npc.employment",
+          "personIds": [
+            "mother"
+          ],
+          "data": {
+            "occupation": "employed",
+            "text": "母は仕事を探し、新しい職に就いた。"
+          },
+          "visibility": "private",
+          "month": 68,
+          "id": "world-7"
+        },
+        {
+          "kind": "npc.goal",
+          "personIds": [
+            "mother"
+          ],
+          "data": {
+            "goal": "family",
+            "disclosable": false,
+            "text": "母は生活の優先事項を見直した。"
+          },
+          "visibility": "private",
+          "month": 69,
+          "id": "world-8"
+        },
+        {
+          "kind": "npc.social",
+          "personIds": [
+            "teacher",
+            "father"
+          ],
+          "data": {
+            "relationship": "friends",
+            "text": "担任の先生と父は交流し、親しく過ごした。"
+          },
+          "visibility": "private",
+          "month": 73,
+          "id": "world-9"
+        },
+        {
+          "kind": "npc.social",
+          "personIds": [
+            "teacher",
+            "mother"
+          ],
+          "data": {
+            "relationship": "friends",
+            "text": "担任の先生と母は交流し、親しく過ごした。"
+          },
+          "visibility": "private",
+          "month": 78,
+          "id": "world-10"
+        },
+        {
+          "kind": "npc.contact",
+          "personIds": [
+            "teacher",
+            "player"
+          ],
+          "data": {
+            "text": "担任の先生から声をかけられ、親しく過ごした。"
+          },
+          "visibility": "participants",
+          "month": 80,
+          "id": "world-11",
+          "pcKnowledge": {
+            "month": 80,
+            "source": "direct"
+          }
+        },
+        {
+          "kind": "npc.encounter",
+          "personIds": [
+            "player",
+            "friend-1"
+          ],
+          "data": {
+            "text": "千尋と知り合った。"
+          },
+          "visibility": "participants",
+          "month": 84,
+          "id": "world-12",
+          "pcKnowledge": {
+            "month": 84,
+            "source": "direct"
+          }
+        },
+        {
+          "kind": "npc.contact",
+          "personIds": [
+            "teacher",
+            "player"
+          ],
+          "data": {
+            "text": "担任の先生から声をかけられ、親しく過ごした。"
+          },
+          "visibility": "participants",
+          "month": 91,
+          "id": "world-13",
+          "pcKnowledge": {
+            "month": 91,
+            "source": "direct"
+          }
+        },
+        {
+          "kind": "npc.encounter",
+          "personIds": [
+            "player",
+            "friend-2"
+          ],
+          "data": {
+            "text": "樹と知り合った。"
+          },
+          "visibility": "participants",
+          "month": 142,
+          "id": "world-14",
+          "pcKnowledge": {
+            "month": 142,
+            "source": "direct"
+          }
+        },
+        {
+          "month": 144,
+          "kind": "pc.choice",
+          "personIds": [
+            "player"
+          ],
+          "data": {
+            "eventId": "club-plan",
+            "choiceIndex": 3,
+            "choiceLabel": "放課後は自由に過ごす"
+          },
+          "visibility": "participants",
+          "pcKnowledge": {
+            "month": 144,
+            "source": "direct"
+          },
+          "id": "world-15"
+        }
+      ]
+    },
+    "focusPlan": {
+      "month": 144,
+      "kind": "rest",
+      "intensity": 1,
+      "status": "executed",
+      "actualHours": 8,
+      "reason": ""
+    }
+  }
+}
