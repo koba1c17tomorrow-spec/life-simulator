@@ -77,3 +77,7 @@ UI・PWA・ゲームルールに変更はない。保存の識別・妥当性検
 ## P1-1 / P1-2追記
 
 人物年齢は生存時に現在月、死亡時に任意deathMonthを使い、欠落は不明とする。新しいNPC通知はNpcFact→worldHistory→明示的な知識遷移→journalの順に分離した。更新callbackの型が公開根拠を要求し、文字列フィルタでは判定しない。詳細は [KNOWLEDGE_BOUNDARY](KNOWLEDGE_BOUNDARY.md)。旧PCログ・型のフラット構造は維持。
+
+## P2-1 実装差分
+
+資質traitsと基礎能力statsを正本として維持。任意のcapabilitiesに導入後の専門技能/観測量/公開済み資質だけを分離した。学歴・職歴・資格は既存フィールドのまま参照する。[CAPABILITIES](CAPABILITIES.md)参照。大規模なGameState分割とNPCの完全な技能モデルは未実装。

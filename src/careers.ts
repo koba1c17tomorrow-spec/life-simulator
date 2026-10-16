@@ -1,3 +1,4 @@
+import type { Capabilities } from "./capabilities";
 import type { Career } from "./progression";
 export type JobId =
   | "retail"
@@ -243,6 +244,7 @@ export function jobOffers(
     .map((x) => x.job);
 }
 export type HiringContext = {
+  capabilities?: Capabilities;
   stats: { knowledge: number; sociability: number; health: number };
   graduatedUniversity: boolean;
   workExperience?: number;
@@ -258,6 +260,7 @@ export function hiringFactors(
 ): Record<string, number> {
   return {
     基礎: 45,
+    習得技能: Math.min(5, ((s.capabilities?.skills.professional ?? 0) + (s.capabilities?.skills.communication ?? 0)) / 40),
     知識適性: (s.stats.knowledge - job.knowledge) * 0.5,
     対人適性: (s.stats.sociability - job.sociability) * 0.35,
     健康: (s.stats.health - 50) * 0.12,

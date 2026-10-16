@@ -1,3 +1,5 @@
+import { CapabilityPanel } from "./CapabilityPanel";
+import { visibleTraits } from "./capabilities";
 import { PwaStatus } from "./PwaStatus";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -248,7 +250,7 @@ function App() {
             {orientationLabel(game.identity.orientation)}
           </div>
           <div className="hint">
-            特性：{game.traits.map((t) => traitNames[t]).join("・")}
+            特性：{visibleTraits(game).map((t) => traitNames[t]).join("・")}
           </div>
           <div className="muted" role="status">
             {game.finished
@@ -400,6 +402,7 @@ function App() {
           )}
           {tab === "status" && (
             <div className="summary">
+              <CapabilityPanel game={game} />
               <h3>出生条件と個性</h3>
               <p>
                 家庭：{wealthNames[game.origin.wealth]} ／{" "}
@@ -417,7 +420,7 @@ function App() {
                   ]
                 }
               </p>
-              {game.traits.map((t) => (
+              {visibleTraits(game).map((t) => (
                 <p key={t}>
                   <strong>{traitNames[t]}</strong>：{traitDescriptions[t]}
                 </p>

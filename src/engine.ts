@@ -1,3 +1,4 @@
+import { initialCapabilities, practiceSkill, validateCapabilities, type Capabilities } from "./capabilities";
 import { recordNpcFact, shareWorldEvents } from "./npcEvents";
 import { validateRandomStreams, type RandomStreams } from "./randomStreams";
 import { recordWorldEvent, validateWorldHistory, type WorldHistory } from "./worldHistory";
@@ -145,6 +146,7 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    capabilities?: Capabilities;
     version: 1;
     randomStreams?: RandomStreams;
     worldHistory?: WorldHistory;
@@ -195,6 +197,7 @@ export function newGame(
     worldId,
     birthSeed: seed >>> 0,
     initialIdentityChoice: { ...identityChoice },
+    capabilities: initialCapabilities(),
     version: STATE_VERSION,
     month: 0,
     seed: seed >>> 0,
@@ -414,6 +417,8 @@ export function advanceMonth(
       (text) => log(s, text),
     );
     progressionMonth(s, (text) => log(s, text));
+    if (s.month >= 72 && s.education !== "working" && s.education !== "preschool") practiceSkill(s, "learning", 0.1);
+    if (s.career !== "none" && !s.retired && s.month >= 192) practiceSkill(s, "professional", 0.1);
     settleBudget(
       s,
       () => random(s),
@@ -840,6 +845,7 @@ export function takeAction(
   );
   if (kind === "study" && s.traits?.includes("quickLearner"))
     applyEffects(s, [{ stat: "knowledge", delta: s.month < 72 ? 0.04 : 0.8 }]);
+  if (kind !== "rest") practiceSkill(s, kind === "study" ? "learning" : "professional");
   log(s, a.text);
   return s;
 }
@@ -867,6 +873,7 @@ export function meetPerson(
           { stat: "sociability", delta: 1 },
         ],
   );
+  practiceSkill(s, "communication");
   log(s, message);
   if (mode === "talk") shareWorldEvents(s, id);
   return s;
@@ -1007,6 +1014,8 @@ export function normalizeGameState(value: unknown): GameState {
       origin: { ...base.origin, ...v.origin },
     }),
   );
+  if (v.capabilities === undefined) delete s.capabilities;
+  else validateCapabilities(v.capabilities, s.month, s.traits);
   s.birthSeed = v.birthSeed ?? null;
   s.initialIdentityChoice = v.initialIdentityChoice ?? {};
   const options: Record<string, readonly string[]> = {
