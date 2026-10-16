@@ -1,3 +1,4 @@
+import { observeNpcTiers, validateNpcTiers, type NpcTiers } from "./npcTiers";
 import { prepareNpcAgency, npcAgencyMonth, npcReply, npcFreeHours, reserveNpcHours, validateNpcAgency } from "./npcAgency";
 import { registerInterest } from "./directedRelations";
 import { validateRelationshipModel } from "./directedRelations";
@@ -150,6 +151,7 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    npcTiers?: NpcTiers;
     timeBudget?: TimeBudget;
     focusPlan?: FocusPlan;
     capabilities?: Capabilities;
@@ -394,6 +396,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
       (text, fact) => recordNpcFact(s, text, fact),
     );
     prepareNpcAgency(s);
+    const detailedNpcIds = s.people.filter(p=>p.alive).map(p=>p.id);
     npcMonth(
       s,
       () => random(s),
@@ -438,6 +441,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
     practiceHours(s, "learning", s.timeBudget.participation.school, "school");
     practiceHours(s, "professional", s.timeBudget.participation.work, "job");
     npcAgencyMonth(s);
+    observeNpcTiers(s,detailedNpcIds);
     settleBudget(
       s,
       () => random(s),
@@ -932,6 +936,7 @@ export function meetPerson(
   practiceHours(s, "communication", 8);
   log(s, message);
   if (mode === "talk") shareWorldEvents(s, id);
+  if (s.npcTiers) observeNpcTiers(s);
   return s;
 }
 
@@ -1075,6 +1080,7 @@ export function normalizeGameState(value: unknown): GameState {
   validateTimeExtensions(s);
   validateRelationshipModel(s);
   validateNpcAgency(s);
+  validateNpcTiers(s);
   s.birthSeed = v.birthSeed ?? null;
   s.initialIdentityChoice = v.initialIdentityChoice ?? {};
   const options: Record<string, readonly string[]> = {

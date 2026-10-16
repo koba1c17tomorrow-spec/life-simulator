@@ -1,0 +1,1896 @@
+{
+  "sourceBase": "48ae9a8ad8baef18d66cfa03db180da29b5d270e",
+  "sourceHashes": {
+    "src/CapabilityPanel.tsx": "b2843cf67a503076efd94586421036f0f8d2ee9612ce2173a953de1dfe6588d3",
+    "src/FocusControls.tsx": "015a53afe47f12a2f9fc4001579d0ca7987f045be94ad7dbf53024928c4428a1",
+    "src/PwaStatus.tsx": "541ab8ae6a18058701c03f8822df9f2d4377dcfe263322314e6083c85f203fc6",
+    "src/balance.ts": "dd8fafdc5998ecc2a3fda301f683f84ebc97e1afe58ce99b302b319e94ec0cda",
+    "src/capabilities.ts": "877d2fffcb3a20d68dca865113462a1b66e36711902abd2ba0058a14c1cbb86c",
+    "src/careers.ts": "6d12c38c0c7745376da08bef3c356488f791ba51182c1476320cc504c23fe2df",
+    "src/content.ts": "3c9395ea79a93d24035d9e7f8ff12e8274361d4c4c464480e739e65aa6a206e9",
+    "src/directedRelations.ts": "896eb4d088fb30bbbe095530d8e7d0728b759ee3bff160b1437a47bcb54cedf4",
+    "src/economy.ts": "3c2f027b642a9594b574dcf39e3189adb2fcd6f804bb781e01a214df120d2b50",
+    "src/education.ts": "d262c279b5891b695b2dd9649d7a3be259d8aba084d13fb2bf0e10d257fee695",
+    "src/engine.ts": "a4b6ca80e257c89a2ce7c503b6208193852de98eeb23f8e40f4da972867fe9ba",
+    "src/eventRules.ts": "3393dcabb129ae5303ce08b1f158dcc2fc9243641182555cdc902ffa8eb04266",
+    "src/health.ts": "b57df98d38414c5e7f6305f12f51aa1dcd06d229a322d5c993f95ce1a719d7ae",
+    "src/identity.ts": "362931a7cca050954ae59aefd33e19fa90b8ca816208338724732007115478a8",
+    "src/journal.ts": "a53b0dc110d494b9fc0e8e35c169182aee2e0e891a200bab3d745fc6038da91f",
+    "src/main.tsx": "03b832bf8191a530d2bfea226511238f0deebbb0e8c7b469c8fd9de52f6495f8",
+    "src/npcAgency.ts": "91317c3d8c76dece15282373384e8fc572d1d311029dd76cec6a6118f2c97aed",
+    "src/npcEvents.ts": "3f651c42ed590779b43592893b19b04d3255d5e1e3f57920477475ff99aab2a6",
+    "src/npcKnowledgeView.ts": "b9d6bbcb843ab6b5ef1dc66f2a67ce91628e0899c1d2cbc8b02991507d247d08",
+    "src/npcTiers.ts": "60786681edae00adb3c933dee56998e02e2b9200b2b3cc2706b5b3907c485db6",
+    "src/origins.ts": "b98f818906fcfe6087665c75a15b7cfcaeff359b8810c96451dccbb4eb52b250",
+    "src/panels.tsx": "327182693a2426318fea7f9624af73c7fcf84cf6a26ab21c7d097f110b0a075a",
+    "src/progression.ts": "a0dd66a81b4568ebbdfbcd7e38405bf50979fe97d4efcb5bb14a9a4fd25973a8",
+    "src/randomStreams.ts": "1231500d17e26ae648e07b943f87d9e6dac1fc5dbd74b5903d9caa92e2d05c7f",
+    "src/relationships.ts": "1c1d7baa668ba4e48a070f3be43d0765d3a12c6cda12850fd84ffa69bec2fd7a",
+    "src/saveFormat.ts": "e07a3f34befe024ee94e5e613352265914774147af6b5ad83276e9797c48a680",
+    "src/saves.ts": "b652b7855ade7e461b9e1d2804a9c2112e2f106f5c31a37950c8f486f00898eb",
+    "src/social.ts": "0286e58778783c95f3a5061cfaa34394be4ea4e61df387e062413ba84ee4767b",
+    "src/timeBudget.ts": "61dced62ecd717b6269aa6d1c248ac33454908d398386fece0f2aa0ed5e4a885",
+    "src/traits.ts": "1b098cadd6668bbb2d149acf3f6721cdcdd2a4b3b82d136ddf8e7cf04cf130c0",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "src/worldHistory.ts": "ac4c80d62b7906f7b8b91fb1272a9a352aa8a517271828580ec150220b7ecb6f",
+    "scripts/npc-performance-study.mjs": "5de15deb0ebdb4a16c48a5850ee36856c517c4c90c0eb4ca166269d2afd57f44"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "vite": "7.3.7",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "cpuCount": 5
+  },
+  "plan": {
+    "seeds": [
+      42,
+      7919,
+      20261016
+    ],
+    "populations": [
+      20,
+      50,
+      100
+    ],
+    "months": 1200,
+    "modes": [
+      "baseline-full",
+      "observed-full"
+    ],
+    "scope": "NPC subsystem plus full state clone; excludes PC health/economy/events",
+    "repetition": 1,
+    "realLazyUpdates": false
+  },
+  "completed": true,
+  "rows": [
+    {
+      "seed": 42,
+      "count": 20,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 1019.5136289999992,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.24242500000002565,
+          "median": 0.9257284999999342,
+          "p90": 1.1210642000000464,
+          "max": 3.238615999999979,
+          "mean": 0.8495946908333327
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.24242500000002565,
+          "median": 0.41266149999998447,
+          "p90": 0.5512720000000002,
+          "max": 3.238615999999979,
+          "mean": 0.4491194916666667
+        },
+        "blocks120Ms": [
+          53.894339,
+          62.09692400000006,
+          73.60141799999991,
+          90.28715000000022,
+          110.94903899999986,
+          119.81332599999905,
+          125.44720300000006,
+          129.62649600000032,
+          125.53537999999912,
+          128.26235400000064
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 20,
+            "tiers": {
+              "Active": 3,
+              "Dormant": 17,
+              "Archived": 0
+            },
+            "saveChars": 25171,
+            "saveBytes": 25443,
+            "events": 1,
+            "edges": 2
+          },
+          {
+            "month": 120,
+            "population": 20,
+            "tiers": {
+              "Active": 6,
+              "Dormant": 14,
+              "Archived": 0
+            },
+            "saveChars": 73782,
+            "saveBytes": 78322,
+            "events": 73,
+            "edges": 56
+          },
+          {
+            "month": 600,
+            "population": 20,
+            "tiers": {
+              "Active": 11,
+              "Dormant": 8,
+              "Archived": 1
+            },
+            "saveChars": 175940,
+            "saveBytes": 189870,
+            "events": 302,
+            "edges": 108
+          },
+          {
+            "month": 1200,
+            "population": 20,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 20
+            },
+            "saveChars": 219538,
+            "saveBytes": 237296,
+            "events": 406,
+            "edges": 140
+          }
+        ],
+        "recontact": {
+          "target": "bench-003",
+          "tier": "Dormant",
+          "latencyMs": 1.8031949999999597,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 219538,
+        "saveBytes": 237296,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "b440f536244679ba1d6be9cda00b3521334b06ae7fabbd3d2303b9c873370b0a"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 1008.2650289999976,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.2397409999998672,
+          "median": 0.9273759999999811,
+          "p90": 1.086489999999958,
+          "max": 1.7123380000002726,
+          "mean": 0.8402208574999981
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.2397409999998672,
+          "median": 0.4135875000000624,
+          "p90": 0.640893999999912,
+          "max": 1.1747089999998934,
+          "mean": 0.44149883333333645
+        },
+        "blocks120Ms": [
+          52.97986000000037,
+          60.60877800000094,
+          75.62892500000089,
+          86.51800199999911,
+          111.33481000000006,
+          114.72289800000021,
+          122.15496499999813,
+          128.43780099999867,
+          127.49985599999809,
+          128.37913400000116
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 20,
+            "tiers": {
+              "Active": 3,
+              "Dormant": 17,
+              "Archived": 0
+            },
+            "saveChars": 27239,
+            "saveBytes": 27511,
+            "events": 1,
+            "edges": 2
+          },
+          {
+            "month": 120,
+            "population": 20,
+            "tiers": {
+              "Active": 6,
+              "Dormant": 14,
+              "Archived": 0
+            },
+            "saveChars": 75889,
+            "saveBytes": 80429,
+            "events": 73,
+            "edges": 56
+          },
+          {
+            "month": 600,
+            "population": 20,
+            "tiers": {
+              "Active": 11,
+              "Dormant": 8,
+              "Archived": 1
+            },
+            "saveChars": 178043,
+            "saveBytes": 191973,
+            "events": 302,
+            "edges": 108
+          },
+          {
+            "month": 1200,
+            "population": 20,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 20
+            },
+            "saveChars": 221672,
+            "saveBytes": 239430,
+            "events": 406,
+            "edges": 140
+          }
+        ],
+        "recontact": {
+          "target": "bench-003",
+          "tier": "Dormant",
+          "latencyMs": 1.0548280000000432,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 221672,
+        "saveBytes": 239430,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "b440f536244679ba1d6be9cda00b3521334b06ae7fabbd3d2303b9c873370b0a"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 7919,
+      "count": 20,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 898.9837570000109,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.1935920000000806,
+          "median": 0.8482724999998936,
+          "p90": 0.978168199999982,
+          "max": 1.7246260000001712,
+          "mean": 0.7491531308333425
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.1935920000000806,
+          "median": 0.3099365000000489,
+          "p90": 0.39564200000022537,
+          "max": 0.5748150000003989,
+          "mean": 0.3143728083333561
+        },
+        "blocks120Ms": [
+          37.72473700000273,
+          55.1072830000021,
+          66.58605600000192,
+          77.38969400000224,
+          100.34777600000189,
+          106.52129600000126,
+          113.331490999999,
+          114.2101290000005,
+          115.71600900000067,
+          112.04928599999857
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 20,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 18,
+              "Archived": 0
+            },
+            "saveChars": 25306,
+            "saveBytes": 25574,
+            "events": 1,
+            "edges": 2
+          },
+          {
+            "month": 120,
+            "population": 20,
+            "tiers": {
+              "Active": 8,
+              "Dormant": 12,
+              "Archived": 0
+            },
+            "saveChars": 65811,
+            "saveBytes": 69429,
+            "events": 60,
+            "edges": 48
+          },
+          {
+            "month": 600,
+            "population": 20,
+            "tiers": {
+              "Active": 12,
+              "Dormant": 7,
+              "Archived": 1
+            },
+            "saveChars": 161140,
+            "saveBytes": 173324,
+            "events": 268,
+            "edges": 104
+          },
+          {
+            "month": 1200,
+            "population": 20,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 20
+            },
+            "saveChars": 203400,
+            "saveBytes": 219070,
+            "events": 371,
+            "edges": 136
+          }
+        ],
+        "recontact": {
+          "target": "bench-009",
+          "tier": "Dormant",
+          "latencyMs": 0.9521629999999277,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 203400,
+        "saveBytes": 219070,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "b5a8c04f9e3136739ccaf38b17de18c47b6e79424292eb37d2266312fd40055f"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 916.5457869999991,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.2056190000002971,
+          "median": 0.8548969999999372,
+          "p90": 1.0326541999999792,
+          "max": 1.8384780000001228,
+          "mean": 0.7637881558333326
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.2056190000002971,
+          "median": 0.3288199999999506,
+          "p90": 0.3842831000003117,
+          "max": 0.6148560000001453,
+          "mean": 0.3249154416666518
+        },
+        "blocks120Ms": [
+          38.98985299999822,
+          51.0490730000015,
+          64.36977599999864,
+          78.1571899999999,
+          99.99531499999648,
+          111.6641920000011,
+          118.82009200000039,
+          117.78484499999968,
+          118.09387299999935,
+          117.62157800000386
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 20,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 18,
+              "Archived": 0
+            },
+            "saveChars": 27375,
+            "saveBytes": 27643,
+            "events": 1,
+            "edges": 2
+          },
+          {
+            "month": 120,
+            "population": 20,
+            "tiers": {
+              "Active": 8,
+              "Dormant": 12,
+              "Archived": 0
+            },
+            "saveChars": 67916,
+            "saveBytes": 71534,
+            "events": 60,
+            "edges": 48
+          },
+          {
+            "month": 600,
+            "population": 20,
+            "tiers": {
+              "Active": 12,
+              "Dormant": 7,
+              "Archived": 1
+            },
+            "saveChars": 163242,
+            "saveBytes": 175426,
+            "events": 268,
+            "edges": 104
+          },
+          {
+            "month": 1200,
+            "population": 20,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 20
+            },
+            "saveChars": 205534,
+            "saveBytes": 221204,
+            "events": 371,
+            "edges": 136
+          }
+        ],
+        "recontact": {
+          "target": "bench-009",
+          "tier": "Dormant",
+          "latencyMs": 1.0353090000003249,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 205534,
+        "saveBytes": 221204,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "b5a8c04f9e3136739ccaf38b17de18c47b6e79424292eb37d2266312fd40055f"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 20261016,
+      "count": 20,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 1010.4088420000053,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.21487299999989773,
+          "median": 0.9552730000000338,
+          "p90": 1.1167052000001607,
+          "max": 2.0848780000005718,
+          "mean": 0.8420073683333378
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.21487299999989773,
+          "median": 0.34570099999973536,
+          "p90": 0.4045633000002454,
+          "max": 1.112014000000272,
+          "mean": 0.3442300583332553
+        },
+        "blocks120Ms": [
+          41.30760699999064,
+          59.85023000000092,
+          72.36637500000325,
+          92.54820500000187,
+          120.13324800000191,
+          122.04910299999938,
+          126.01180199999908,
+          125.694553000003,
+          124.85239200000069,
+          125.59532700000454
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 20,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 18,
+              "Archived": 0
+            },
+            "saveChars": 23632,
+            "saveBytes": 23792,
+            "events": 0,
+            "edges": 0
+          },
+          {
+            "month": 120,
+            "population": 20,
+            "tiers": {
+              "Active": 7,
+              "Dormant": 13,
+              "Archived": 0
+            },
+            "saveChars": 71109,
+            "saveBytes": 75145,
+            "events": 66,
+            "edges": 58
+          },
+          {
+            "month": 600,
+            "population": 20,
+            "tiers": {
+              "Active": 10,
+              "Dormant": 7,
+              "Archived": 3
+            },
+            "saveChars": 186277,
+            "saveBytes": 200817,
+            "events": 324,
+            "edges": 124
+          },
+          {
+            "month": 1200,
+            "population": 20,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 20
+            },
+            "saveChars": 219748,
+            "saveBytes": 236948,
+            "events": 403,
+            "edges": 158
+          }
+        ],
+        "recontact": {
+          "target": "bench-002",
+          "tier": "Dormant",
+          "latencyMs": 1.095209000000068,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 219748,
+        "saveBytes": 236948,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "38cfb94279fc7a582e4e42f256fa6c6cc6a1c4e836bc281d805659ab786a4217"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 1058.3402490000062,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.24182400000063353,
+          "median": 0.9703460000000632,
+          "p90": 1.12567399999989,
+          "max": 16.109973999999966,
+          "mean": 0.8819502075000052
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.24182400000063353,
+          "median": 0.39105400000016743,
+          "p90": 0.5272791000002144,
+          "max": 0.98957000000064,
+          "mean": 0.4123984583333974
+        },
+        "blocks120Ms": [
+          49.487815000007686,
+          83.08039099999496,
+          77.70773300000474,
+          96.95518600000014,
+          117.92636600000151,
+          122.4389950000068,
+          127.43581299999823,
+          130.12847199999578,
+          127.52978500000063,
+          125.64969299999575
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 20,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 18,
+              "Archived": 0
+            },
+            "saveChars": 25701,
+            "saveBytes": 25861,
+            "events": 0,
+            "edges": 0
+          },
+          {
+            "month": 120,
+            "population": 20,
+            "tiers": {
+              "Active": 7,
+              "Dormant": 13,
+              "Archived": 0
+            },
+            "saveChars": 73215,
+            "saveBytes": 77251,
+            "events": 66,
+            "edges": 58
+          },
+          {
+            "month": 600,
+            "population": 20,
+            "tiers": {
+              "Active": 10,
+              "Dormant": 7,
+              "Archived": 3
+            },
+            "saveChars": 188383,
+            "saveBytes": 202923,
+            "events": 324,
+            "edges": 124
+          },
+          {
+            "month": 1200,
+            "population": 20,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 20
+            },
+            "saveChars": 221882,
+            "saveBytes": 239082,
+            "events": 403,
+            "edges": 158
+          }
+        ],
+        "recontact": {
+          "target": "bench-002",
+          "tier": "Dormant",
+          "latencyMs": 1.1175029999994877,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 221882,
+        "saveBytes": 239082,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "38cfb94279fc7a582e4e42f256fa6c6cc6a1c4e836bc281d805659ab786a4217"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 42,
+      "count": 50,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 2430.5829349999813,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.5241790000000037,
+          "median": 2.283046999999442,
+          "p90": 2.7263160999995306,
+          "max": 5.402652999999191,
+          "mean": 2.025485779166651
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.5241790000000037,
+          "median": 0.8639760000000933,
+          "p90": 1.142333199999939,
+          "max": 3.3049950000004173,
+          "mean": 0.9076063666666186
+        },
+        "blocks120Ms": [
+          108.91276399999424,
+          140.58648400000402,
+          174.02889799999866,
+          204.56739999999445,
+          263.59742899999856,
+          291.1936509999996,
+          312.1802159999979,
+          311.45772900000793,
+          311.5487319999884,
+          312.5096319999975
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 50,
+            "tiers": {
+              "Active": 4,
+              "Dormant": 46,
+              "Archived": 0
+            },
+            "saveChars": 57747,
+            "saveBytes": 58317,
+            "events": 3,
+            "edges": 6
+          },
+          {
+            "month": 120,
+            "population": 50,
+            "tiers": {
+              "Active": 15,
+              "Dormant": 35,
+              "Archived": 0
+            },
+            "saveChars": 161295,
+            "saveBytes": 170491,
+            "events": 149,
+            "edges": 130
+          },
+          {
+            "month": 600,
+            "population": 50,
+            "tiers": {
+              "Active": 26,
+              "Dormant": 17,
+              "Archived": 7
+            },
+            "saveChars": 406114,
+            "saveBytes": 438202,
+            "events": 697,
+            "edges": 254
+          },
+          {
+            "month": 1200,
+            "population": 50,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 50
+            },
+            "saveChars": 523270,
+            "saveBytes": 564422,
+            "events": 932,
+            "edges": 394
+          }
+        ],
+        "recontact": {
+          "target": "bench-007",
+          "tier": "Dormant",
+          "latencyMs": 2.215897000000041,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 523270,
+        "saveBytes": 564422,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "e83a5c65aa56b55a5e7e442034ada1d7166f96beff5b67735ebe1910f80c93dc"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 2451.67848599999,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.4973489999993035,
+          "median": 2.29204049999953,
+          "p90": 2.694733600000473,
+          "max": 5.0724669999999605,
+          "mean": 2.0430654049999917
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.4973489999993035,
+          "median": 0.8582519999999931,
+          "p90": 1.0583412999994835,
+          "max": 1.7046169999994163,
+          "mean": 0.8696906916666042
+        },
+        "blocks120Ms": [
+          104.36288299999251,
+          145.2422310000038,
+          182.79031100000793,
+          228.83679399999892,
+          261.6028679999854,
+          289.7404340000012,
+          297.7125039999937,
+          333.0488420000056,
+          314.691381000006,
+          293.6502379999947
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 50,
+            "tiers": {
+              "Active": 4,
+              "Dormant": 46,
+              "Archived": 0
+            },
+            "saveChars": 62694,
+            "saveBytes": 63264,
+            "events": 3,
+            "edges": 6
+          },
+          {
+            "month": 120,
+            "population": 50,
+            "tiers": {
+              "Active": 15,
+              "Dormant": 35,
+              "Archived": 0
+            },
+            "saveChars": 166333,
+            "saveBytes": 175529,
+            "events": 149,
+            "edges": 130
+          },
+          {
+            "month": 600,
+            "population": 50,
+            "tiers": {
+              "Active": 26,
+              "Dormant": 17,
+              "Archived": 7
+            },
+            "saveChars": 411148,
+            "saveBytes": 443236,
+            "events": 697,
+            "edges": 254
+          },
+          {
+            "month": 1200,
+            "population": 50,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 50
+            },
+            "saveChars": 528374,
+            "saveBytes": 569526,
+            "events": 932,
+            "edges": 394
+          }
+        ],
+        "recontact": {
+          "target": "bench-007",
+          "tier": "Dormant",
+          "latencyMs": 2.7017179999984364,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 528374,
+        "saveBytes": 569526,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "e83a5c65aa56b55a5e7e442034ada1d7166f96beff5b67735ebe1910f80c93dc"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 7919,
+      "count": 50,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 2391.502071000017,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.4248600000009901,
+          "median": 2.2709539999996196,
+          "p90": 2.621583199999623,
+          "max": 4.900857999999062,
+          "mean": 1.9929183925000142
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.4248600000009901,
+          "median": 0.8419125000000349,
+          "p90": 1.0300368999998684,
+          "max": 1.695942999998806,
+          "mean": 0.8187676416666666
+        },
+        "blocks120Ms": [
+          98.252117,
+          147.14344500001062,
+          174.45824700001504,
+          206.84155400000054,
+          260.1277560000017,
+          293.6513270000014,
+          302.61174199999914,
+          303.45490799999243,
+          301.42653900000005,
+          303.5344359999963
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 50,
+            "tiers": {
+              "Active": 4,
+              "Dormant": 46,
+              "Archived": 0
+            },
+            "saveChars": 56792,
+            "saveBytes": 57302,
+            "events": 2,
+            "edges": 4
+          },
+          {
+            "month": 120,
+            "population": 50,
+            "tiers": {
+              "Active": 18,
+              "Dormant": 32,
+              "Archived": 0
+            },
+            "saveChars": 178190,
+            "saveBytes": 188982,
+            "events": 184,
+            "edges": 132
+          },
+          {
+            "month": 600,
+            "population": 50,
+            "tiers": {
+              "Active": 26,
+              "Dormant": 12,
+              "Archived": 12
+            },
+            "saveChars": 432849,
+            "saveBytes": 466943,
+            "events": 761,
+            "edges": 264
+          },
+          {
+            "month": 1200,
+            "population": 50,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 50
+            },
+            "saveChars": 534294,
+            "saveBytes": 575714,
+            "events": 968,
+            "edges": 394
+          }
+        ],
+        "recontact": {
+          "target": "bench-002",
+          "tier": "Dormant",
+          "latencyMs": 2.3541240000013204,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 534294,
+        "saveBytes": 575714,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "0932a223e0d1aaa54c92fc2bbbc78ce79177aebf6c481b6baf8801b89c9614c1"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 2576.342330999967,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.4691770000008546,
+          "median": 2.4116610000000946,
+          "p90": 2.877182300000277,
+          "max": 5.845660999999382,
+          "mean": 2.146951942499973
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.4691770000008546,
+          "median": 0.848978499999248,
+          "p90": 1.064931599999909,
+          "max": 1.553277999999409,
+          "mean": 0.8482756249999056
+        },
+        "blocks120Ms": [
+          101.79307499998868,
+          155.79494499998873,
+          191.46852199999375,
+          217.47201300000233,
+          268.14349400001447,
+          324.8270859999866,
+          349.4567479999878,
+          329.52969699999085,
+          321.2719470000102,
+          316.5848040000037
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 50,
+            "tiers": {
+              "Active": 4,
+              "Dormant": 46,
+              "Archived": 0
+            },
+            "saveChars": 61739,
+            "saveBytes": 62249,
+            "events": 2,
+            "edges": 4
+          },
+          {
+            "month": 120,
+            "population": 50,
+            "tiers": {
+              "Active": 18,
+              "Dormant": 32,
+              "Archived": 0
+            },
+            "saveChars": 183225,
+            "saveBytes": 194017,
+            "events": 184,
+            "edges": 132
+          },
+          {
+            "month": 600,
+            "population": 50,
+            "tiers": {
+              "Active": 26,
+              "Dormant": 12,
+              "Archived": 12
+            },
+            "saveChars": 437888,
+            "saveBytes": 471982,
+            "events": 761,
+            "edges": 264
+          },
+          {
+            "month": 1200,
+            "population": 50,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 50
+            },
+            "saveChars": 539398,
+            "saveBytes": 580818,
+            "events": 968,
+            "edges": 394
+          }
+        ],
+        "recontact": {
+          "target": "bench-002",
+          "tier": "Dormant",
+          "latencyMs": 2.401434999999765,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 539398,
+        "saveBytes": 580818,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "0932a223e0d1aaa54c92fc2bbbc78ce79177aebf6c481b6baf8801b89c9614c1"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 20261016,
+      "count": 50,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 2562.0256839999583,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.4455099999995582,
+          "median": 2.4474300000001676,
+          "p90": 2.7253955000021963,
+          "max": 5.55434299999979,
+          "mean": 2.135021403333299
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.4455099999995582,
+          "median": 0.8682519999983924,
+          "p90": 1.0875568999985266,
+          "max": 1.9216430000014952,
+          "mean": 0.8682405749999058
+        },
+        "blocks120Ms": [
+          104.1888689999887,
+          148.01421399998435,
+          223.58202000002348,
+          234.79542599999695,
+          281.35316899999816,
+          314.1526179999855,
+          319.24602499999673,
+          310.5204039999953,
+          307.9180209999795,
+          318.25491800000964
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 50,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 48,
+              "Archived": 0
+            },
+            "saveChars": 54295,
+            "saveBytes": 54615,
+            "events": 1,
+            "edges": 0
+          },
+          {
+            "month": 120,
+            "population": 50,
+            "tiers": {
+              "Active": 13,
+              "Dormant": 37,
+              "Archived": 0
+            },
+            "saveChars": 172031,
+            "saveBytes": 182425,
+            "events": 162,
+            "edges": 140
+          },
+          {
+            "month": 600,
+            "population": 50,
+            "tiers": {
+              "Active": 27,
+              "Dormant": 12,
+              "Archived": 11
+            },
+            "saveChars": 467320,
+            "saveBytes": 504608,
+            "events": 803,
+            "edges": 322
+          },
+          {
+            "month": 1200,
+            "population": 50,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 50
+            },
+            "saveChars": 557184,
+            "saveBytes": 601456,
+            "events": 991,
+            "edges": 430
+          }
+        ],
+        "recontact": {
+          "target": "bench-005",
+          "tier": "Dormant",
+          "latencyMs": 2.4133030000011786,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 557184,
+        "saveBytes": 601456,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "0eb6292adef8dfe29805fb1d3b4a661a307b4268a3bcb11edc6bcd7fd64fca9e"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 2657.358816000007,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.527764999998908,
+          "median": 2.494344500000807,
+          "p90": 2.869613299998673,
+          "max": 7.557157000002917,
+          "mean": 2.214465680000006
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.527764999998908,
+          "median": 0.8830295000007027,
+          "p90": 1.0651953000011418,
+          "max": 2.0924899999990885,
+          "mean": 0.885510816666556
+        },
+        "blocks120Ms": [
+          106.26129799998671,
+          151.32661199999347,
+          251.1721059999909,
+          246.6581479999877,
+          294.27925999999934,
+          314.90056800000457,
+          332.35882400000264,
+          324.4931370000195,
+          321.17043700002614,
+          314.73842599999625
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 50,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 48,
+              "Archived": 0
+            },
+            "saveChars": 59244,
+            "saveBytes": 59564,
+            "events": 1,
+            "edges": 0
+          },
+          {
+            "month": 120,
+            "population": 50,
+            "tiers": {
+              "Active": 13,
+              "Dormant": 37,
+              "Archived": 0
+            },
+            "saveChars": 177071,
+            "saveBytes": 187465,
+            "events": 162,
+            "edges": 140
+          },
+          {
+            "month": 600,
+            "population": 50,
+            "tiers": {
+              "Active": 27,
+              "Dormant": 12,
+              "Archived": 11
+            },
+            "saveChars": 472357,
+            "saveBytes": 509645,
+            "events": 803,
+            "edges": 322
+          },
+          {
+            "month": 1200,
+            "population": 50,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 50
+            },
+            "saveChars": 562288,
+            "saveBytes": 606560,
+            "events": 991,
+            "edges": 430
+          }
+        ],
+        "recontact": {
+          "target": "bench-005",
+          "tier": "Dormant",
+          "latencyMs": 2.5196429999996326,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 562288,
+        "saveBytes": 606560,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "0eb6292adef8dfe29805fb1d3b4a661a307b4268a3bcb11edc6bcd7fd64fca9e"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 42,
+      "count": 100,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 4876.245637000076,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.806404000002658,
+          "median": 4.718609000001379,
+          "p90": 5.3357893999993395,
+          "max": 15.357672000001912,
+          "mean": 4.063538030833397
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.806404000002658,
+          "median": 1.6047359999993205,
+          "p90": 1.950471399998787,
+          "max": 2.7408160000013595,
+          "mean": 1.5867514833332885
+        },
+        "blocks120Ms": [
+          190.41017799999463,
+          272.5782770000078,
+          329.25917600001776,
+          435.0801790000223,
+          561.8557500000024,
+          612.3929130000361,
+          628.1513750000049,
+          640.5246640000114,
+          604.5248240000001,
+          601.468300999979
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 100,
+            "tiers": {
+              "Active": 5,
+              "Dormant": 95,
+              "Archived": 0
+            },
+            "saveChars": 111489,
+            "saveBytes": 112461,
+            "events": 6,
+            "edges": 12
+          },
+          {
+            "month": 120,
+            "population": 100,
+            "tiers": {
+              "Active": 30,
+              "Dormant": 70,
+              "Archived": 0
+            },
+            "saveChars": 312452,
+            "saveBytes": 330772,
+            "events": 286,
+            "edges": 246
+          },
+          {
+            "month": 600,
+            "population": 100,
+            "tiers": {
+              "Active": 52,
+              "Dormant": 33,
+              "Archived": 15
+            },
+            "saveChars": 846063,
+            "saveBytes": 915259,
+            "events": 1494,
+            "edges": 514
+          },
+          {
+            "month": 1200,
+            "population": 100,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 100
+            },
+            "saveChars": 1054884,
+            "saveBytes": 1140738,
+            "events": 1982,
+            "edges": 666
+          }
+        ],
+        "recontact": {
+          "target": "bench-000",
+          "tier": "Dormant",
+          "latencyMs": 4.1528029999972205,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 1054884,
+        "saveBytes": 1140738,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "f0df96a66d01e1038836fa1a52adfce3c3fe5f9a23aec274631f037699392cd3"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 5070.7758790000225,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.929058999998233,
+          "median": 4.798940499998935,
+          "p90": 5.7454823000000035,
+          "max": 11.17582499999844,
+          "mean": 4.225646565833352
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.929058999998233,
+          "median": 1.7600845000015397,
+          "p90": 2.0759568999990736,
+          "max": 4.556209000002127,
+          "mean": 1.7648298333333514
+        },
+        "blocks120Ms": [
+          211.77958000000217,
+          292.11884300000384,
+          342.862499999992,
+          439.45285200000217,
+          570.1859289999993,
+          661.0494450000297,
+          683.4805679999881,
+          660.5044760000019,
+          615.0342009999986,
+          594.3074850000048
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 100,
+            "tiers": {
+              "Active": 5,
+              "Dormant": 95,
+              "Archived": 0
+            },
+            "saveChars": 121235,
+            "saveBytes": 122207,
+            "events": 6,
+            "edges": 12
+          },
+          {
+            "month": 120,
+            "population": 100,
+            "tiers": {
+              "Active": 30,
+              "Dormant": 70,
+              "Archived": 0
+            },
+            "saveChars": 322375,
+            "saveBytes": 340695,
+            "events": 286,
+            "edges": 246
+          },
+          {
+            "month": 600,
+            "population": 100,
+            "tiers": {
+              "Active": 52,
+              "Dormant": 33,
+              "Archived": 15
+            },
+            "saveChars": 855979,
+            "saveBytes": 925175,
+            "events": 1494,
+            "edges": 514
+          },
+          {
+            "month": 1200,
+            "population": 100,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 100
+            },
+            "saveChars": 1064938,
+            "saveBytes": 1150792,
+            "events": 1982,
+            "edges": 666
+          }
+        ],
+        "recontact": {
+          "target": "bench-000",
+          "tier": "Dormant",
+          "latencyMs": 4.429337999998097,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 1064938,
+        "saveBytes": 1150792,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "f0df96a66d01e1038836fa1a52adfce3c3fe5f9a23aec274631f037699392cd3"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 7919,
+      "count": 100,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 6054.050915000018,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.8683669999991253,
+          "median": 5.873222500002157,
+          "p90": 6.755746600002749,
+          "max": 10.61752400000114,
+          "mean": 5.045042429166681
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.8683669999991253,
+          "median": 1.8804055000018707,
+          "p90": 2.3517699999993056,
+          "max": 3.689395000001241,
+          "mean": 1.839747658333666
+        },
+        "blocks120Ms": [
+          220.7697190000399,
+          325.96761200000765,
+          438.79599699999744,
+          533.5361239999911,
+          680.1215159999629,
+          742.1145850000175,
+          796.9952410000042,
+          776.1573610000341,
+          789.7160629999635,
+          749.8766969999997
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 100,
+            "tiers": {
+              "Active": 4,
+              "Dormant": 96,
+              "Archived": 0
+            },
+            "saveChars": 108080,
+            "saveBytes": 108826,
+            "events": 3,
+            "edges": 6
+          },
+          {
+            "month": 120,
+            "population": 100,
+            "tiers": {
+              "Active": 34,
+              "Dormant": 66,
+              "Archived": 0
+            },
+            "saveChars": 362337,
+            "saveBytes": 384427,
+            "events": 362,
+            "edges": 290
+          },
+          {
+            "month": 600,
+            "population": 100,
+            "tiers": {
+              "Active": 56,
+              "Dormant": 30,
+              "Archived": 14
+            },
+            "saveChars": 1065309,
+            "saveBytes": 1156177,
+            "events": 2011,
+            "edges": 640
+          },
+          {
+            "month": 1200,
+            "population": 100,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 100
+            },
+            "saveChars": 1346483,
+            "saveBytes": 1461943,
+            "events": 2662,
+            "edges": 852
+          }
+        ],
+        "recontact": {
+          "target": "bench-000",
+          "tier": "Dormant",
+          "latencyMs": 5.586099000000104,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 1346483,
+        "saveBytes": 1461943,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "2862c79d39d40f3e5a5721efefafd332f4825cfc6443d7cbe09dc0b49468f810"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 6297.004985000007,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.9282880000027944,
+          "median": 5.957604499999434,
+          "p90": 7.139116499996454,
+          "max": 12.607951000005414,
+          "mean": 5.2475041541666725
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.9282880000027944,
+          "median": 1.93213850000393,
+          "p90": 2.3781033000006575,
+          "max": 3.7944619999980205,
+          "mean": 1.910628641666881
+        },
+        "blocks120Ms": [
+          229.2754370000257,
+          334.06131300002016,
+          429.67490200002067,
+          554.5858549999757,
+          685.6545180000176,
+          783.4749689999953,
+          855.3026330000284,
+          826.3786419999669,
+          799.946365000018,
+          798.6503509999384
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 100,
+            "tiers": {
+              "Active": 4,
+              "Dormant": 96,
+              "Archived": 0
+            },
+            "saveChars": 117827,
+            "saveBytes": 118573,
+            "events": 3,
+            "edges": 6
+          },
+          {
+            "month": 120,
+            "population": 100,
+            "tiers": {
+              "Active": 34,
+              "Dormant": 66,
+              "Archived": 0
+            },
+            "saveChars": 372256,
+            "saveBytes": 394346,
+            "events": 362,
+            "edges": 290
+          },
+          {
+            "month": 600,
+            "population": 100,
+            "tiers": {
+              "Active": 56,
+              "Dormant": 30,
+              "Archived": 14
+            },
+            "saveChars": 1075220,
+            "saveBytes": 1166088,
+            "events": 2011,
+            "edges": 640
+          },
+          {
+            "month": 1200,
+            "population": 100,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 100
+            },
+            "saveChars": 1356537,
+            "saveBytes": 1471997,
+            "events": 2662,
+            "edges": 852
+          }
+        ],
+        "recontact": {
+          "target": "bench-000",
+          "tier": "Dormant",
+          "latencyMs": 5.8439480000015465,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 1356537,
+        "saveBytes": 1471997,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "2862c79d39d40f3e5a5721efefafd332f4825cfc6443d7cbe09dc0b49468f810"
+      },
+      "sameOutcome": true
+    },
+    {
+      "seed": 20261016,
+      "count": 100,
+      "baseline": {
+        "mode": "baseline-full",
+        "totalMs": 5697.045993000051,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.8817179999969085,
+          "median": 5.2890019999977085,
+          "p90": 6.291209399994114,
+          "max": 13.747074999999313,
+          "mean": 4.747538327500042
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.8817179999969085,
+          "median": 1.7547875000018394,
+          "p90": 2.228123500001675,
+          "max": 2.925493999995524,
+          "mean": 1.7474306000000677
+        },
+        "blocks120Ms": [
+          209.6916720000081,
+          314.87627699999575,
+          447.51887200002966,
+          524.5836529999724,
+          653.6690009999948,
+          678.4964489999838,
+          727.3009419999944,
+          730.4333300000144,
+          680.3498630000395,
+          730.1259340000179
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 100,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 98,
+              "Archived": 0
+            },
+            "saveChars": 106053,
+            "saveBytes": 106687,
+            "events": 2,
+            "edges": 2
+          },
+          {
+            "month": 120,
+            "population": 100,
+            "tiers": {
+              "Active": 39,
+              "Dormant": 61,
+              "Archived": 0
+            },
+            "saveChars": 334693,
+            "saveBytes": 354727,
+            "events": 319,
+            "edges": 276
+          },
+          {
+            "month": 600,
+            "population": 100,
+            "tiers": {
+              "Active": 45,
+              "Dormant": 37,
+              "Archived": 18
+            },
+            "saveChars": 947881,
+            "saveBytes": 1027869,
+            "events": 1725,
+            "edges": 574
+          },
+          {
+            "month": 1200,
+            "population": 100,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 100
+            },
+            "saveChars": 1168273,
+            "saveBytes": 1264871,
+            "events": 2195,
+            "edges": 790
+          }
+        ],
+        "recontact": {
+          "target": "bench-005",
+          "tier": "Dormant",
+          "latencyMs": 6.132202000000689,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 1168273,
+        "saveBytes": 1264871,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "5117797b7517a6703c448582dc8595e6867bdbffae94e9be88f7c5138660dcf8"
+      },
+      "observed": {
+        "mode": "observed-full",
+        "totalMs": 5768.402031999933,
+        "monthlyMs": {
+          "n": 1200,
+          "min": 0.9972209999978077,
+          "median": 5.34765100000368,
+          "p90": 6.140452100002586,
+          "max": 16.463654999999562,
+          "mean": 4.8070016933332775
+        },
+        "first120MonthlyMs": {
+          "n": 120,
+          "min": 0.9972209999978077,
+          "median": 1.8440510000000359,
+          "p90": 2.3261111000036183,
+          "max": 5.571878999995533,
+          "mean": 1.9200336833329856
+        },
+        "blocks120Ms": [
+          230.40404199995828,
+          332.7850760000001,
+          457.6551120000149,
+          613.7052140000087,
+          639.2256169999673,
+          707.2842350000064,
+          715.0051759999551,
+          694.8879270000107,
+          670.9795610000147,
+          706.4700719999964
+        ],
+        "samples": [
+          {
+            "month": 1,
+            "population": 100,
+            "tiers": {
+              "Active": 2,
+              "Dormant": 98,
+              "Archived": 0
+            },
+            "saveChars": 115802,
+            "saveBytes": 116436,
+            "events": 2,
+            "edges": 2
+          },
+          {
+            "month": 120,
+            "population": 100,
+            "tiers": {
+              "Active": 39,
+              "Dormant": 61,
+              "Archived": 0
+            },
+            "saveChars": 344607,
+            "saveBytes": 364641,
+            "events": 319,
+            "edges": 276
+          },
+          {
+            "month": 600,
+            "population": 100,
+            "tiers": {
+              "Active": 45,
+              "Dormant": 37,
+              "Archived": 18
+            },
+            "saveChars": 957807,
+            "saveBytes": 1037795,
+            "events": 1725,
+            "edges": 574
+          },
+          {
+            "month": 1200,
+            "population": 100,
+            "tiers": {
+              "Active": 0,
+              "Dormant": 0,
+              "Archived": 100
+            },
+            "saveChars": 1178327,
+            "saveBytes": 1274925,
+            "events": 2195,
+            "edges": 790
+          }
+        ],
+        "recontact": {
+          "target": "bench-005",
+          "tier": "Dormant",
+          "latencyMs": 5.186157999996794,
+          "executed": true,
+          "catchUpMs": null,
+          "catchUpStatus": "not-enabled"
+        },
+        "saveChars": 1178327,
+        "saveBytes": 1274925,
+        "resumeEqual": true,
+        "resumeError": null,
+        "outcomeHash": "5117797b7517a6703c448582dc8595e6867bdbffae94e9be88f7c5138660dcf8"
+      },
+      "sameOutcome": true
+    }
+  ]
+}
