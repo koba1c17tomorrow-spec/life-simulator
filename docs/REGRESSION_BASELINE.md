@@ -129,3 +129,14 @@ WebKitの自動試験、iPhone実機Safari、Android実機のホーム画面・O
 ## 引継ぎ
 
 P0-1の成果はテスト・実形式fixture・この対応表である。P0-2ではK5〜7を含む保存入力の課題、現在のversion/key/slotと移行の責務を設計する。P0-3では操作履歴と乱数の責務を設計する。P1-1〜3では上記既知問題を個別に修正する。**今回はP0-2へ着手せず、P0-1のレビュー・マージを待つ。**
+
+
+## P0-2での追記（P0-1の観測記録は上に保存）
+
+PR #2マージ後のmain `19104a6` を起点に、K5〜K7の限定的な入力検査を追加した。上の再現条件と実行記録はP0-1時点の履歴である。
+
+- K5：closeness/trustの範囲外を拒否。clampせず、0/100と小数は受理。
+- K6：relations.idがpeopleに存在しなければ拒否。故人への関係は維持。NPCの婚姻/親子/歴史的リンクの全体的な整合は未解決。
+- K7：raw/envelopeを識別し、未来版・別形式・混合を拒否。直接のraw正規化も混合を通さない。
+
+判断理由と保留事項は [SAVE_MIGRATION](SAVE_MIGRATION.md)、状態の責務は [STATE_ARCHITECTURE](STATE_ARCHITECTURE.md) を参照。`tests/saveMigration.test.ts` と `browser-tests/save-validation.spec.ts` で新しい拒否条件・既存互換性・原本保護を検証する。K1〜K4は未修正。P0-1のテストとfixtureは変更していない。
