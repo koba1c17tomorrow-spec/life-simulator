@@ -1,3 +1,4 @@
+import { hasNpcActor, type NpcAgency } from "./npcAgency";
 import { interact, type RelationshipModel } from "./directedRelations";
 import { npcFact, type NpcReporter } from "./npcEvents";
 import type { Trait } from "./traits";
@@ -34,6 +35,7 @@ export type Relation = {
   romance?: number;
 };
 export type SocialState = {
+  npcAgency?: NpcAgency;
   relationshipModel?: RelationshipModel;
   npcLinks: { a: string; b: string; kind: string; since: number }[];
   people: Person[];
@@ -141,6 +143,7 @@ export function socialMonth(
     if (!p?.alive || p.kind !== "friend") continue;
     if (month - r.lastContactMonth >= 6)
       r.closeness = Math.max(0, r.closeness - (p.movedAway ? 0.4 : 0.2));
+    if (hasNpcActor(s,p.id)) continue;
     if (!p.movedAway && random() < 0.12) {
       const delta = 2 + Math.floor(random() * 4);
       r.closeness = Math.min(100, r.closeness + delta);
@@ -156,7 +159,7 @@ export function socialMonth(
     }
   }
   for (const p of s.people) {
-    if (p.kind !== "friend" || !p.alive) continue;
+    if (p.kind !== "friend" || !p.alive || hasNpcActor(s,p.id)) continue;
     const age = (month - p.birthMonth) / 12;
     if (
       age >= 18 &&

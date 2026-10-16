@@ -1,3 +1,4 @@
+import { hasNpcActor, reserveNpcHours, npcReply } from "./npcAgency";
 import { npcFact, type NpcReporter } from "./npcEvents";
 import { randomTraits } from "./traits";
 import { compatible } from "./identity";
@@ -126,6 +127,7 @@ export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
     if (age >= 18 && !p.education)
       p.education = age >= 22 && p.values === "career" ? "university" : "high";
     if (age >= 65) {
+      if (p.occupation !== "retired" && hasNpcActor(s,p.id)) log(p.name+"は仕事を退き、退職後の生活へ移った。",npcFact("npc.employment",[p.id],{occupation:"retired"}));
       p.occupation = "retired";
       p.health -= 0.08;
     }
@@ -134,6 +136,7 @@ export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
       age >= 18 &&
       age < 65 &&
       p.occupation === "unemployed" &&
+      !hasNpcActor(s,p.id) &&
       random() < 0.035
     )
       p.occupation = "employed";
@@ -210,6 +213,7 @@ export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
       continue;
     if (
       p.spouseId &&
+      !hasNpcActor(s,p.id) &&
       s.month - (p.marriedSince ?? 0) >= 24 &&
       random() < 0.0008
     ) {
@@ -229,6 +233,7 @@ export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
     if (
       !p.spouseId &&
       !p.partnerId &&
+      !hasNpcActor(s,p.id) &&
       random() < (p.values === "family" ? 0.006 : 0.004)
     ) {
       const other = s.people.find(
@@ -276,7 +281,7 @@ export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
       const other = s.people.find(
         (x) => x.id === p.partnerId && x.alive && x.partnerId === p.id,
       );
-      if (other?.alive) {
+      if (other?.alive && (!hasNpcActor(s,p.id) || (npcReply(s,p.id,"marry",other.id).accepted && npcReply(s,other.id,"marry",p.id).accepted && reserveNpcHours(s,p.id,16) && reserveNpcHours(s,other.id,16)))) {
         p.spouseId = other.id;
         other.spouseId = p.id;
         p.marriedSince = s.month;
@@ -300,7 +305,8 @@ export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
       s.month - (p.lastChildMonth ?? -999) >= 24 &&
       age < 45 &&
       p.childCount < 3 &&
-      random() < 0.004
+      random() < 0.004 &&
+      (!hasNpcActor(s,p.id) || (npcReply(s,p.id,"child",p.spouseId).accepted && npcReply(s,p.spouseId,"child",p.id).accepted && reserveNpcHours(s,p.id,16) && reserveNpcHours(s,p.spouseId,16)))
     ) {
       p.childCount++;
       p.lastChildMonth = s.month;
@@ -322,7 +328,7 @@ export function npcMonth(s: GameState, random: () => number, log: NpcReporter) {
     const b = s.people.find(
       (p) => p.kind === "friend" && p.alive && p.id !== a?.id && !p.movedAway,
     );
-    if (a && b) {
+    if (a && b && !hasNpcActor(s,a.id) && !hasNpcActor(s,b.id)) {
       const kind = random() < 0.2 ? "conflict" : "friends";
       s.npcLinks = s.npcLinks.filter(
         (l) =>
