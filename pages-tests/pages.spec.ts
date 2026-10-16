@@ -24,6 +24,30 @@ test("Pages metadata, world JSON and home-screen icons resolve inside the subpat
 }) => {
   await page.goto("./");
   await expect(nextMonth(page)).toBeEnabled();
+  const assets = await page
+    .locator(
+      'script[type="module"][src], link[rel="stylesheet"][href], link[rel="icon"][href]',
+    )
+    .evaluateAll((nodes) =>
+      nodes.map(
+        (node) => node.getAttribute("src") ?? node.getAttribute("href")!,
+      ),
+    );
+  expect(assets.some((url) => url.endsWith(".js"))).toBe(true);
+  expect(assets.some((url) => url.endsWith(".css"))).toBe(true);
+  expect(assets.some((url) => url.endsWith(".svg"))).toBe(true);
+  for (const asset of assets) {
+    expect(asset).toMatch(/^\/life-simulator\//);
+    const response = await request.get(asset);
+    expect(response.ok()).toBe(true);
+    const mime = asset.endsWith(".js")
+      ? /javascript/
+      : asset.endsWith(".css")
+        ? /text\/css/
+        : /image\/svg/;
+    expect(response.headers()["content-type"]).toMatch(mime);
+    expect((await response.body()).length).toBeGreaterThan(0);
+  }
   const manifestURL = await page
     .locator('link[rel="manifest"]')
     .getAttribute("href");
@@ -55,6 +79,8 @@ test("Pages metadata, world JSON and home-screen icons resolve inside the subpat
     );
     expect(world.ok()).toBe(true);
     const data = await world.json();
+    expect(data.id).toBe(id);
+    expect(data.events).toMatch(/^[-a-zA-Z0-9_]+\.json$/);
     const events = await request.get(
       `/life-simulator/worlds/${id}/${data.events}`,
     );
