@@ -933,7 +933,7 @@ export function separate(original: GameState): GameState {
   const id = s.spouseId ?? s.partnerId;
   const p = s.people.find((p) => p.id === id);
   log(s, (p?.name ?? "相手") + "と別れることになった。");
-  if (p) {
+  if (p?.alive) {
     p.partnerId = null;
     p.spouseId = null;
   }
@@ -1205,6 +1205,9 @@ export function normalizeGameState(value: unknown): GameState {
   if (!s.initialIdentityChoice || typeof s.initialIdentityChoice !== "object")
     throw Error("出生属性が不正です");
   for (const p of s.people) {
+    if (p.deathMonth !== undefined && p.deathMonth !== null &&
+        (!Number.isInteger(p.deathMonth) || p.deathMonth < p.birthMonth || p.deathMonth > s.month || p.alive))
+      throw Error("死亡年月が不正です");
     if (
       p.parentIds !== undefined &&
       (!Array.isArray(p.parentIds) ||

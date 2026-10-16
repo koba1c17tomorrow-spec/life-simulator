@@ -156,6 +156,7 @@ export function npcMonth(
       p.health <= 0
     ) {
       p.alive = false;
+      p.deathMonth = s.month;
       p.occupation = "retired";
       log("【死別】" + p.name + "が亡くなった。");
       if (s.partnerId === p.id || s.spouseId === p.id) {
@@ -166,12 +167,12 @@ export function npcMonth(
       }
       if (p.spouseId) {
         const other = s.people.find((x) => x.id === p.spouseId);
-        if (other) other.spouseId = null;
+        if (other?.alive) other.spouseId = null;
         p.spouseId = null;
       }
       if (p.partnerId) {
         const other = s.people.find((x) => x.id === p.partnerId);
-        if (other) other.partnerId = null;
+        if (other?.alive) other.partnerId = null;
         p.partnerId = null;
       }
       continue;
@@ -198,7 +199,7 @@ export function npcMonth(
       random() < 0.0008
     ) {
       const other = s.people.find((x) => x.id === p.spouseId);
-      if (other) {
+      if (other?.alive) {
         other.spouseId = null;
         other.partnerId = null;
       }
@@ -253,7 +254,7 @@ export function npcMonth(
       const other = s.people.find(
         (x) => x.id === p.partnerId && x.alive && x.partnerId === p.id,
       );
-      if (other) {
+      if (other?.alive) {
         p.spouseId = other.id;
         other.spouseId = p.id;
         p.marriedSince = s.month;
@@ -279,7 +280,7 @@ export function npcMonth(
       p.childCount++;
       p.lastChildMonth = s.month;
       const other = s.people.find((x) => x.id === p.spouseId);
-      if (other) {
+      if (other?.alive) {
         other.childCount = p.childCount;
         other.lastChildMonth = s.month;
       }

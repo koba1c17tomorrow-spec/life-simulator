@@ -17,6 +17,7 @@ export type Person = Partial<Identity> & {
   kind: "family" | "friend" | "teacher";
   birthMonth: number;
   alive: boolean;
+  deathMonth?: number | null;
   personality?: "kind" | "bold" | "quiet" | "ambitious";
   values?: "family" | "career" | "freedom";
   occupation?: "student" | "employed" | "unemployed" | "retired";
@@ -272,4 +273,15 @@ export function personalityLabel(p: Person): string {
     quiet: "物静か",
     ambitious: "向上心が強い",
   }[p.personality ?? "kind"];
+}
+
+/** Unknown historical deaths have no inferred date or age. */
+export function personAgeMonths(person: Person, currentMonth: number): number | null {
+  if (person.alive) return currentMonth - person.birthMonth;
+  return person.deathMonth === undefined || person.deathMonth === null
+    ? null : person.deathMonth - person.birthMonth;
+}
+export function personAgeLabel(person: Person, currentMonth: number): string {
+  const age = personAgeMonths(person, currentMonth);
+  return age === null ? "死亡時年齢不明" : `${Math.floor(age / 12)}歳`;
 }
