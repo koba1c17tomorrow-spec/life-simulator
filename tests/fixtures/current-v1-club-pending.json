@@ -1,0 +1,416 @@
+{
+  "format": "life-simulator",
+  "formatVersion": 1,
+  "state": {
+    "education": "middle",
+    "career": "none",
+    "careerLevel": 0,
+    "experience": 0,
+    "graduatedUniversity": false,
+    "partnerId": null,
+    "spouseId": null,
+    "children": 0,
+    "monthlyIncome": 0,
+    "monthlyExpenses": 0,
+    "debt": 0,
+    "lastCareerPromptMonth": -999,
+    "lastChoiceMonth": 144,
+    "lastJobApplicationMonth": -999,
+    "worldId": "modern",
+    "birthSeed": 20261016,
+    "initialIdentityChoice": {
+      "gender": "female",
+      "orientation": "bisexual"
+    },
+    "version": 1,
+    "month": 144,
+    "seed": 3777987120,
+    "stats": {
+      "health": 83.08421765624689,
+      "happiness": 59.06413704418458,
+      "knowledge": 29.098999999999975,
+      "sociability": 41.51999999999973,
+      "money": 0
+    },
+    "history": [
+      {
+        "id": "log-26",
+        "month": 144,
+        "text": "中学校の時期を迎えた。"
+      },
+      {
+        "id": "log-25",
+        "month": 144,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-24",
+        "month": 144,
+        "text": "琴音と颯太は交流を続けている。"
+      },
+      {
+        "id": "log-23",
+        "month": 144,
+        "text": "学年が進んだ。現在の学業成績は51点。"
+      },
+      {
+        "id": "log-22",
+        "month": 141,
+        "text": "海斗の体調が回復した。"
+      },
+      {
+        "id": "log-21",
+        "month": 132,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-20",
+        "month": 132,
+        "text": "琴音と颯太の意見がぶつかった。"
+      },
+      {
+        "id": "log-19",
+        "month": 132,
+        "text": "学年が進んだ。現在の学業成績は51点。"
+      },
+      {
+        "id": "log-18",
+        "month": 127,
+        "text": "海斗が体調を崩した。"
+      },
+      {
+        "id": "log-17",
+        "month": 120,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-16",
+        "month": 120,
+        "text": "琴音と颯太は交流を続けている。"
+      },
+      {
+        "id": "log-15",
+        "month": 120,
+        "text": "学年が進んだ。現在の学業成績は51点。"
+      },
+      {
+        "id": "log-14",
+        "month": 111,
+        "text": "海斗と知り合った。"
+      },
+      {
+        "id": "log-13",
+        "month": 108,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-12",
+        "month": 108,
+        "text": "琴音と颯太は交流を続けている。"
+      },
+      {
+        "id": "log-11",
+        "month": 108,
+        "text": "学年が進んだ。現在の学業成績は51点。"
+      },
+      {
+        "id": "log-10",
+        "month": 96,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-9",
+        "month": 96,
+        "text": "琴音と颯太の意見がぶつかった。"
+      },
+      {
+        "id": "log-8",
+        "month": 96,
+        "text": "学年が進んだ。現在の学業成績は50点。"
+      },
+      {
+        "id": "log-7",
+        "month": 92,
+        "text": "颯太と知り合った。"
+      },
+      {
+        "id": "log-6",
+        "month": 90,
+        "text": "琴音と知り合った。"
+      },
+      {
+        "id": "log-5",
+        "month": 84,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-4",
+        "month": 84,
+        "text": "学年が進んだ。現在の学業成績は50点。"
+      },
+      {
+        "id": "log-3",
+        "month": 72,
+        "text": "小学校の時期を迎えた。"
+      },
+      {
+        "id": "log-2",
+        "month": 72,
+        "text": "学校で一年を振り返った。先生や友人との経験が自信になっていく。"
+      },
+      {
+        "id": "log-1",
+        "month": 72,
+        "text": "学年が進んだ。現在の学業成績は50点。"
+      },
+      {
+        "id": "birth",
+        "month": 0,
+        "text": "あなたはこの世界に生まれた。"
+      }
+    ],
+    "lastSeen": {
+      "club-plan": 144
+    },
+    "pending": {
+      "eventId": "club-plan",
+      "text": "中学校でどんな放課後を過ごそう？",
+      "choices": [
+        {
+          "label": "文化・芸術の部活",
+          "effects": [],
+          "club": "arts"
+        },
+        {
+          "label": "運動部",
+          "effects": [],
+          "club": "sports"
+        },
+        {
+          "label": "科学・学習の部活",
+          "effects": [],
+          "club": "science"
+        },
+        {
+          "label": "放課後は自由に過ごす",
+          "effects": [],
+          "club": "none"
+        }
+      ]
+    },
+    "queue": [],
+    "monthStarted": true,
+    "finished": false,
+    "priority": "rest",
+    "lastActionMonth": -1,
+    "identity": {
+      "gender": "female",
+      "orientation": "bisexual"
+    },
+    "traits": [
+      "quickLearner"
+    ],
+    "origin": {
+      "parentTraits": [
+        [
+          "outgoing",
+          "frail",
+          "resilient"
+        ],
+        [
+          "outgoing",
+          "frail",
+          "quickLearner"
+        ]
+      ],
+      "wealth": "modest",
+      "parentEducation": "basic",
+      "upbringing": "strict",
+      "siblings": 3,
+      "schoolPerformance": 51.320999999999984,
+      "universityAccepted": null,
+      "region": "coastal",
+      "parentOccupation": "医療・教育職"
+    },
+    "jobId": null,
+    "autoChoices": false,
+    "insolvencyMonths": 0,
+    "npcLinks": [
+      {
+        "a": "friend-1",
+        "b": "friend-2",
+        "kind": "friends",
+        "since": 144
+      }
+    ],
+    "people": [
+      {
+        "gender": "female",
+        "orientation": "heterosexual",
+        "id": "mother",
+        "name": "母",
+        "kind": "family",
+        "birthMonth": -336,
+        "alive": true,
+        "traits": [
+          "outgoing",
+          "frail",
+          "resilient"
+        ],
+        "occupation": "employed",
+        "education": "high",
+        "personality": "ambitious",
+        "values": "family",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "gender": "male",
+        "orientation": "heterosexual",
+        "id": "father",
+        "name": "父",
+        "kind": "family",
+        "birthMonth": -360,
+        "alive": true,
+        "traits": [
+          "outgoing",
+          "frail",
+          "quickLearner"
+        ],
+        "occupation": "employed",
+        "education": "high",
+        "personality": "ambitious",
+        "values": "family",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "id": "teacher",
+        "name": "担任の先生",
+        "kind": "teacher",
+        "birthMonth": -360,
+        "alive": true,
+        "personality": "kind",
+        "occupation": "employed",
+        "education": "university",
+        "values": "career",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "gender": "male",
+        "orientation": "heterosexual",
+        "id": "friend-1",
+        "name": "琴音",
+        "kind": "friend",
+        "birthMonth": -13,
+        "alive": true,
+        "personality": "ambitious",
+        "values": "career",
+        "occupation": "student",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "gender": "male",
+        "orientation": "heterosexual",
+        "id": "friend-2",
+        "name": "颯太",
+        "kind": "friend",
+        "birthMonth": -8,
+        "alive": true,
+        "personality": "quiet",
+        "values": "freedom",
+        "occupation": "student",
+        "health": 85,
+        "childCount": 0
+      },
+      {
+        "gender": "female",
+        "orientation": "heterosexual",
+        "id": "friend-3",
+        "name": "海斗",
+        "kind": "friend",
+        "birthMonth": -25,
+        "alive": true,
+        "personality": "bold",
+        "values": "freedom",
+        "occupation": "student",
+        "health": 82,
+        "childCount": 0,
+        "illness": false
+      }
+    ],
+    "relations": [
+      {
+        "id": "mother",
+        "closeness": 80,
+        "trust": 85,
+        "lastContactMonth": 0
+      },
+      {
+        "id": "father",
+        "closeness": 65,
+        "trust": 75,
+        "lastContactMonth": 0
+      },
+      {
+        "id": "teacher",
+        "closeness": 40,
+        "trust": 55,
+        "lastContactMonth": 72
+      },
+      {
+        "id": "friend-1",
+        "closeness": 48.799999999999926,
+        "trust": 43,
+        "lastContactMonth": 139
+      },
+      {
+        "id": "friend-2",
+        "closeness": 48.99999999999993,
+        "trust": 45,
+        "lastContactMonth": 120
+      },
+      {
+        "id": "friend-3",
+        "closeness": 47.99999999999997,
+        "trust": 43,
+        "lastContactMonth": 141
+      }
+    ],
+    "nextPersonId": 4,
+    "lastSocialTick": 144,
+    "lifetimeWork": 0,
+    "scholarship": false,
+    "illness": null,
+    "savings": 0,
+    "investments": 0,
+    "living": "standard",
+    "housing": "rent",
+    "purchases": {},
+    "benefits": {},
+    "lastSpendMonth": -1,
+    "restructured": false,
+    "unemployedMonths": 0,
+    "retired": false,
+    "tax": 0,
+    "expenseBreakdown": {},
+    "studyPath": "job",
+    "degree": null,
+    "club": "none",
+    "teacherSupport": 0.55,
+    "childhoodConfidence": 0.7,
+    "dropout": false,
+    "flags": {},
+    "workExperience": 0,
+    "logSequence": 26,
+    "stress": 0,
+    "illnessUntil": 0,
+    "caregivingMonths": 0,
+    "deathCause": null,
+    "timeline": [],
+    "scheduled": [],
+    "achievements": []
+  }
+}
