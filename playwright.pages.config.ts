@@ -2,9 +2,15 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./pages-tests",
   timeout: 45000,
+  retries: 0,
   expect: { timeout: 10000 },
   workers: 2,
-  use: { baseURL: "http://127.0.0.1:4173/life-simulator/", headless: true },
+  use: {
+    baseURL: "http://127.0.0.1:4173/life-simulator/",
+    headless: true,
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+  },
   projects: [
     {
       name: "android-chrome",
@@ -26,5 +32,5 @@ export default defineConfig({
     url: "http://127.0.0.1:4173/life-simulator/",
     reuseExistingServer: false,
   },
-  reporter: "list",
+  reporter: [["list"], ["html", { open: "never" }]],
 });

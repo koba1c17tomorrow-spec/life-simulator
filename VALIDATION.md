@@ -56,3 +56,17 @@
 - GitHub Actionsはmain更新時に検証済みdistを公開。PRは検証だけ。CIではChromium/WebKitを導入し、iPhone相当のWebKitでも公開物のUI・データ・保存・オフラインを検証する構成。worker更新の内部状態確認2ケースはChromium限定で、WebKitでは明示的にスキップ。
 - このクラウド環境ではWebKit配布先 `cdn.playwright.dev` / `playwright.download.prss.microsoft.com` が403 `Domain forbidden` のため、ローカルWebKit実行は未実施。iPhone実機での検証も未実施。CIでのWebKit結果はGitHub Actionsで確認する必要がある。
 - GitHub Pages APIへのアクセスもForbiddenだったため、既存のPages設定やリモート公開完了はここでは確認できない。初回のSource設定と確認/再実行手順はREADMEに記載した。GitHubへのpush成功と実際の公開成功は区別する。
+
+## WebKitオフライン再読み込み失敗の調査と修正（2026-10-16）
+
+失敗実行：[38896385555](https://github.com/koba1c17tomorrow-spec/life-simulator/actions/runs/38896385555)、対象90f0815。旧Playwright 1.58.2の `iphone-safari` で `setOffline(true)` → `reload()` が `WebKit encountered an internal error` となり、公開前のブラウザ検証で停止した。
+
+原因の根拠：Playwright公式の [issue #42775](https://github.com/microsoft/playwright/issues/42775) は、アプリやフレームワークを使わず、Service Workerが固定のHTML Responseを返すだけでも同じ失敗を再現している。Chromiumでは成功し、WebKitでは自動化のofflineフラグがworkerの応答まで遮断していた。macOS上でも再現されたもので、実機Safariの通信断不具合と同一視しない。[修正PR #42894](https://github.com/microsoft/playwright/pull/42894) が取り込まれた安定版1.64.1へ更新した。
+
+PWAのアプリ実装・キャッシュ戦略・セーブ形式は変更しない。既存の両エンジンのoffline/reload/保存/ワールド切替テストを残し、リトライや新しいskipを追加していない。切断前にworkerのscope/制御/activated状態とHTML・JS/CSS・両ワールドの実キャッシュを確認する。未キャッシュの別ブラウザコンテキストは同じURLでoffline読込が失敗する負の対照を置き、キャッシュ済み側はstatus 200かつService Worker由来の応答であることも検査する。
+
+ローカル検証：`npm test` 91件成功（100人生を含む）、本番ビルド成功、1.64.1のChromiumでPages/PWA5件成功。公開先検証スクリプトはローカルの本番サブパスで全リソースの検査成功と、別コミットの識別子を拒否することを確認。WebKit配布CDNと公式コンテナの取得はクラウドの通信制限で不可のため、matching WebKitはGitHub ActionsのUbuntu runnerで導入・実行する。
+
+CIは再試行0回で実行し、レポートと失敗時トレース/スクリーンショットを7日保存する。公開後は `dist/deployment.json` のSHAが今回のコミットと一致し、HTML・JS/CSS・manifest・アイコン・両ワールド・SWが公開URLから取得できた場合だけdeployジョブを成功にする。CDNへの公開反映待ちだけ最大12回まで確認する。この反映待ちはテスト失敗を再試行で隠す処理ではない。確定したリモート実行結果は [Actions](https://github.com/koba1c17tomorrow-spec/life-simulator/actions/workflows/pages.yml) から確認できる。
+
+実機Safariの追加受入手順：プレイ用データをJSONで保管した上で、公開URLをSafariで開き、オフライン準備完了と月次進行・保存・スロットを確認する。ホーム画面アプリへ必要ならJSONを移行し、機内モードかつWi-Fiオフでアプリを終了・再起動し、保存年齢・世界・スロット復元・別世界の開始と進行を確認する。再接続後の保存・更新も確認する。これはPlaywrightのiPhone相当WebKit検証とは別で、今回の自動テストを実機試験済みとは記録しない。

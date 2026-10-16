@@ -28,10 +28,25 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+      - name: Record deployment commit
+        run: |
+          node -e 'require("node:fs").writeFileSync("dist/deployment.json", JSON.stringify({ commit: process.env.GITHUB_SHA }))'
       - name: Install mobile browser test engines
-        run: npx playwright install --with-deps chromium webkit
+        run: |
+          npx playwright --version
+          npx playwright install --with-deps chromium webkit
       - name: Verify built Pages site, mobile controls and PWA
         run: npm run test:pages
+      - name: Retain browser report and failure traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-browser-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
@@ -52,8 +67,17 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Publish site
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify the published commit and public assets
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          EXPECTED_SHA: ${{ github.sha }}
+        run: node scripts/verify-pages.mjs

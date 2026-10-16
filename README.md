@@ -17,6 +17,10 @@
 
 セーブのキー・3スロット・JSON入出力は維持しています。デプロイやPWA更新処理でlocalStorageを削除しません。PCのローカル開発環境と公開サイト、SafariとChrome、ブラウザとホーム画面アプリなど、保存領域が異なる場合はJSONをエクスポートして移してください。ホーム画面に追加する前にもJSONバックアップを推奨します。端末やブラウザによるサイトデータ削除・整理からの復旧にはバックアップが必要です。
 
+Playwrightは **1.64.1** に固定しています。旧版WebKitには、`context.setOffline(true)` がService Workerのローカル応答まで妨げる[既知不具合 #42775](https://github.com/microsoft/playwright/issues/42775)があり、[公式修正 #42894](https://github.com/microsoft/playwright/pull/42894)を含む版へ更新しました。iPhone相当のWebKitでも元のオフライン再読み込み・セーブ保持・ワールド切替テストを維持しています。各エンジンでキャッシュ済みファイルとworkerの支配状態を検査し、未キャッシュの別コンテキストではオフライン読込が失敗することも確認します。ブラウザの版はnpmパッケージと合わせ、更新時は `npx playwright install --with-deps chromium webkit` を再実行してください。
+
+公開ジョブは、公開先のコミット識別子・HTML・JS/CSS・PWA・両ワールドを実際のHTTPSで確認してから成功します。診断用のHTMLレポートと、失敗時のトレース/スクリーンショットはActionsの `pages-browser-diagnostics` に7日間保持します。WebKitの自動テストはiPhone実機そのものではなく、実機のホーム画面アプリや機内モードの包括検証を代替しません。
+
 `vite.config.ts` のbaseとPWAのstart_url/scopeは `/life-simulator/`。ワールドJSONとアイコンもこの配下に配置します。別名のリポジトリへ移す場合はbaseを変更し、PagesテストのURLも更新してください。ドメイン直下への配信とこのプロジェクト用サブパスを混在させないでください。
 
 ## 起動

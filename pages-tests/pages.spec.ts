@@ -1,4 +1,4 @@
-import { test as base, expect } from "@playwright/test";
+import { test as base, expect, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 
 const test = base.extend({
@@ -14,7 +14,7 @@ const test = base.extend({
   },
 });
 const SAVE = "life-sim-modern-v1";
-const nextMonth = (page: any) =>
+const nextMonth = (page: Page) =>
   page.getByRole("button", { name: "＋1か月", exact: true });
 
 // These tests use only the compiled site, never Vite's /src imports.
@@ -87,13 +87,11 @@ test("touch play, save slots, JSON export/import, reload and world switch surviv
   await expect(page.locator(".age")).toHaveText("0歳1か月");
   await nextMonth(page).tap();
   await expect(page.locator(".age")).toHaveText("0歳2か月");
-  await page
-    .getByLabel("JSONから読み込む")
-    .setInputFiles({
-      name: "backup.json",
-      mimeType: "application/json",
-      buffer: backup,
-    });
+  await page.getByLabel("JSONから読み込む").setInputFiles({
+    name: "backup.json",
+    mimeType: "application/json",
+    buffer: backup,
+  });
   await expect(page.locator(".age")).toHaveText("0歳1か月");
   await page.reload();
   await expect(page.locator(".age")).toHaveText("0歳1か月");
@@ -133,11 +131,12 @@ test("touch play, save slots, JSON export/import, reload and world switch surviv
 test("installed cache supports offline reload, play and switching worlds without erasing saves", async ({
   page,
   context,
-}) => {
+  browser,
+}, testInfo) => {
   await page.goto("./");
   await expect(nextMonth(page)).toBeEnabled();
-  await page.evaluate(async () => {
-    await navigator.serviceWorker.ready;
+  const evidence = await page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.ready;
     if (!navigator.serviceWorker.controller)
       await new Promise<void>((resolve) =>
         navigator.serviceWorker.addEventListener(
@@ -146,12 +145,67 @@ test("installed cache supports offline reload, play and switching worlds without
           { once: true },
         ),
       );
+    const cached: { url: string; status: number }[] = [];
+    for (const name of await caches.keys()) {
+      const cache = await caches.open(name);
+      for (const request of await cache.keys()) {
+        const response = await cache.match(request);
+        cached.push({ url: request.url, status: response?.status ?? 0 });
+      }
+    }
+    return {
+      controller: navigator.serviceWorker.controller?.scriptURL,
+      scope: registration.scope,
+      state: registration.active?.state,
+      cached,
+    };
   });
+  const appURL = new URL("./", page.url());
+  expect(evidence.controller).toBe(new URL("sw.js", appURL).href);
+  expect(evidence.scope).toBe(appURL.href);
+  expect(evidence.state).toBe("activated");
+  const cachedPaths = evidence.cached
+    .filter((entry) => entry.status === 200)
+    .map((entry) => new URL(entry.url).pathname);
+  for (const path of [
+    "index.html",
+    "worlds/modern/manifest.json",
+    "worlds/modern/events.json",
+    "worlds/coastal/manifest.json",
+    "worlds/coastal/events.json",
+  ])
+    expect(cachedPaths).toContain(new URL(path, appURL).pathname);
+  expect(cachedPaths.some((path) => path.endsWith(".js"))).toBe(true);
+  expect(cachedPaths.some((path) => path.endsWith(".css"))).toBe(true);
+  await testInfo.attach("offline-cache-evidence", {
+    body: JSON.stringify(
+      {
+        project: testInfo.project.name,
+        browserVersion: browser.version(),
+        ...evidence,
+      },
+      null,
+      2,
+    ),
+    contentType: "application/json",
+  });
+
+  // Negative control: without a previously installed worker/cache the same
+  // URL must fail offline. This prevents HTTP/network fallbacks from passing.
+  const uncached = await browser.newContext({ offline: true });
+  try {
+    const fresh = await uncached.newPage();
+    await expect(fresh.goto(appURL.href, { timeout: 5000 })).rejects.toThrow();
+  } finally {
+    await uncached.close();
+  }
   await nextMonth(page).tap();
   await expect(page.locator(".age")).toHaveText("0歳1か月");
   try {
     await context.setOffline(true);
-    await page.reload();
+    const response = await page.reload();
+    expect(response?.status()).toBe(200);
+    expect(response?.fromServiceWorker()).toBe(true);
     await expect(nextMonth(page)).toBeEnabled();
     await expect(page.locator(".age")).toHaveText("0歳1か月");
     await nextMonth(page).tap();
