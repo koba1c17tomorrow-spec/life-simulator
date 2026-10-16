@@ -1,3 +1,4 @@
+import { assertRawStateFormat, STATE_VERSION } from "./saveFormat";
 import { record as log } from "./journal";
 import { validateEvents, WORLDS } from "./content";
 import {
@@ -189,7 +190,7 @@ export function newGame(
     worldId,
     birthSeed: seed >>> 0,
     initialIdentityChoice: { ...identityChoice },
-    version: 1,
+    version: STATE_VERSION,
     month: 0,
     seed: seed >>> 0,
     stats: { ...initialStats },
@@ -937,6 +938,7 @@ export function haveChild(s: GameState): GameState {
 
 /** Supported old saves gain defaults; invalid input never overwrites a working save. */
 export function normalizeGameState(value: unknown): GameState {
+  assertRawStateFormat(value);
   if (!value || typeof value !== "object" || Array.isArray(value))
     throw Error("セーブデータが不正です。");
   const check = (v: unknown, depth = 0): void => {
@@ -953,7 +955,7 @@ export function normalizeGameState(value: unknown): GameState {
   check(value);
   const v = value as Partial<GameState>;
   if (
-    v.version !== 1 ||
+    v.version !== STATE_VERSION ||
     !Number.isInteger(v.month) ||
     v.month! < 0 ||
     v.month! > 1440 ||
@@ -1113,6 +1115,17 @@ export function normalizeGameState(value: unknown): GameState {
     )
   )
     throw Error("人物データが不正です");
+  // Validate imported relations without clamping values or inventing people.
+  // Other historical links and sentinel IDs need a separate migration policy.
+  const personIds = new Set(s.people.map((p) => p.id));
+  if (
+    s.relations.some(
+      (r) =>
+        r.closeness < 0 || r.closeness > 100 ||
+        r.trust < 0 || r.trust > 100 || !personIds.has(r.id),
+    )
+  )
+    throw Error("関係値または人物への参照が不正です");
   if (
     !["male", "female", "nonbinary"].includes(s.identity.gender) ||
     !["heterosexual", "bisexual", "homosexual", "asexual"].includes(
