@@ -140,3 +140,9 @@ PR #2マージ後のmain `19104a6` を起点に、K5〜K7の限定的な入力�
 - K7：raw/envelopeを識別し、未来版・別形式・混合を拒否。直接のraw正規化も混合を通さない。
 
 判断理由と保留事項は [SAVE_MIGRATION](SAVE_MIGRATION.md)、状態の責務は [STATE_ARCHITECTURE](STATE_ARCHITECTURE.md) を参照。`tests/saveMigration.test.ts` と `browser-tests/save-validation.spec.ts` で新しい拒否条件・既存互換性・原本保護を検証する。K1〜K4は未修正。P0-1のテストとfixtureは変更していない。
+
+## 夜間バッチ P0-3 / P1-1 / P1-2追記
+
+基点main 57193e7。K1は新規死亡月の保存と不明な旧死亡時年齢の表示で修正。K2は新しいNPC更新通知を構造化し、内部世界履歴とPC公開経路を分離して修正した。過去の混在ログは削除しない。K3のバランスおよびK4の関係モデルには着手しない。
+
+乱数は互換性を優先して基盤のみ導入し、ゲームの単一seedを全面切替しない。追加のテストはrandomHistory/deceasedAge/npcKnowledge、ブラウザはdeceased/knowledge。P0-1/P0-2のテストと実fixtureを削除・skipせず維持する。個別実績はROADMAP_V3と最終のVALIDATION追記を参照。

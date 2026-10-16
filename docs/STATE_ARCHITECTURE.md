@@ -69,3 +69,11 @@ UI・PWA・ゲームルールに変更はない。保存の識別・妥当性検
 ## 5. 継続して残る課題
 
 `normalizeGameState` は初期化・互換補完・検証がまだ同じ関数にある。全体を機械的に別ファイルへ移すとnewGame、WORLDS、イベント検証、循環依存への影響が広がるため、今回行わない。歴史的な関係、親子のunknown/player参照、片側の婚姻情報、死亡月不明の扱いも自動修復しない。具体的な保留理由は [SAVE_MIGRATION](SAVE_MIGRATION.md) を参照する。
+
+## P0-3追記
+
+任意のrandomStreams（基盤のみ、月次への全面適用保留）とworldHistory（構造化事実）を追加した。P0-2時点の現状表は上に履歴として保存する。GameStateの一括分割はしていない。責務・互換性は [RANDOM_AND_HISTORY](RANDOM_AND_HISTORY.md) を参照。
+
+## P1-1 / P1-2追記
+
+人物年齢は生存時に現在月、死亡時に任意deathMonthを使い、欠落は不明とする。新しいNPC通知はNpcFact→worldHistory→明示的な知識遷移→journalの順に分離した。更新callbackの型が公開根拠を要求し、文字列フィルタでは判定しない。詳細は [KNOWLEDGE_BOUNDARY](KNOWLEDGE_BOUNDARY.md)。旧PCログ・型のフラット構造は維持。

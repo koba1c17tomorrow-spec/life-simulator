@@ -1,3 +1,4 @@
+import { npcFact, type NpcReporter } from "./npcEvents";
 import type { Trait } from "./traits";
 import type { Origin } from "./origins";
 import { randomIdentity, type Identity } from "./identity";
@@ -17,6 +18,7 @@ export type Person = Partial<Identity> & {
   kind: "family" | "friend" | "teacher";
   birthMonth: number;
   alive: boolean;
+  deathMonth?: number | null;
   personality?: "kind" | "bold" | "quiet" | "ambitious";
   values?: "family" | "career" | "freedom";
   occupation?: "student" | "employed" | "unemployed" | "retired";
@@ -129,7 +131,7 @@ export function socialMonth(
   s: SocialState,
   month: number,
   random: () => number,
-  log: (text: string) => void,
+  log: NpcReporter,
 ): void {
   if (s.lastSocialTick >= month) return;
   for (const r of s.relations) {
@@ -143,7 +145,10 @@ export function socialMonth(
       r.trust = Math.min(100, r.trust + 1 + Math.floor(random() * 3));
       r.lastContactMonth = month;
       if (r.closeness >= 60 && random() < 0.13)
-        log(p.name + "と自然に親しくなった。");
+        log(
+          p.name + "と自然に親しくなった。",
+          npcFact("npc.contact", ["player", p.id], {}, "participants"),
+        );
     } else if (random() < 0.025) {
       r.trust = Math.max(0, r.trust - 2);
     }
@@ -158,7 +163,10 @@ export function socialMonth(
       random() < 0.018
     ) {
       p.occupation = "employed";
-      log(p.name + "が就職した。");
+      log(
+        p.name + "が就職した。",
+        npcFact("npc.employment", [p.id], { occupation: "employed" }),
+      );
     }
     if (
       age >= 18 &&
@@ -167,11 +175,17 @@ export function socialMonth(
       random() < 0.002
     ) {
       p.occupation = "unemployed";
-      log(p.name + "が仕事を失った。");
+      log(
+        p.name + "が仕事を失った。",
+        npcFact("npc.employment", [p.id], { occupation: "unemployed" }),
+      );
     }
     if (age >= 18 && !p.movedAway && random() < 0.0015) {
       p.movedAway = true;
-      log(p.name + "が遠くへ引っ越した。");
+      log(
+        p.name + "が遠くへ引っ越した。",
+        npcFact("npc.move", [p.id], { movedAway: true }),
+      );
     }
   }
 
@@ -227,7 +241,10 @@ export function socialMonth(
       occupation: "student",
     });
     s.relations.push({ id, closeness: 35, trust: 35, lastContactMonth: month });
-    log(name + "と知り合った。");
+    log(
+      name + "と知り合った。",
+      npcFact("npc.encounter", ["player", id], {}, "participants"),
+    );
   }
   s.lastSocialTick = month;
 }
@@ -272,4 +289,19 @@ export function personalityLabel(p: Person): string {
     quiet: "物静か",
     ambitious: "向上心が強い",
   }[p.personality ?? "kind"];
+}
+
+/** Unknown historical deaths have no inferred date or age. */
+export function personAgeMonths(
+  person: Person,
+  currentMonth: number,
+): number | null {
+  if (person.alive) return currentMonth - person.birthMonth;
+  return person.deathMonth === undefined || person.deathMonth === null
+    ? null
+    : person.deathMonth - person.birthMonth;
+}
+export function personAgeLabel(person: Person, currentMonth: number): string {
+  const age = personAgeMonths(person, currentMonth);
+  return age === null ? "死亡時年齢不明" : `${Math.floor(age / 12)}歳`;
 }

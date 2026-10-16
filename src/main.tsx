@@ -25,7 +25,7 @@ import { traitNames, traitDescriptions } from "./traits";
 import { relativeScore, type RelativeStat } from "./balance";
 import { rollChance, rollExplanation } from "./eventRules";
 import { careerName, annualSalary } from "./progression";
-import { relationLabel, personalityLabel } from "./social";
+import { relationLabel, personalityLabel, personAgeLabel } from "./social";
 import {
   genderLabel,
   orientationLabel,
@@ -458,7 +458,7 @@ function App() {
                             ? "教師"
                             : "友人"}
                         <div className="hint">
-                          {Math.floor((game.month - person.birthMonth) / 12)}歳
+                          {personAgeLabel(person, game.month)}
                           ／{" "}
                           {person.alive
                             ? (person.occupation ?? "未就学")
