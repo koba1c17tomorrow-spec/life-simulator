@@ -1,9 +1,13 @@
 import { test, expect } from "@playwright/test";
-test("four layers show numeric abilities and gradual qualitative discovery", async ({ page }) => {
+test("four layers show numeric abilities and gradual qualitative discovery", async ({
+  page,
+}) => {
   await page.goto("./");
   await page.evaluate(async () => {
     const { newGame } = await import("/life-simulator/src/engine.ts");
-    const s = newGame(42); s.month = 100; s.traits = ["quickLearner"];
+    const s = newGame(42);
+    s.month = 100;
+    s.traits = ["quickLearner"];
     localStorage.setItem("life-sim-modern-v1", JSON.stringify(s));
   });
   await page.reload();
@@ -17,5 +21,9 @@ test("four layers show numeric abilities and gradual qualitative discovery", asy
   await page.reload();
   await page.getByRole("button", { name: "概要", exact: true }).click();
   await expect(panel).toContainText("学習技法 1.2");
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });

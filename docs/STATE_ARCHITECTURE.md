@@ -81,3 +81,7 @@ UI・PWA・ゲームルールに変更はない。保存の識別・妥当性検
 ## P2-1 実装差分
 
 資質traitsと基礎能力statsを正本として維持。任意のcapabilitiesに導入後の専門技能/観測量/公開済み資質だけを分離した。学歴・職歴・資格は既存フィールドのまま参照する。[CAPABILITIES](CAPABILITIES.md)参照。大規模なGameState分割とNPCの完全な技能モデルは未実装。
+
+## P2-2 実装差分
+
+時間計算・条件確認・計画設定をtimeBudget.tsに分離。engineは実行と月末解決を担当し、economyは同じ予算から購入時間を確保する。任意の保存拡張で旧状態を保持。UIは共通の条件判定を参照し、不実行理由を表示する。シーン時計・詳細な家事分担・NPC時間予算は未実装。[TIME_AND_ACTIONS](TIME_AND_ACTIONS.md)参照。

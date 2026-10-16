@@ -1,3 +1,4 @@
+import { remainingHours, chargeTime } from "./timeBudget";
 import { record } from "./journal";
 import type { GameState, Effect } from "./engine";
 export type Economy = {
@@ -210,6 +211,7 @@ export function purchaseReason(s: GameState, p: Purchase): string {
     return "債務整理か返済を優先してください";
   if (s.benefits.creditRestricted >= s.month && p.price >= 40000)
     return "債務整理後の支出制限中です";
+  if (remainingHours(s) < 2) return "残り時間が不足しています";
   if (s.stats.money < p.price) return "所持金が不足しています";
   if (p.id === "housing" && s.housing === "owned")
     return "住居を所有しています";
@@ -219,6 +221,7 @@ export function spend(original: GameState, id: string): GameState {
   const p = PURCHASES.find((p) => p.id === id);
   if (!p || purchaseReason(original, p)) return original;
   const s = structuredClone(original);
+  chargeTime(s, "購入", 2);
   s.stats.money -= p.price;
   s.lastSpendMonth = s.month;
   s.purchases[id] = s.month;
