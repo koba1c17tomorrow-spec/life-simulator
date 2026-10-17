@@ -607,3 +607,8 @@ label {
     vertical-align: middle;
   }
 }
+
+.social-panel { margin-block: 0.75rem; overflow-wrap: anywhere; }
+.social-panel summary { cursor: pointer; }
+.social-panel dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+.social-panel dd { margin-inline-start: 0; }

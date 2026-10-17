@@ -1,3 +1,5 @@
+import { SocialPanel } from "./SocialPanel";
+import { readSocialNews } from "./socialPresentation";
 import { publicNpc, publicNpcLinks } from "./npcKnowledgeView";
 import { observedAttitude } from "./directedRelations";
 import { FocusControls } from "./FocusControls";
@@ -375,6 +377,7 @@ function App() {
           </div>
           {tab === "history" ? (
             <>
+              <SocialPanel game={game} blocked={saveBlocked} onRead={() => setGame(s => readSocialNews(s))} />
               <div className="entries" ref={historyRef}>
                 {game.finished && (
                   <p className="ending">

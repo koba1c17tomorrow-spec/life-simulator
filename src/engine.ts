@@ -1,3 +1,4 @@
+import { validateSocietyKnowledge, type SocietyKnowledge } from "./socialPresentation";
 import { societyEventsMonth, noteSocietyChoice, validateSocietyEvents, type SocietyEvents } from "./societyEvents";
 import { createSociety, societyMonth, validateSociety, type Society } from "./society";
 import { cloneState } from "./cloneState";
@@ -155,6 +156,7 @@ export type GameState = SocialState &
   School &
   Vitality & {
     society?: Society;
+    societyKnowledge?: SocietyKnowledge;
     societyEvents?: SocietyEvents;
     npcTiers?: NpcTiers;
     timeBudget?: TimeBudget;
@@ -1345,5 +1347,6 @@ export function normalizeGameState(value: unknown): GameState {
   validateRandomStreams(s.randomStreams);
   validateWorldHistory(s.worldHistory, s.month);
   validateSocietyEvents(s);
+  validateSocietyKnowledge(s);
   return s;
 }
