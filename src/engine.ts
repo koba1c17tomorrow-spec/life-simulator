@@ -1,3 +1,4 @@
+import { societyEventsMonth, noteSocietyChoice, validateSocietyEvents, type SocietyEvents } from "./societyEvents";
 import { createSociety, societyMonth, validateSociety, type Society } from "./society";
 import { cloneState } from "./cloneState";
 import { observeNpcTiers, validateNpcTiers, type NpcTiers } from "./npcTiers";
@@ -154,6 +155,7 @@ export type GameState = SocialState &
   School &
   Vitality & {
     society?: Society;
+    societyEvents?: SocietyEvents;
     npcTiers?: NpcTiers;
     timeBudget?: TimeBudget;
     focusPlan?: FocusPlan;
@@ -344,6 +346,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
     s.month++;
     s.monthStarted = true;
     societyMonth(s);
+    societyEventsMonth(s);
     const drift = monthlyDrift(s.month, s.career, s.priority);
     applyEffects(
       s,
@@ -800,6 +803,7 @@ export function choose(
     data: { eventId: p.eventId, choiceIndex: index, choiceLabel: c.label },
     visibility: "participants", pcKnowledge: { month: s.month, source: "direct" },
   });
+  noteSocietyChoice(s, choiceEvent);
   log(s, `${p.text} → ${c.label}`, choiceEvent.id);
   s.pending = null;
   return advanceOwnedMonth(s, events);
@@ -1340,5 +1344,6 @@ export function normalizeGameState(value: unknown): GameState {
       .reverse();
   validateRandomStreams(s.randomStreams);
   validateWorldHistory(s.worldHistory, s.month);
+  validateSocietyEvents(s);
   return s;
 }

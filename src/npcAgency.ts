@@ -1,3 +1,4 @@
+import { societyRestriction } from "./society";
 import {
   capturePublicProfile,
   ownEntry,
@@ -148,6 +149,8 @@ export function npcReply(
   const p = s.people.find((p) => p.id === id),
     a = s.npcAgency ? ownEntry(s.npcAgency.actors, id) : undefined;
   if (!p?.alive) return { accepted: false, reason: "相手と会うことができない" };
+  const restriction = societyRestriction(s, intent);
+  if (restriction) return {accepted:false,reason:restriction};
   const hours = intent === "marry" || intent === "child" ? 16 : 8;
   if (
     p.movedAway ||
