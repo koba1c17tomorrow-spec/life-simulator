@@ -1,3 +1,4 @@
+import { createSociety, societyMonth, validateSociety, type Society } from "./society";
 import { cloneState } from "./cloneState";
 import { observeNpcTiers, validateNpcTiers, type NpcTiers } from "./npcTiers";
 import { prepareNpcAgency, npcAgencyMonth, npcReply, npcFreeHours, reserveNpcHours, validateNpcAgency } from "./npcAgency";
@@ -152,6 +153,7 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    society?: Society;
     npcTiers?: NpcTiers;
     timeBudget?: TimeBudget;
     focusPlan?: FocusPlan;
@@ -204,6 +206,7 @@ export function newGame(
   if (worldId === "coastal") origin.region = "coastal";
   return {
     worldId,
+    society: createSociety(worldId, 0, seed >>> 0, false),
     birthSeed: seed >>> 0,
     initialIdentityChoice: { ...identityChoice },
     capabilities: initialCapabilities(),
@@ -340,6 +343,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
   if (!s.monthStarted) {
     s.month++;
     s.monthStarted = true;
+    societyMonth(s);
     const drift = monthlyDrift(s.month, s.career, s.priority);
     applyEffects(
       s,
@@ -1076,6 +1080,8 @@ export function normalizeGameState(value: unknown): GameState {
       origin: { ...base.origin, ...v.origin },
     }),
   );
+  if (v.society === undefined) delete s.society;
+  validateSociety(s);
   if (v.capabilities === undefined) delete s.capabilities;
   else validateCapabilities(v.capabilities, s.month, s.traits);
   validateTimeExtensions(s);
