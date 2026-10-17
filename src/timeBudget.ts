@@ -1,3 +1,4 @@
+import { scenarioActive } from "./scenarios";
 import type { GameState } from "./engine";
 export type ActionKind = "study" | "work" | "rest";
 export type Intensity = 1 | 2 | 3;
@@ -90,6 +91,7 @@ export function actionReason(
   intensity: Intensity = 1,
 ): string {
   if (![1, 2, 3].includes(intensity)) return "行動強度が不正です";
+  if (scenarioActive(s)) return "シナリオ進行中です";
   if (s.finished || s.pending) return "進行停止中は実行できません";
   if (s.lastActionMonth === s.month)
     return "自主行動・交流・重点行動は月1回までです";
@@ -109,6 +111,7 @@ export function planFocus(
   intensity: Intensity,
 ): GameState {
   if (
+    scenarioActive(s) ||
     s.finished ||
     s.pending ||
     s.monthStarted ||

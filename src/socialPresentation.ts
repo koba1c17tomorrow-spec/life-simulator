@@ -1,3 +1,4 @@
+import { scenarioActive } from "./scenarios";
 import type { GameState } from "./engine";
 import { cloneState } from "./cloneState";
 import { budgetFor, chargeTime, remainingHours } from "./timeBudget";
@@ -18,6 +19,7 @@ export type SocietyKnowledge = {
 };
 const BANDS = ["厳しい", "やや厳しい", "中程度", "比較的良好", "良好"];
 export function newsReason(s: GameState): string {
+  if (scenarioActive(s)) return "シナリオ進行中です";
   if (s.pending || s.finished) return "進行停止中は確認できません";
   if (!s.society) return "社会状態の観測開始前です";
   if (s.societyKnowledge?.observedMonth === s.month)

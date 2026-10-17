@@ -1,3 +1,4 @@
+import { scenarioActive } from "./scenarios";
 import { remainingHours, chargeTime } from "./timeBudget";
 import { record } from "./journal";
 import type { GameState, Effect } from "./engine";
@@ -201,7 +202,7 @@ export const PURCHASES: Purchase[] = [
   },
 ];
 export function purchaseReason(s: GameState, p: Purchase): string {
-  if (s.finished || s.pending) return "進行停止中は購入できません";
+  if (scenarioActive(s) || s.finished || s.pending) return "進行停止中は購入できません";
   if (s.month < p.minAge)
     return `${Math.floor(p.minAge / 12)}歳から利用できます`;
   if (s.lastSpendMonth === s.month) return "購入は月1回までです";
@@ -251,6 +252,7 @@ export function transfer(
   amount: number,
 ): GameState {
   if (
+    scenarioActive(original) ||
     original.finished ||
     original.pending ||
     original.month < 216 ||
@@ -301,6 +303,7 @@ export function changeLiving(
   if (
     original.month < 216 ||
     original.pending ||
+    scenarioActive(original) ||
     original.finished ||
     !["basic", "standard", "comfortable"].includes(living) ||
     (original.debt > 3000000 && living !== "basic")
@@ -310,6 +313,7 @@ export function changeLiving(
 }
 export function restructure(original: GameState): GameState {
   if (
+    scenarioActive(original) ||
     original.finished ||
     original.pending ||
     original.debt < 3000000 ||
