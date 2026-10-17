@@ -19,8 +19,8 @@ import { createRandomStreams } from "../src/randomStreams";
 import { interact, feelings } from "../src/directedRelations";
 import { recordNpcFact, npcFact, shareWorldEvents } from "../src/npcEvents";
 import fixture from "./fixtures/current-v1-club-pending.json";
-function society(seed = 42) {
-  const s = newGame(seed);
+function society(seed = 42, world = "modern") {
+  const s = newGame(seed, {}, world);
   s.month = 300;
   s.education = "working";
   for (let i = 0; i < 4; i++) {
@@ -150,8 +150,7 @@ it("same-month calls do not reset budgets, resurrect dead actors or repeat actio
 it.each(["modern", "coastal"])(
   "replays goals, streams, relations and history across saves in %s",
   (world) => {
-    let a = society();
-    a.worldId = world;
+    let a = society(42, world);
     a.autoChoices = true;
     for (let i = 0; i < 48; i++) {
       let b = normalizeGameState(a);

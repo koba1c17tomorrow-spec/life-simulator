@@ -1,0 +1,199 @@
+{
+  "base": "20525dab765dedace0accb4eb7ac3be30a6c77d5",
+  "before": {
+    "node": "v24.19.0",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "lives": [
+      {
+        "seed": 7919,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1158.7423029999916,
+        "hash": "3740b7cd4a62ec54ce8cd9e2cc3bcd6d1412399228337c959327a4ea59274944"
+      },
+      {
+        "seed": 15838,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1109.3970730000292,
+        "hash": "eea8fda8be2ccde4309dd5952ff515512cb691abb83a7b79b7222830a55dead9"
+      },
+      {
+        "seed": 23757,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1042.5816959999902,
+        "hash": "b9a254cbc087f1b6573b5912681bd9f65fcb3559a71f666ddb1a9d9ba3cfeb1b"
+      },
+      {
+        "seed": 31676,
+        "world": "modern",
+        "months": 1157,
+        "simulationMs": 875.6634050000648,
+        "hash": "7deb7360a3c07643becda8dbe14911850c9d16a1145691185067700f3409a952"
+      },
+      {
+        "seed": 39595,
+        "world": "coastal",
+        "months": 1040,
+        "simulationMs": 870.734010000011,
+        "hash": "2841c05d4fcc96b8e5e43ba387bd206714528b2efbfcf310a42a9a67a420044c"
+      },
+      {
+        "seed": 47514,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 975.6621110000087,
+        "hash": "8411488081611e438baf25172265082be02d6f7e77445c84967f7bd2a6213195"
+      },
+      {
+        "seed": 55433,
+        "world": "coastal",
+        "months": 1155,
+        "simulationMs": 877.4563810000291,
+        "hash": "f8219b7f3de5cde0d89a971c97f1987c4e115a6ae2c8b5850e96fc290107f2c9"
+      },
+      {
+        "seed": 63352,
+        "world": "modern",
+        "months": 976,
+        "simulationMs": 649.7965439999389,
+        "hash": "72d69678b1ec5bce5b9da03ef6d75cbc29ded1f320e265ea4b1fd9d87f58b44d"
+      },
+      {
+        "seed": 71271,
+        "world": "coastal",
+        "months": 1126,
+        "simulationMs": 837.6208730000217,
+        "hash": "cc698547730120829ecd8c599feb9172d37f16559f30d16e7c88561a9fe67d37"
+      },
+      {
+        "seed": 79190,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 931.2578650001451,
+        "hash": "c66608d933619a018385da80ca93c237c6299607b9ef0e8968c341b6d3ea7772"
+      }
+    ],
+    "simulationMs": 9328.91226100023
+  },
+  "after": {
+    "node": "v24.19.0",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "lives": [
+      {
+        "seed": 7919,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1077.0357889999955,
+        "hash": "3740b7cd4a62ec54ce8cd9e2cc3bcd6d1412399228337c959327a4ea59274944"
+      },
+      {
+        "seed": 15838,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1058.765423000008,
+        "hash": "eea8fda8be2ccde4309dd5952ff515512cb691abb83a7b79b7222830a55dead9"
+      },
+      {
+        "seed": 23757,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1032.7834730000122,
+        "hash": "b9a254cbc087f1b6573b5912681bd9f65fcb3559a71f666ddb1a9d9ba3cfeb1b"
+      },
+      {
+        "seed": 31676,
+        "world": "modern",
+        "months": 1157,
+        "simulationMs": 909.8783249999542,
+        "hash": "7deb7360a3c07643becda8dbe14911850c9d16a1145691185067700f3409a952"
+      },
+      {
+        "seed": 39595,
+        "world": "coastal",
+        "months": 1040,
+        "simulationMs": 835.9290480000054,
+        "hash": "2841c05d4fcc96b8e5e43ba387bd206714528b2efbfcf310a42a9a67a420044c"
+      },
+      {
+        "seed": 47514,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1006.5581159999929,
+        "hash": "8411488081611e438baf25172265082be02d6f7e77445c84967f7bd2a6213195"
+      },
+      {
+        "seed": 55433,
+        "world": "coastal",
+        "months": 1155,
+        "simulationMs": 920.6765840000226,
+        "hash": "f8219b7f3de5cde0d89a971c97f1987c4e115a6ae2c8b5850e96fc290107f2c9"
+      },
+      {
+        "seed": 63352,
+        "world": "modern",
+        "months": 976,
+        "simulationMs": 685.9052950000914,
+        "hash": "72d69678b1ec5bce5b9da03ef6d75cbc29ded1f320e265ea4b1fd9d87f58b44d"
+      },
+      {
+        "seed": 71271,
+        "world": "coastal",
+        "months": 1126,
+        "simulationMs": 906.9363260001337,
+        "hash": "cc698547730120829ecd8c599feb9172d37f16559f30d16e7c88561a9fe67d37"
+      },
+      {
+        "seed": 79190,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 973.5959430002258,
+        "hash": "c66608d933619a018385da80ca93c237c6299607b9ef0e8968c341b6d3ea7772"
+      }
+    ],
+    "simulationMs": 9408.064322000442
+  },
+  "matches": [
+    {
+      "seed": 7919,
+      "equal": true
+    },
+    {
+      "seed": 15838,
+      "equal": true
+    },
+    {
+      "seed": 23757,
+      "equal": true
+    },
+    {
+      "seed": 31676,
+      "equal": true
+    },
+    {
+      "seed": 39595,
+      "equal": true
+    },
+    {
+      "seed": 47514,
+      "equal": true
+    },
+    {
+      "seed": 55433,
+      "equal": true
+    },
+    {
+      "seed": 63352,
+      "equal": true
+    },
+    {
+      "seed": 71271,
+      "equal": true
+    },
+    {
+      "seed": 79190,
+      "equal": true
+    }
+  ]
+}

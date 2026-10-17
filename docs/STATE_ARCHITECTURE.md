@@ -99,3 +99,7 @@ public advanceMonth/chooseは入力を深く複製する。chooseが専有する
 ## P3-3 観測用の段階
 
 npcTiersはNPC状態そのものを移動せず、分類と実際に完了した更新の時計だけを持つ。engineが更新前の生存者IDを保持し、旧NPC生活更新とagency完了後に時計を記録する。再接触の分類更新は時計を補完しない。updates:fullによりDormant候補も毎月更新し、実遅延は保留。NPC_UPDATES.mdに理由と計測方法・実測を記録した。
+
+## Phase 4 社会と観測
+
+任意societyは内部の6軸/導入境界/社会専用乱数、societyEventsは発生の時計/最新原因、societyKnowledgeはPCの観測済み概況を担当する。society.ts / societyEvents.ts / socialPresentation.tsへ分離し、engineは未開始月と実選択の接続、SocialPanelは投影の描画だけを行う。事件の実体/公開時刻は既存worldHistory/pcKnowledgeを利用する。過去の内部状態をUIから直接参照しない。詳細はSOCIAL_STATE.md / SOCIAL_EVENTS.md / SOCIAL_PRESENTATION.md。

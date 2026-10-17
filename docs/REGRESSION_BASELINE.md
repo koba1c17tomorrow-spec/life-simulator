@@ -163,3 +163,7 @@ K4の交流必ず好転する問題は今回変更せずP3-1へ残す。保存�
 ## P2-3〜P3-3 積み重ねバッチ
 
 P2-3は実時間/健康/疲労/環境を技能へ接続し、代表rollへ技能を一重適用。P3-1/P3-2でK4の新しい交流について方向別感情、悪化/不変、拒否、自律行動を導入した。旧relationsと故人の履歴は保持。通常画面はPCの気持ちと観測済み応対、確認済みの生活情報を分ける。テストはskillGrowth/directedRelations/npcAgency/npcTiers、ブラウザはdirectedRelations/npcAgencyを追加。P3-3は分類・時計・性能計測のみで、実遅延の受入は未完了。機能切替を無効とし、計測では分類の有無で状態が一致したことだけを保証する。
+
+## Phase 4 追加回帰
+
+社会6軸/旧保存境界はtests/society.test.ts、3系統/実効果/因果/独立乱数/旧pendingはtests/societyEvents.test.ts、未観測/私的情報/費用/既知原因/保存はtests/socialPresentation.test.ts。ブラウザはbrowser-tests/socialPresentation.spec.tsのmodern/coastal×PC/mobile。旧seedとの比較はscripts/social-regression-study.mjsとdocs/measurements/phase4-seed-regression.json。fantasyは社会プロファイル/文章の単体検証までで、プレイ可能ワールドではない。P3-3の実遅延、GUI再設計、実機Safariの未検証を解消したとは扱わない。

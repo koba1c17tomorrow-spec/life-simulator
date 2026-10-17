@@ -1,3 +1,6 @@
+import { validateSocietyKnowledge, type SocietyKnowledge } from "./socialPresentation";
+import { societyEventsMonth, noteSocietyChoice, validateSocietyEvents, type SocietyEvents } from "./societyEvents";
+import { createSociety, societyMonth, validateSociety, type Society } from "./society";
 import { cloneState } from "./cloneState";
 import { observeNpcTiers, validateNpcTiers, type NpcTiers } from "./npcTiers";
 import { prepareNpcAgency, npcAgencyMonth, npcReply, npcFreeHours, reserveNpcHours, validateNpcAgency } from "./npcAgency";
@@ -152,6 +155,9 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    society?: Society;
+    societyKnowledge?: SocietyKnowledge;
+    societyEvents?: SocietyEvents;
     npcTiers?: NpcTiers;
     timeBudget?: TimeBudget;
     focusPlan?: FocusPlan;
@@ -204,6 +210,7 @@ export function newGame(
   if (worldId === "coastal") origin.region = "coastal";
   return {
     worldId,
+    society: createSociety(worldId, 0, seed >>> 0, false),
     birthSeed: seed >>> 0,
     initialIdentityChoice: { ...identityChoice },
     capabilities: initialCapabilities(),
@@ -340,6 +347,8 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
   if (!s.monthStarted) {
     s.month++;
     s.monthStarted = true;
+    societyMonth(s);
+    societyEventsMonth(s);
     const drift = monthlyDrift(s.month, s.career, s.priority);
     applyEffects(
       s,
@@ -796,6 +805,7 @@ export function choose(
     data: { eventId: p.eventId, choiceIndex: index, choiceLabel: c.label },
     visibility: "participants", pcKnowledge: { month: s.month, source: "direct" },
   });
+  noteSocietyChoice(s, choiceEvent);
   log(s, `${p.text} → ${c.label}`, choiceEvent.id);
   s.pending = null;
   return advanceOwnedMonth(s, events);
@@ -1076,6 +1086,8 @@ export function normalizeGameState(value: unknown): GameState {
       origin: { ...base.origin, ...v.origin },
     }),
   );
+  if (v.society === undefined) delete s.society;
+  validateSociety(s);
   if (v.capabilities === undefined) delete s.capabilities;
   else validateCapabilities(v.capabilities, s.month, s.traits);
   validateTimeExtensions(s);
@@ -1334,5 +1346,7 @@ export function normalizeGameState(value: unknown): GameState {
       .reverse();
   validateRandomStreams(s.randomStreams);
   validateWorldHistory(s.worldHistory, s.month);
+  validateSocietyEvents(s);
+  validateSocietyKnowledge(s);
   return s;
 }
