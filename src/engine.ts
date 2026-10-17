@@ -1,3 +1,5 @@
+import { initializeFantasy, advanceFantasyMonth, fantasyAction, validateFantasy, type FantasyState } from "./fantasy";
+import { scenarioActive, resumeScenarioMonth, validateScenarios, type ScenarioState } from "./scenarios";
 import { validateSocietyKnowledge, type SocietyKnowledge } from "./socialPresentation";
 import { societyEventsMonth, noteSocietyChoice, validateSocietyEvents, type SocietyEvents } from "./societyEvents";
 import { createSociety, societyMonth, validateSociety, type Society } from "./society";
@@ -155,6 +157,8 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    fantasy?: FantasyState;
+    scenarios?: ScenarioState;
     society?: Society;
     societyKnowledge?: SocietyKnowledge;
     societyEvents?: SocietyEvents;
@@ -197,6 +201,7 @@ export function newGame(
   seed = 123456,
   identityChoice: IdentityChoice = {},
   worldId = "modern",
+  species?: string,
 ): GameState {
   const identitySeed = { value: seed >>> 0 };
   const draw = () => {
@@ -208,7 +213,7 @@ export function newGame(
   const origin = randomOrigin(draw);
   const traits = randomTraits(draw, origin.parentTraits.flat());
   if (worldId === "coastal") origin.region = "coastal";
-  return {
+  const state: GameState = {
     worldId,
     society: createSociety(worldId, 0, seed >>> 0, false),
     birthSeed: seed >>> 0,
@@ -238,6 +243,8 @@ export function newGame(
     ...initialSchool(),
     ...initialVitality(),
   };
+  if (worldId === "fantasy") initializeFantasy(state, species);
+  return state;
 }
 function random(s: GameState) {
   s.seed = (Math.imul(1664525, s.seed) + 1013904223) >>> 0;
@@ -327,6 +334,7 @@ export function advanceMonth(
   original: GameState,
   events: EventDefinition[],
 ): GameState {
+  if (original.scenarios?.active?.status === "running") return original;
   return advanceOwnedMonth(cloneState(original), events);
 }
 // The caller exclusively owns this state; public entry points clone before mutation.
@@ -344,6 +352,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
     ...s,
   });
   if (s.finished || s.pending) return s;
+  if (s.worldId === "fantasy") return advanceFantasyMonth(s, events);
   if (!s.monthStarted) {
     s.month++;
     s.monthStarted = true;
@@ -397,7 +406,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
       (text) => log(s, text),
     );
     updateAchievements(s);
-    if (s.finished) { s.timeBudget = budgetFor(s); resolveFocus(s); return s; }
+    if (s.finished) { resumeScenarioMonth(s); s.timeBudget = budgetFor(s); resolveFocus(s); return s; }
     prepareNpcAgency(s);
     socialMonth(
       s,
@@ -652,6 +661,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
   s.timeBudget = budgetFor(s);
   resolveFocus(s);
   s.monthStarted = false;
+  resumeScenarioMonth(s);
   return s;
 }
 export function choose(
@@ -870,6 +880,7 @@ export function takeAction(
 ): GameState {
   const s = normalizeSocial(cloneState(original));
   if (actionReason(s, kind, intensity)) return s;
+  if (s.worldId === "fantasy") { fantasyAction(s, kind, intensity); return s; }
   chargeTime(s, kind, actionHours(intensity));
   s.stats.money -= actionCost(kind, intensity);
   const factor = actionFactor(intensity);
@@ -919,7 +930,7 @@ export function meetPerson(
   mode: "spend" | "talk" = "spend",
 ): GameState {
   const s = normalizeSocial(cloneState(original));
-  if (s.finished || s.pending || s.lastActionMonth === s.month || remainingHours(s) < 8) return s;
+  if (scenarioActive(s) || s.finished || s.pending || s.lastActionMonth === s.month || remainingHours(s) < 8) return s;
   const target = s.people.find(p => p.id === id);
   if (!target?.alive || !s.relations.some(r => r.id === id)) return s;
   prepareNpcAgency(s);
@@ -954,6 +965,8 @@ export function meetPerson(
 export function setCareer(original: GameState, career: Career): GameState {
   const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
+    !!s.fantasy ||
+    scenarioActive(s) ||
     s.pending ||
     s.finished ||
     !careerOptions(s).includes(career) ||
@@ -976,6 +989,8 @@ export function setCareer(original: GameState, career: Career): GameState {
 export function setUniversity(original: GameState, attend: boolean): GameState {
   const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
+    !!s.fantasy ||
+    scenarioActive(s) ||
     s.pending ||
     s.finished ||
     s.month < 180 ||
@@ -996,7 +1011,7 @@ function requestLifeDecision(
   action: "date" | "marry" | "child",
   id?: string,
 ): GameState {
-  if (original.pending || original.finished) return original;
+  if (original.fantasy || scenarioActive(original) || original.pending || original.finished) return original;
   const pending = lifeDecision(original, action, id);
   if (!pending) return original;
   const s = cloneState(original);
@@ -1014,7 +1029,7 @@ export function marry(s: GameState): GameState {
 }
 export function separate(original: GameState): GameState {
   const s = normalizeProgression(normalizeSocial(cloneState(original)));
-  if (s.pending || s.finished || (!s.partnerId && !s.spouseId)) return s;
+  if (scenarioActive(s) || s.pending || s.finished || (!s.partnerId && !s.spouseId)) return s;
   const id = s.spouseId ?? s.partnerId;
   const p = s.people.find((p) => p.id === id);
   log(s, (p?.name ?? "相手") + "と別れることになった。");
@@ -1348,5 +1363,7 @@ export function normalizeGameState(value: unknown): GameState {
   validateWorldHistory(s.worldHistory, s.month);
   validateSocietyEvents(s);
   validateSocietyKnowledge(s);
+  validateScenarios(s);
+  validateFantasy(s);
   return s;
 }

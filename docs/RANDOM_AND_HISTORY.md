@@ -31,3 +31,7 @@ GameStateの任意フィールド `randomStreams` を使用すれば状態を保
 ## Phase 4 worldSocietyの局所適用
 
 社会専用継続値はsociety.randomStateに保持し、既存のworldSociety名によるFNV初期化とLCGを再利用する。既存randomStreamsへ新たなdraw/初期化を加えないことでNPCストリームの導入境界も維持する。新規は出生seed、旧保存は次の未開始月の現在seedから導入。社会更新6draw、適格事件の試行1drawと成功時の候補選択1drawを共有する。同じ社会ルール/入力/保存再開で一致。新しい世界履歴の挿入によるworld-N番号差は意図した変化で、従来の人物判定は番号を乱数に使わない。
+
+## Phase 5
+
+シーンは開始時現在seedからevents名の局所LCGをrun.randomStateへ分離する。選択可能性/時間/費用を確認後に判定がある選択だけ1draw。自動は最初の実行可能な選択を進めるので選択順のための追加drawなし。通常人生のseed/既存ストリームを変更しない。fantasyは新世界専用の月次規則でs.seedを継続し、既存世界と同じ結果を主張しない。modern/coastalでシーンを開始しない10seedの全人生を、社会や履歴IDを除外せず毎月完全状態hashで比較した実測をVALIDATIONへ記録する。

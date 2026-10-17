@@ -33,7 +33,7 @@ export function loadSlot(storage: Pick<Storage, "getItem">, slot: number) {
 export function describeSlot(storage: Pick<Storage, "getItem">, slot: number) {
   try {
     const s = loadSlot(storage, slot);
-    return `${Math.floor(s.month / 12)}歳${s.month % 12}か月 · ${s.worldId === "coastal" ? "海辺" : "現代"}${s.finished ? " · 人生終了" : ""}`;
+    return `${Math.floor(s.month / 12)}歳${s.month % 12}か月 · ${s.worldId === "fantasy" ? "街と工房" : s.worldId === "coastal" ? "海辺" : "現代"}${s.finished ? " · 人生終了" : ""}`;
   } catch {
     return storage.getItem(slotKey(slot))
       ? "読込できないデータ（上書き注意）"

@@ -103,3 +103,7 @@ npcTiersはNPC状態そのものを移動せず、分類と実際に完了した
 ## Phase 4 社会と観測
 
 任意societyは内部の6軸/導入境界/社会専用乱数、societyEventsは発生の時計/最新原因、societyKnowledgeはPCの観測済み概況を担当する。society.ts / societyEvents.ts / socialPresentation.tsへ分離し、engineは未開始月と実選択の接続、SocialPanelは投影の描画だけを行う。事件の実体/公開時刻は既存worldHistory/pcKnowledgeを利用する。過去の内部状態をUIから直接参照しない。詳細はSOCIAL_STATE.md / SOCIAL_EVENTS.md / SOCIAL_PRESENTATION.md。
+
+## Phase 5
+
+scenariosは任意の場面状態/個別継続乱数/選択履歴/過去run/導入後の持ち物。worldRulesはデータのみ、fantasyはその世界の教育/経済/健康/寿命の月次方針。engineはlegacy経路とfantasy経路を選び、人物ID・NPC行動・時間・技能・社会・知識・保存を共有する。P5で新しい状態を旧世界へ無条件初期化しない。Scene/Fantasyパネルは最小限の操作に留め、GUI全体とNPC実遅延は別課題。

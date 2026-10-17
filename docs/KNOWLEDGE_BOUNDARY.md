@@ -46,3 +46,7 @@ NPC目標はprivateかつdisclosable:falseで保存し、talkの一括報告で�
 ## Phase 4 社会の知らせ
 
 社会事実はworldHistoryへ記録し、publicでもPCが自動的に知ったとは扱わない。明示的な「知らせを確認」のみがpublic社会事実にpcKnowledgeを付ける。NPC/private社会事実は対象外。societyKnowledgeは観測した概況の段階を保存し、ライブ内部軸と分離する。socialPresentationは既知public事件のみ投影し、原因が未確認なら詳細を表示しない。詳しくはSOCIAL_PRESENTATION.md。
+
+## Phase 5
+
+シナリオの文章/結果はPCの直接経験。条件はPC能力/習得技能/PC側関係/持ち物/資金/健康を用い、NPCの内心や未確認社会事実を表示しない。終端のpc.scenario履歴だけを直接既知として記録し、場面内選択はrun.history/archiveに保持。幻想世界でもNPC私的事実は既存NpcFact経路で記録し、社会事件は明示的な知らせ確認まで既知にしない。新パネルはPCの世界固有状態だけを表示する。

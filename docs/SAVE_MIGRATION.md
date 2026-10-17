@@ -163,3 +163,9 @@ randomStreamsは存在すれば継続、なければ新判断の初回使用時�
 society / societyEvents / societyKnowledgeはいずれも任意version1。外側v1/キー/3スロット/pending/queue/scheduledは変更しない。旧状態のロード/再保存では社会の値や過去の知識を生成せず、次の未開始月から導入する。旧pendingの地域活動選択は導入前の原因として登録しない。新規は月0に社会を初期化する。社会乱数は既存のworldSociety名前/LCGを使う独立したsociety.randomStateで継続し、既存NPCのストリーム導入境界を変更しない。
 
 societyの版/軸/範囲/プロファイル/時刻/seed、社会イベントの版/時刻/定義ID/履歴参照、知識の版/観測月/段階を検査し、不正なら拒否。保存失敗時の原本保護は既存のまま。未対応のfantasy worldIdをロード可能にする変更はせず、現代/海辺は正当な同じ世界設定で生成する。worldIdだけを別世界へ書き換え社会profileを残すデータは不整合として拒否する。
+
+## Phase 5 シナリオと世界
+
+scenarios.version:1は開始時だけ作る任意拡張。run/step/局所乱数/現在シーン/選択履歴/終了結果/導入後の所持品を保存する。次の開始時に終了runをarchiveへ保持し、旧保存に場面や持ち物を補完しない。版/定義/シーン/世界/数値/時刻/履歴/人物参照を検査する。場面の途中でもraw自動保存・3スロット・JSON往復は同じ外側v1。pendingがある待機月は既存選択を優先し、時間不足のシーンは未課金で次月待ちになる。
+
+fantasyは新規に選べる別worldIdで、fantasy.version:1（種族/生業/魔法/練習時間）と人物speciesを持つ。旧modern/coastalは変換せず、fantasyで必要な状態が欠けた入力を推定で修復しない。人間900/月、長命種1440/月の上限は既存の保存月上限1440内。世界固有の未対応版/種族/生業/魔法範囲は拒否。旧キーとformatVersion/state.version、3スロットの独立性は維持する。

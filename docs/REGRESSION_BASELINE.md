@@ -167,3 +167,7 @@ P2-3は実時間/健康/疲労/環境を技能へ接続し、代表rollへ技能
 ## Phase 4 追加回帰
 
 社会6軸/旧保存境界はtests/society.test.ts、3系統/実効果/因果/独立乱数/旧pendingはtests/societyEvents.test.ts、未観測/私的情報/費用/既知原因/保存はtests/socialPresentation.test.ts。ブラウザはbrowser-tests/socialPresentation.spec.tsのmodern/coastal×PC/mobile。旧seedとの比較はscripts/social-regression-study.mjsとdocs/measurements/phase4-seed-regression.json。fantasyは社会プロファイル/文章の単体検証までで、プレイ可能ワールドではない。P3-3の実遅延、GUI再設計、実機Safariの未検証を解消したとは扱わない。
+
+## Phase 5
+
+tests/scenarios.test.tsは月次排他/条件/分岐/費用/報酬/0時間撤退/途中保存/次月pendingと遅延効果/過去run/再送拒否。tests/worldRules.test.tsは既存レジストリ/未知ID/設定不変/公開ルール一致、tests/fantasy.test.tsは非冒険就業/種族寿命/魔法/シーン/保存と3スロット/私的情報/未来版拒否。browser-tests/scenariosWorlds.spec.tsは実際の新規世界・種族選択/手動→再読込→自動完了、pages-tests/fantasy.spec.tsは本番オフラインで公開JSON3本と新規fantasy月進行。scripts/world-regression-study.mjsは既存10seedの全人生を一切の状態除外なしで月次hash比較する。実機/詳細世界制度/旧NPC年齢閾値は残課題として文書化する。

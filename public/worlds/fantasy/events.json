@@ -1,0 +1,4 @@
+[
+ {"id":"market-day","category":"social","presentation":"log","weight":1,"cooldownMonths":24,"minAge":72,"text":"市の日に、暮らしに使う品々を眺めた。","effects":[{"stat":"happiness","delta":0.5}]},
+ {"id":"craft-notes","category":"growth","presentation":"log","weight":1,"cooldownMonths":36,"minAge":192,"text":"日々の仕事の工夫を記録した。","effects":[{"stat":"knowledge","delta":0.2}]}
+]
