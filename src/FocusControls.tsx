@@ -65,7 +65,10 @@ export function FocusControls({
       </select>
       <p>
         必要時間 {actionHours(intensity)}時間 ／ 費用{" "}
-        {actionCost(kind, intensity)}円。
+        {game.fantasy && kind === "study"
+          ? intensity - 1
+          : actionCost(kind, intensity)}
+        {game.fantasy ? "銀貨" : "円"}。
         {kind === "rest"
           ? "技能は成長しません。"
           : `学習・仕事は休息や交流と競合し、${intensity === 1 ? "幸福が減ります" : "幸福が減り疲労が増します"}。`}

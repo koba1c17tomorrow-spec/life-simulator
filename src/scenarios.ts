@@ -13,6 +13,7 @@ export type SceneRequirement = {
   stat?: { id: "knowledge" | "sociability"; min: number };
   relation?: number;
   item?: string;
+  magic?: number;
 };
 export type SceneResult = {
   next?: string;
@@ -39,6 +40,7 @@ export type ScenarioDefinition = {
   title: string;
   worlds: string[];
   minAge: number;
+  temporaryItems?: string[];
   start: string;
   scenes: Record<string, { text: string; choices: SceneChoice[] }>;
 };
@@ -106,6 +108,181 @@ export const SCENARIOS: ScenarioDefinition[] = [
     },
   },
 ];
+SCENARIOS.push(
+  {
+    id: "work-and-home",
+    title: "仕事と家の用事",
+    worlds: ["modern", "coastal"],
+    minAge: 216,
+    start: "arrange",
+    scenes: {
+      arrange: {
+        text: "仕事の手伝いと家の用事が重なった。今月できる範囲を考える。",
+        choices: [
+          {
+            id: "consult",
+            label: "家族と予定を相談する",
+            hours: 4,
+            requires: { relation: 20 },
+            skill: "communication",
+            success: {
+              next: "task",
+              text: "引き受ける範囲を相談した。",
+              relation: 1,
+              item: "agreed-plan",
+            },
+          },
+          {
+            id: "alone",
+            label: "自分で予定を整理する",
+            hours: 4,
+            skill: "learning",
+            success: {
+              next: "task",
+              text: "無理のない範囲を決めた。",
+              item: "personal-plan",
+            },
+          },
+        ],
+      },
+      task: {
+        text: "予定を踏まえ、仕事を引き受けるか決める。",
+        choices: [
+          {
+            id: "shared",
+            label: "相談した範囲だけ手伝う",
+            hours: 8,
+            cost: 100,
+            requires: { item: "agreed-plan", health: 20 },
+            skill: "professional",
+            difficulty: 45,
+            success: {
+              end: "completed",
+              text: "小さな手伝いを終え、家にも時間を残せた。",
+              money: 250,
+              relation: 1,
+            },
+            failure: {
+              end: "failed",
+              text: "手直しが必要になったが、無理を増やさず終えた。",
+            },
+          },
+          {
+            id: "work",
+            label: "自分の予定で取り組む",
+            hours: 16,
+            cost: 100,
+            requires: { health: 35 },
+            skill: "professional",
+            difficulty: 55,
+            success: {
+              end: "completed",
+              text: "仕事を終えた。少し疲れたが、日常へ戻った。",
+              money: 300,
+              health: -1,
+            },
+            failure: {
+              end: "failed",
+              text: "予定どおりには進まず、今回は見送った。",
+              health: -1,
+            },
+          },
+          {
+            id: "home",
+            label: "今回は家の用事を優先する",
+            hours: 4,
+            success: {
+              end: "withdrawn",
+              text: "仕事を見送り、家の用事を済ませた。",
+              health: 1,
+            },
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: "guild-order",
+    temporaryItems: ["borrowed-tools"],
+    title: "工房の小さな依頼",
+    worlds: ["fantasy"],
+    minAge: 96,
+    start: "plan",
+    scenes: {
+      plan: {
+        text: "町の工房で、暮らしの道具を直す小さな依頼を見つけた。",
+        choices: [
+          {
+            id: "tools",
+            label: "道具と手順を確かめる",
+            hours: 4,
+            cost: 2,
+            skill: "learning",
+            success: {
+              next: "repair",
+              text: "道具を借り、手順を確かめた。",
+              item: "borrowed-tools",
+            },
+          },
+          {
+            id: "leave",
+            label: "依頼を引き受けない",
+            hours: 0,
+            success: {
+              end: "withdrawn",
+              text: "今回は普段の暮らしを続けることにした。",
+            },
+          },
+        ],
+      },
+      repair: {
+        text: "借りた道具で修理する。生活魔法を学んでいれば別の方法も選べる。",
+        choices: [
+          {
+            id: "craft",
+            label: "手仕事で修理する",
+            hours: 12,
+            requires: { item: "borrowed-tools", health: 20 },
+            skill: "professional",
+            difficulty: 45,
+            success: {
+              end: "completed",
+              text: "暮らしの道具を直し、礼を受け取った。",
+              money: 12,
+            },
+            failure: {
+              end: "failed",
+              text: "修理はうまくいかず、工房に返した。",
+            },
+          },
+          {
+            id: "magic",
+            label: "生活魔法を使って修理する",
+            hours: 8,
+            requires: { item: "borrowed-tools", magic: 1, health: 20 },
+            skill: "learning",
+            difficulty: 40,
+            success: {
+              end: "completed",
+              text: "学んだ魔法で修理を助け、礼を受け取った。",
+              money: 12,
+            },
+            failure: {
+              end: "failed",
+              text: "今回は魔法がうまく働かず、工房に戻した。",
+            },
+          },
+          {
+            id: "return",
+            label: "無理をせず道具を返す",
+            hours: 0,
+            success: { end: "withdrawn", text: "道具を返して日常へ戻った。" },
+          },
+        ],
+      },
+    },
+  },
+);
 export type ScenarioRun = {
   id: number;
   definitionId: string;
@@ -137,6 +314,7 @@ export type ScenarioState = {
   version: 1;
   nextId: number;
   active: ScenarioRun | null;
+  archive?: ScenarioRun[];
   lastStarted: Record<string, number>;
   inventory: Record<string, number>;
 };
@@ -171,7 +349,9 @@ function requirementReason(
       (s.relations.find((r) => r.id === targetId)?.closeness ?? 0) < r.relation)
   )
     return "確認できる関係が条件を満たしていません";
-  if (r.item && !(s.scenarios?.inventory[r.item] > 0))
+  if (r.magic !== undefined && (s.fantasy?.magic ?? 0) < r.magic)
+    return "生活魔法の習熟が必要です";
+  if (r.item && !((s.scenarios?.inventory[r.item] ?? 0) > 0))
     return "必要な持ち物がありません";
   return "";
 }
@@ -194,11 +374,7 @@ export function scenarioStartReason(
     return "年齢または体調が開始条件を満たしていません";
   if (s.month - (s.scenarios?.lastStarted[id] ?? -9999) < 12)
     return "同じシナリオは12か月空けてください";
-  if (
-    targetId &&
-    !s.people.some((p) => p.id === targetId && p.alive) &&
-    targetId !== "player"
-  )
+  if (targetId && !s.people.some((p) => p.id === targetId && p.alive))
     return "相手と会うことができません";
   return "";
 }
@@ -217,6 +393,7 @@ export function startScenario(
     lastStarted: {},
     inventory: {},
   };
+  if (s.scenarios.active) (s.scenarios.archive ??= []).push(s.scenarios.active);
   s.scenarios.active = {
     id: s.scenarios.nextId++,
     definitionId: id,
@@ -252,6 +429,8 @@ export function finishScenario(
 ): void {
   const run = s.scenarios?.active;
   if (!run || !scenarioActive(s)) return;
+  for (const item of scenarioDefinition(s)?.temporaryItems ?? [])
+    delete s.scenarios!.inventory[item];
   run.status = status;
   run.endedMonth = s.month;
   delete run.deferredChoice;
@@ -269,12 +448,14 @@ export function chooseScenario(
   original: GameState,
   id: string,
   expectedStep: number,
+  expectedRunId = original.scenarios?.active?.id,
 ): GameState {
   const current = original.scenarios?.active;
   if (
     !current ||
     current.status !== "running" ||
     current.step !== expectedStep ||
+    current.id !== expectedRunId ||
     original.pending ||
     original.finished
   )
@@ -289,7 +470,8 @@ export function chooseScenario(
     run.deferredChoice = id;
     return s;
   }
-  chargeTime(s, "シーン:" + run.definitionId + ":" + run.sceneId, c.hours);
+  if (c.hours > 0)
+    chargeTime(s, "シーン:" + run.definitionId + ":" + run.sceneId, c.hours);
   s.stats.money -= c.cost ?? 0;
   let success = true;
   if (c.difficulty !== undefined) {
@@ -338,7 +520,7 @@ export function autoScenario(original: GameState): GameState {
     if (!run || run.status !== "running") break;
     const entry = scenarioChoices(s).find((c) => !c.reason);
     if (!entry) return s;
-    const next = chooseScenario(s, entry.choice.id, run.step);
+    const next = chooseScenario(s, entry.choice.id, run.step, run.id);
     if (next === s) break;
     s = next;
   }
@@ -353,7 +535,11 @@ export function withdrawScenario(original: GameState): GameState {
 export function resumeScenarioMonth(s: GameState): void {
   const run = s.scenarios?.active;
   if (run?.status === "waiting-month") {
-    if (s.finished || s.stats.health < 20)
+    if (
+      s.finished ||
+      s.stats.health < 20 ||
+      (run.targetId && !s.people.some((p) => p.id === run.targetId && p.alive))
+    )
       finishScenario(
         s,
         "interrupted",
@@ -380,60 +566,72 @@ export function validateScenarios(s: GameState): void {
     !state.inventory ||
     typeof state.inventory !== "object" ||
     Array.isArray(state.inventory) ||
+    (state.archive !== undefined && !Array.isArray(state.archive)) ||
     Object.values(state.inventory).some((n) => !Number.isInteger(n) || n < 0) ||
     Object.entries(state.lastStarted).some(
       ([id, m]) => !SCENARIOS.some((d) => d.id === id) || !month(m),
     )
   )
     throw Error("シナリオ保存が不正です");
-  const r = state.active;
-  if (r === null) return;
-  const d = SCENARIOS.find((d) => d.id === r?.definitionId);
-  if (
-    !r ||
-    !d ||
-    !d.worlds.includes(s.worldId) ||
-    !Object.hasOwn(d.scenes, r.sceneId) ||
-    !Number.isSafeInteger(r.id) ||
-    r.id < 1 ||
-    r.id >= state.nextId ||
-    ![
-      "running",
-      "waiting-month",
-      "completed",
-      "failed",
-      "withdrawn",
-      "interrupted",
-    ].includes(r.status) ||
-    !month(r.startedMonth) ||
-    !Number.isInteger(r.step) ||
-    r.step < 0 ||
-    !Array.isArray(r.history) ||
-    r.step !== r.history.length ||
-    r.history.length > 16 ||
-    !Number.isInteger(r.randomState) ||
-    r.randomState < 0 ||
-    r.randomState > 0xffffffff ||
-    (r.targetId && !s.people.some((p) => p.id === r.targetId)) ||
-    (r.endedMonth !== undefined &&
-      (!month(r.endedMonth) || r.endedMonth < r.startedMonth)) ||
-    (r.status === "running" && (s.pending || s.finished)) ||
-    (!scenarioActive(s) && r.endedMonth === undefined)
-  )
-    throw Error("シーン進行が不正です");
-  let previous = r.startedMonth;
-  for (const h of r.history) {
-    const c = d.scenes[h.sceneId]?.choices.find((c) => c.id === h.choiceId);
+  const runs = [
+    ...(state.archive ?? []),
+    ...(state.active ? [state.active] : []),
+  ];
+  if (state.active === undefined) throw Error("現在のシナリオ状態が不正です");
+  let previousId = 0;
+  for (const r of runs) {
+    const d = SCENARIOS.find((d) => d.id === r?.definitionId);
     if (
-      !c ||
-      !month(h.month) ||
-      h.month < previous ||
-      h.hours !== c.hours ||
-      h.cost !== (c.cost ?? 0) ||
-      typeof h.success !== "boolean" ||
-      typeof h.text !== "string"
+      !r ||
+      !d ||
+      !d.worlds.includes(s.worldId) ||
+      !Object.hasOwn(d.scenes, r.sceneId) ||
+      !Number.isSafeInteger(r.id) ||
+      r.id <= previousId ||
+      r.id >= state.nextId ||
+      ![
+        "running",
+        "waiting-month",
+        "completed",
+        "failed",
+        "withdrawn",
+        "interrupted",
+      ].includes(r.status) ||
+      !month(r.startedMonth) ||
+      !Number.isInteger(r.step) ||
+      r.step < 0 ||
+      !Array.isArray(r.history) ||
+      r.step !== r.history.length ||
+      r.history.length > 16 ||
+      !Number.isInteger(r.randomState) ||
+      r.randomState < 0 ||
+      r.randomState > 0xffffffff ||
+      (r.targetId && !s.people.some((p) => p.id === r.targetId)) ||
+      (r.endedMonth !== undefined &&
+        (!month(r.endedMonth) || r.endedMonth < r.startedMonth)) ||
+      (r !== state.active &&
+        (r.status === "running" || r.status === "waiting-month")) ||
+      (r.status === "running" && (s.pending || s.finished)) ||
+      (r.status !== "running" &&
+        r.status !== "waiting-month" &&
+        r.endedMonth === undefined)
     )
-      throw Error("シーン選択履歴が不正です");
-    previous = h.month;
+      throw Error("シーン進行が不正です");
+    previousId = r.id;
+    let previous = r.startedMonth;
+    for (const h of r.history) {
+      const c = d.scenes[h.sceneId]?.choices.find((c) => c.id === h.choiceId);
+      if (
+        !c ||
+        !month(h.month) ||
+        h.month < previous ||
+        h.hours !== c.hours ||
+        h.cost !== (c.cost ?? 0) ||
+        typeof h.success !== "boolean" ||
+        typeof h.text !== "string"
+      )
+        throw Error("シーン選択履歴が不正です");
+      previous = h.month;
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { initializeFantasy, advanceFantasyMonth, fantasyAction, validateFantasy, type FantasyState } from "./fantasy";
 import { scenarioActive, resumeScenarioMonth, validateScenarios, type ScenarioState } from "./scenarios";
 import { validateSocietyKnowledge, type SocietyKnowledge } from "./socialPresentation";
 import { societyEventsMonth, noteSocietyChoice, validateSocietyEvents, type SocietyEvents } from "./societyEvents";
@@ -156,6 +157,7 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    fantasy?: FantasyState;
     scenarios?: ScenarioState;
     society?: Society;
     societyKnowledge?: SocietyKnowledge;
@@ -199,6 +201,7 @@ export function newGame(
   seed = 123456,
   identityChoice: IdentityChoice = {},
   worldId = "modern",
+  species?: string,
 ): GameState {
   const identitySeed = { value: seed >>> 0 };
   const draw = () => {
@@ -210,7 +213,7 @@ export function newGame(
   const origin = randomOrigin(draw);
   const traits = randomTraits(draw, origin.parentTraits.flat());
   if (worldId === "coastal") origin.region = "coastal";
-  return {
+  const state: GameState = {
     worldId,
     society: createSociety(worldId, 0, seed >>> 0, false),
     birthSeed: seed >>> 0,
@@ -240,6 +243,8 @@ export function newGame(
     ...initialSchool(),
     ...initialVitality(),
   };
+  if (worldId === "fantasy") initializeFantasy(state, species);
+  return state;
 }
 function random(s: GameState) {
   s.seed = (Math.imul(1664525, s.seed) + 1013904223) >>> 0;
@@ -347,6 +352,7 @@ function advanceOwnedMonth(original: GameState, events: EventDefinition[]): Game
     ...s,
   });
   if (s.finished || s.pending) return s;
+  if (s.worldId === "fantasy") return advanceFantasyMonth(s, events);
   if (!s.monthStarted) {
     s.month++;
     s.monthStarted = true;
@@ -874,6 +880,7 @@ export function takeAction(
 ): GameState {
   const s = normalizeSocial(cloneState(original));
   if (actionReason(s, kind, intensity)) return s;
+  if (s.worldId === "fantasy") { fantasyAction(s, kind, intensity); return s; }
   chargeTime(s, kind, actionHours(intensity));
   s.stats.money -= actionCost(kind, intensity);
   const factor = actionFactor(intensity);
@@ -958,6 +965,7 @@ export function meetPerson(
 export function setCareer(original: GameState, career: Career): GameState {
   const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
+    !!s.fantasy ||
     scenarioActive(s) ||
     s.pending ||
     s.finished ||
@@ -981,6 +989,7 @@ export function setCareer(original: GameState, career: Career): GameState {
 export function setUniversity(original: GameState, attend: boolean): GameState {
   const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
+    !!s.fantasy ||
     scenarioActive(s) ||
     s.pending ||
     s.finished ||
@@ -1002,7 +1011,7 @@ function requestLifeDecision(
   action: "date" | "marry" | "child",
   id?: string,
 ): GameState {
-  if (scenarioActive(original) || original.pending || original.finished) return original;
+  if (original.fantasy || scenarioActive(original) || original.pending || original.finished) return original;
   const pending = lifeDecision(original, action, id);
   if (!pending) return original;
   const s = cloneState(original);
@@ -1355,5 +1364,6 @@ export function normalizeGameState(value: unknown): GameState {
   validateSocietyEvents(s);
   validateSocietyKnowledge(s);
   validateScenarios(s);
+  validateFantasy(s);
   return s;
 }

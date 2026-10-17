@@ -1,4 +1,4 @@
-import { WORLD_RULES } from "./worldRules";
+import { WORLD_RULES, worldRules } from "./worldRules";
 import { JOBS } from "./careers";
 import type { EventDefinition } from "./engine";
 export const WORLDS = Object.values(WORLD_RULES).map(({ id, name }) => ({ id, name }));
@@ -6,7 +6,7 @@ export const WORLDS = Object.values(WORLD_RULES).map(({ id, name }) => ({ id, na
 export function validateManifest(
   value: unknown,
   id: string,
-): { id: string; name: string; events: string } {
+): { id: string; name: string; events: string; rules?: string } {
   if (!value || typeof value !== "object")
     throw Error("ワールド定義が不正です");
   const v = value as Record<string, unknown>;
@@ -18,7 +18,8 @@ export function validateManifest(
     !/^[-a-zA-Z0-9_]+\.json$/.test(v.events)
   )
     throw Error("ワールド定義が不正です");
-  return v as { id: string; name: string; events: string };
+  if (v.rules !== undefined && (typeof v.rules !== "string" || !/^[-a-zA-Z0-9_]+\.json$/.test(v.rules))) throw Error("世界ルール定義が不正です");
+  return v as { id: string; name: string; events: string; rules?: string };
 }
 export async function loadWorld(id: string): Promise<EventDefinition[]> {
   if (!WORLDS.some((w) => w.id === id)) throw Error("未知のワールドです");
@@ -26,6 +27,13 @@ export async function loadWorld(id: string): Promise<EventDefinition[]> {
   const manifestResponse = await fetch(`${worldRoot}manifest.json`);
   if (!manifestResponse.ok) throw Error("ワールドを読み込めません");
   const manifest = validateManifest(await manifestResponse.json(), id);
+  if (id === 'fantasy') {
+    if (manifest.rules !== 'rules.json') throw Error('世界ルールの参照が不正です');
+    const rulesResponse = await fetch(`${worldRoot}${manifest.rules}`);
+    if (!rulesResponse.ok) throw Error('世界ルールを読み込めません');
+    const rules = await rulesResponse.json();
+    if (JSON.stringify(rules) !== JSON.stringify(worldRules(id))) throw Error('世界ルールの版が一致しません');
+  }
   const response = await fetch(`${worldRoot}${manifest.events}`);
   if (!response.ok) throw Error("イベントを読み込めません");
   return validateEvents(await response.json());

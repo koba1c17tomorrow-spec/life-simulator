@@ -99,7 +99,7 @@ export function actionReason(
   if (kind === "work" && s.month < 192) return "単発仕事は16歳からです";
   if (kind !== "rest" && s.stats.health < (intensity === 3 ? 40 : 20))
     return "健康状態が実行条件を満たしません";
-  if (s.stats.money < actionCost(kind, intensity))
+  if (s.stats.money < (s.fantasy && kind === "study" ? intensity - 1 : actionCost(kind, intensity)))
     return "所持金が不足しています";
   if (remainingHours(s) < actionHours(intensity))
     return "残り時間が不足しています";

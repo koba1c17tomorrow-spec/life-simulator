@@ -5,6 +5,7 @@ import type { Trait } from "./traits";
 import type { Origin } from "./origins";
 import { randomIdentity, type Identity } from "./identity";
 export type Person = Partial<Identity> & {
+  species?: string;
   traits?: Trait[];
   health?: number;
   illness?: boolean;

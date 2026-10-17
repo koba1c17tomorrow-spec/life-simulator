@@ -1,0 +1,8 @@
+{
+  "version": 1, "id": "fantasy", "name": "街と工房の人生", "engine": "fantasy",
+  "education": {"startMonth": 72, "adultMonth": 192, "name": "寺子屋と徒弟教育"},
+  "economy": {"currency": "銀貨", "monthlyCost": 30, "childAllowance": 8},
+  "species": {"human": {"name": "人間", "lifespanMonths": 900}, "elf": {"name": "長命の民", "lifespanMonths": 1440}},
+  "careers": {"farmer": {"name": "農民", "income": 55, "hours": 160}, "artisan": {"name": "職人", "income": 65, "hours": 160}, "merchant": {"name": "商人", "income": 70, "hours": 160}, "scholar": {"name": "学者", "income": 60, "hours": 160}, "citizen": {"name": "市民の手仕事", "income": 35, "hours": 160}},
+  "magic": true, "socialProfile": "fantasy", "eventsFile": "events.json", "scenarios": ["guild-order"]
+}

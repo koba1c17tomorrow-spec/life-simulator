@@ -202,6 +202,7 @@ export const PURCHASES: Purchase[] = [
   },
 ];
 export function purchaseReason(s: GameState, p: Purchase): string {
+  if (s.fantasy) return "この世界の買い物は試作対象外です";
   if (scenarioActive(s) || s.finished || s.pending) return "進行停止中は購入できません";
   if (s.month < p.minAge)
     return `${Math.floor(p.minAge / 12)}歳から利用できます`;
@@ -252,6 +253,7 @@ export function transfer(
   amount: number,
 ): GameState {
   if (
+    !!original.fantasy ||
     scenarioActive(original) ||
     original.finished ||
     original.pending ||
@@ -303,6 +305,7 @@ export function changeLiving(
   if (
     original.month < 216 ||
     original.pending ||
+    !!original.fantasy ||
     scenarioActive(original) ||
     original.finished ||
     !["basic", "standard", "comfortable"].includes(living) ||
@@ -313,6 +316,7 @@ export function changeLiving(
 }
 export function restructure(original: GameState): GameState {
   if (
+    !!original.fantasy ||
     scenarioActive(original) ||
     original.finished ||
     original.pending ||

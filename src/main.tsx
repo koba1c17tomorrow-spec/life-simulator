@@ -1,3 +1,7 @@
+import { ScenarioPanel } from "./ScenarioPanel";
+import { FantasyPanel } from "./FantasyPanel";
+import { scenarioActive } from "./scenarios";
+import { currencyLabel } from "./worldRules";
 import { SocialPanel } from "./SocialPanel";
 import { readSocialNews } from "./socialPresentation";
 import { publicNpc, publicNpcLinks } from "./npcKnowledgeView";
@@ -64,6 +68,7 @@ function initialLoad() {
 }
 function App() {
   const [initial] = useState(initialLoad);
+  const [fantasySpecies, setFantasySpecies] = useState("human");
   const [game, setGame] = useState(initial.state);
   const [error, setError] = useState(initial.error);
   const [saveBlocked, setSaveBlocked] = useState(initial.blocked);
@@ -115,6 +120,7 @@ function App() {
       if (playing) resume.current = true;
       setPlaying(false);
     }
+    if (scenarioActive(game)) setPlaying(false);
     if (game.finished) {
       resume.current = false;
       setPlaying(false);
@@ -129,6 +135,7 @@ function App() {
   useEffect(() => {
     if (
       !playing ||
+      scenarioActive(game) ||
       !events.length ||
       game.finished ||
       (game.pending && !game.autoChoices)
@@ -192,7 +199,7 @@ function App() {
     ["sociability", "社交性"],
     ["money", "所持金"],
   ] as const;
-  const locked = !!game.pending || game.finished || saveBlocked;
+  const locked = !!game.pending || game.finished || saveBlocked || scenarioActive(game);
   const educationNamesUI = {
     preschool: "幼少期",
     elementary: "小学校",
@@ -273,8 +280,8 @@ function App() {
                 <span>{label}</span>
                 <strong>
                   {key === "money"
-                    ? Math.round(game.stats[key]).toLocaleString() + " 円"
-                    : relativeScore(
+                    ? Math.round(game.stats[key]).toLocaleString() + " " + currencyLabel(game.worldId)
+                    : game.fantasy ? game.stats[key].toFixed(1) + "/100" : relativeScore(
                         game.stats[key],
                         game.month,
                         key as RelativeStat,
@@ -284,8 +291,8 @@ function App() {
                   <meter
                     min={0}
                     max={100}
-                    value={relativeScore(game.stats[key], game.month, key)}
-                    aria-label={label + " 同年代比"}
+                    value={game.fantasy ? game.stats[key] : relativeScore(game.stats[key], game.month, key)}
+                    aria-label={label + (game.fantasy ? " 現在値" : " 同年代比")}
                   />
                 )}
               </div>
@@ -377,6 +384,8 @@ function App() {
           </div>
           {tab === "history" ? (
             <>
+              <ScenarioPanel game={game} change={setGame} blocked={saveBlocked} onMonth={() => setGame(s => autoResolve(advanceMonth(s, events), events))} />
+              {game.fantasy && <FantasyPanel game={game} change={setGame} blocked={saveBlocked} />}
               <SocialPanel game={game} blocked={saveBlocked} onRead={() => setGame(s => readSocialNews(s))} />
               <div className="entries" ref={historyRef}>
                 {game.finished && (
@@ -400,12 +409,12 @@ function App() {
               </div>
             </>
           ) : null}
-          {tab === "economy" && <EconomyPanel game={game} setGame={setGame} />}
+          {tab === "economy" && (game.fantasy ? <FantasyPanel game={game} change={setGame} blocked={saveBlocked} /> : <EconomyPanel game={game} setGame={setGame} />)}
           {tab === "timeline" && <RetrospectivePanel game={game} />}
           {tab === "saves" && (
             <SavePanel game={game} onRestore={restore} onError={setError} />
           )}
-          {tab === "status" && (
+          {tab === "status" && !game.fantasy && (
             <div className="summary">
               <CapabilityPanel game={game} />
               <h3>出生条件と個性</h3>
@@ -447,6 +456,7 @@ function App() {
               </p>
             </div>
           )}
+          {(tab === "status" || tab === "career") && game.fantasy && <FantasyPanel game={game} change={setGame} blocked={saveBlocked} />}
           {tab === "people" && (
             <div className="summary">
               <h3>人間関係</h3>
@@ -552,7 +562,7 @@ function App() {
               ))}
             </div>
           )}
-          {tab === "career" && (
+          {tab === "career" && !game.fantasy && (
             <div className="summary">
               <h3>教育と仕事</h3>
               <p>
@@ -712,6 +722,7 @@ function App() {
                 ))}
               </select>
             </label>
+            {world === "fantasy" && <label>種族<select aria-label="種族" value={fantasySpecies} onChange={e=>setFantasySpecies(e.target.value)}><option value="human">人間</option><option value="elf">長命の民</option></select></label>}
             <label>
               性別
               <select
@@ -783,6 +794,7 @@ function App() {
                           orientation: chosenOrientation,
                         },
                         world,
+                        world === "fantasy" ? fantasySpecies : undefined,
                       ),
                     );
                     setSetupOpen(false);
