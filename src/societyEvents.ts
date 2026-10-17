@@ -88,6 +88,7 @@ function prepare(s: GameState): SocietyEvents {
   });
 }
 export function noteSocietyChoice(s: GameState, e: WorldEvent): void {
+  if (!s.society) return; // An old pending choice predates this feature boundary.
   if (
     e.kind === "pc.choice" &&
     e.data.eventId === "community_project" &&

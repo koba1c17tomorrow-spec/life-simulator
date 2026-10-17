@@ -27,3 +27,7 @@ GameStateの任意フィールド `randomStreams` を使用すれば状態を保
 ## P3-2の局所適用
 
 新NPC判断だけnpcRelationsを消費する。既存ストリームは継続し、欠落時は初回使用時の現在seedから生成し、導入境界をnpcAgencyへ保存する。旧NPCの仕事/接触/交際形成判断をagencyへ移したため旧単一seedの消費順は過去版と異なるが、健康・イベント等を他ストリームへ全面移行しない。同一ルール/seed/操作列と保存再開は一致させる。文字列コード順の人物ID処理で環境依存localeを用いない。詳細はNPC_AGENCY.md。
+
+## Phase 4 worldSocietyの局所適用
+
+社会専用継続値はsociety.randomStateに保持し、既存のworldSociety名によるFNV初期化とLCGを再利用する。既存randomStreamsへ新たなdraw/初期化を加えないことでNPCストリームの導入境界も維持する。新規は出生seed、旧保存は次の未開始月の現在seedから導入。社会更新6draw、適格事件の試行1drawと成功時の候補選択1drawを共有する。同じ社会ルール/入力/保存再開で一致。新しい世界履歴の挿入によるworld-N番号差は意図した変化で、従来の人物判定は番号を乱数に使わない。

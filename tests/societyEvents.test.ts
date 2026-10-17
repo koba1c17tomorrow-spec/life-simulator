@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import fixture from "./fixtures/current-v1-club-pending.json";
 import {
   newGame,
   advanceMonth,
@@ -151,4 +152,93 @@ it("rejects invalid causal references and unsupported event versions", () => {
       },
     }),
   ).toThrow();
+});
+
+it("preserves an old pending community choice without creating an extension before its boundary", () => {
+  let s = importSave(JSON.stringify(fixture));
+  s.pending = {
+    eventId: "community_project",
+    text: "参加するか",
+    choices: [{ label: "参加", effects: [], setFlag: "community" }],
+  };
+  s.autoChoices = true;
+  s = autoResolve(s, []);
+  expect(s.society).toBeUndefined();
+  expect(s.societyEvents).toBeUndefined();
+  expect(importSave(exportSave(s))).toEqual(s);
+  const next = advanceMonth(s, []);
+  expect(next.society!.legacyBaseline).toBe(true);
+});
+
+it("applies actual bounded effects and stores real causal IDs for all three event kinds", () => {
+  const seen = new Set<string>();
+  for (let seed = 1; seed <= 800; seed++) {
+    const s = newGame(seed);
+    s.month = 24;
+    s.society!.axes.publicHealth = 40;
+    s.society!.axes.stability = 40;
+    const cause = recordWorldEvent(s, {
+      month: 12,
+      kind: "society.supply-delay",
+      personIds: [],
+      visibility: "public",
+      data: {},
+    });
+    const choice = recordWorldEvent(s, {
+      month: 0,
+      kind: "pc.choice",
+      personIds: ["player"],
+      visibility: "participants",
+      data: { eventId: "community_project", choiceIndex: 0 },
+      pcKnowledge: { month: 0, source: "direct" },
+    });
+    s.flags.community = true;
+    s.societyEvents = {
+      version: 1,
+      startMonth: 0,
+      lastTick: 23,
+      lastEventMonth: 12,
+      latest: { "supply-delay": { month: 12, eventId: cause.id } },
+      contribution: { month: 0, eventId: choice.id },
+    };
+    const before = structuredClone(s.society!.axes);
+    societyEventsMonth(s);
+    const e = s.worldHistory!.events.at(-1)!;
+    if (!e.kind.startsWith("society.") || e.id === cause.id) continue;
+    seen.add(e.kind);
+    const changes = e.data.effects as Record<string, number>;
+    for (const [key, delta] of Object.entries(changes))
+      expect(
+        s.society!.axes[key as keyof typeof before] -
+          before[key as keyof typeof before],
+      ).toBe(delta);
+    if (e.kind === "society.supply-recovery")
+      expect(e.data.causes).toEqual([cause.id]);
+    if (e.kind === "society.community-result")
+      expect(e.data.causes).toEqual([choice.id]);
+  }
+  expect(seen).toEqual(
+    new Set([
+      "society.sanitation",
+      "society.council-review",
+      "society.supply-recovery",
+      "society.community-result",
+    ]),
+  );
+});
+it("random supply shocks really change the economy, with no journal disclosure", () => {
+  let found = false;
+  for (let seed = 1; seed <= 200; seed++) {
+    const s = newGame(seed);
+    s.month = 1;
+    const before = s.society!.axes.economy;
+    societyEventsMonth(s);
+    if (s.worldHistory?.events[0]?.kind === "society.supply-delay") {
+      expect(s.society!.axes.economy).toBe(before - 2);
+      expect(s.history).toHaveLength(1);
+      found = true;
+      break;
+    }
+  }
+  expect(found).toBe(true);
 });

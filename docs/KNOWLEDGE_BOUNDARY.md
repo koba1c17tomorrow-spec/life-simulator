@@ -42,3 +42,7 @@ JSONエクスポートには非公開の内部状態も含む。プレイ画面�
 ## P3-2更新
 
 NPC目標はprivateかつdisclosable:falseで保存し、talkの一括報告でも公開しない。NPCの返答/拒否/PCとの交流/別離はparticipantsとして直接経験を記録。通常人物画面はNPCの新しい生活実状態を直接表示せず、導入時に既に表示されていた情報と、その後pcKnowledgeを得た事実の投影を用いる。導入前の履歴で現在表示を巻き戻さない。PCの共有児童参照は既知の家庭情報として利用する。潜在的な感情数値や内部目標は表示しない。JSON内部状態の秘匿性とは区別する。
+
+## Phase 4 社会の知らせ
+
+社会事実はworldHistoryへ記録し、publicでもPCが自動的に知ったとは扱わない。明示的な「知らせを確認」のみがpublic社会事実にpcKnowledgeを付ける。NPC/private社会事実は対象外。societyKnowledgeは観測した概況の段階を保存し、ライブ内部軸と分離する。socialPresentationは既知public事件のみ投影し、原因が未確認なら詳細を表示しない。詳しくはSOCIAL_PRESENTATION.md。

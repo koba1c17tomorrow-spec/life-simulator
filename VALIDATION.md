@@ -199,3 +199,43 @@ Pagesは最終ビルドを対象に、サブパス/世界JSON/アイコン、タ
 | CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:pages | Chromium5件成功（サブパス/データ/操作/保存/オフライン/更新）。WebKit未導入で3件launch失敗、既存skip2件、全体終了コード1 |
 
 WebKit実行ファイル`webkit-2370/pw_run.sh`不在は既存の環境制約。iPhone実機Safari/Android実機は未検証。新しいskipやテスト条件の緩和はない。CI再実行結果はGitHub側で確認が必要。P4以降・実遅延更新には着手せず、mainは変更しない。
+
+## Phase 4：社会6軸・社会事件・確認済み情報（2026-10-17）
+
+起点はPR #8マージ後の最新main `20525dab765dedace0accb4eb7ac3be30a6c77d5`。新規ブランチ `feat/v3-phase4-social-events`。P4-1 `ff2595a`、P4-2 `906cb3a`、P4-3 `b69f2fb` を独立コミットとし、保存境界の修正/検証記録は追加コミットへまとめる。CI待ち/mainマージ/公開は行わない。
+
+### 実装と到達範囲
+
+- P4-1：単一社会の6軸、平均回帰/小変動、世界プロファイル、独立worldSociety継続値、旧保存の非補完/導入境界を実装。SOCIAL_STATE.md参照。雇用/所得/教育/健康への倍率は段階導入の接続点まで。
+- P4-2：ランダム/条件/履歴の3系統、5代表定義、社会への小幅効果、実際のPC地域活動選択を原因とする成果、原因参照/発生間隔/同月冪等/非自動公開を実装。safety<20の外出制約をPC/NPC共通の誘いへ接続。SOCIAL_EVENTS.md参照。
+- P4-3：記録画面に折りたたみ表示を追加。明示的確認に2時間を消費し、観測済み概況/公表済みの既知事件だけを表示。発生月/知得月、既知原因とPCの選択、未確認情報を区別。NPC内心/private社会事件は非表示。SOCIAL_PRESENTATION.md参照。
+
+**fantasyについては部分完了**。起点mainに存在するプレイ可能ワールドはmodern/coastalのみ。fantasy社会プロファイルと3系統を共有するイベント文章をモジュール内で検証したが、fantasyの人物/職業/貨幣/寿命/公開JSON/ブラウザ通し動作は存在しない。これを「両世界対応済み」と偽らず、P5の世界試作後に再開する。今回worldIdや世界JSONを追加して既存ゲームをファンタジーと呼び替えてはいない。現代/海辺の通し動作は維持する。Issue #7と#9は未完了、Phase 5以降は未着手。
+
+### 回帰と性能
+
+比較スクリプト `scripts/social-regression-study.mjs`、実測 `docs/measurements/phase4-seed-regression.json`。Node v24.19.0 / Linux x64 / AMD EPYC 9V74、seedはi*7919 (i=1..10)、現代/海辺交互、既存5方針、40歳JSON保存再開を含む全人生。変更前mainのsrc/publicを一時ディレクトリへgit archiveで抽出し、同じ依存関係を使用。`node scripts/social-regression-study.mjs output.json [source-root]` を変更前/変更後の順で実行した。シミュレーション区間のみ計時し、比較用のdeep copy/投影/ハッシュ化は除外。重い長期テストとの並行実行はしない。
+
+新設society/societyEvents/societyKnowledgeと、社会事実の挿入に伴うworld-N/観測開始IDの番号差だけを投影で除外・付け替えし、その他の全状態を毎月canonical JSONとして累積SHA-256比較。既存の人物・経済・技能・健康・seed/既存ストリーム・既存の非公開世界履歴・PC知識・時間/キューは削除しない。**10/10全人生で月次トレースhash一致**。内部IDの採番自体は実装では変更せず、比較上だけ対応付ける。未読の社会事件の追加は意図した新機能差分である。
+
+比較内のゲーム処理合計は変更前9.3289秒、変更後9.4081秒（+約0.8%）。単回・小標本の観測値で、微差を有意な退行/改善とは断定しない。危機時の外出制約やプレイヤーがニュースを確認した場合の時間消費は意図した新しいルールで、旧版との結果一致の対象外。新ルール下の保存再開と同条件の決定性は単体回帰で確認。
+
+最初の全体試行では既存NPCテスト1件が失敗：newGame(modern)後にworldIdだけcoastalへ書き換えて社会profileを残すテスト状態が不整合になった。テストの期待値や本体の検証は緩めず、helperが生成時にworldIdを渡す形に修正。新たな保存境界の点検で、旧pendingの地域活動選択を社会導入前に処理した際は社会原因拡張を作らないguardと回帰を追加。元fixtureや過去のセーブを変更せず、次の未開始月から観測を開始する。
+
+追加テストは6軸6件、社会イベント11件、公開投影5件（計22件）、ブラウザ4件。ランダム/条件/履歴の実効果、実原因参照、同月/間隔、旧pending/保存、独立乱数、非公開/未読/古い概況、確認の費用と禁止条件を検証し、機能を外すと失敗する期待値を置いている。既存テストの削除・skip追加・seed数削減・タイムアウト延長・合格基準緩和はない。
+
+最終コードでの検証結果:
+
+| コマンド | 結果 |
+|---|---|
+| npm test | 34ファイル250件成功。100人生73.551秒 |
+| npm run build | TypeScript/Vite/PWA生成成功、18 precache entries |
+| npm run test:long | 100/100人生完走、1件成功、73.326秒 |
+| CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:browser | 36件成功（既存32+社会表示4、PC/mobile、modern/coastal） |
+| CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:pages | Chromium5件成功。WebKit3件はwebkit-2370/pw_run.sh不在でlaunch失敗。既存2skipのまま。全体終了コード1 |
+
+100人生の集計は起点と一致：最短75.916667歳/平均92.880833歳/最長100歳、選択平均83.64、40歳就業100/100、40歳健康平均70.985974、最終純資産平均59566020.6、子あり71/100。旧v1 fixture、3スロット、JSON入出力、pending/queue/scheduled、NPC死亡/私的知識、両既存ワールドの回帰は全体テストに含む。
+
+Pagesのサブパス/世界JSON/アイコン、操作/保存、オフライン起動と進行/両世界切替/保存保持、キャッシュ更新はChromiumで再検証。WebKit環境制約・iPhone Safari実機/Android実機・fantasy世界全体は未検証。CI完了やmain公開を確認したとは扱わない。公開設定/依存関係/public/既存fixture/長期テストのタイムアウト・seed・閾値は無変更。
+
+残件と再開条件：fantasyはP5の世界ルール/コンテンツが実在してから保存/ブラウザ/社会の統合試験を行う。雇用/健康/所得/教育の本格的な社会補正は分布検証と既存結果への影響を評価してから段階導入する。一般人物の結果パネル/健康表示を含むロードマップ全体とGUI再設計は今回の社会表示の完了と区別する。Issue #7（実NPC遅延）/ #9（共同GUI設計）は未完了のまま維持する。
