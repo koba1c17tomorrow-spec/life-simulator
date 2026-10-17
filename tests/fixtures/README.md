@@ -39,3 +39,7 @@ JS
 ```
 
 操作列を使う追加テスト、既知問題、実行結果は [回帰基準](../../docs/REGRESSION_BASELINE.md) を参照する。
+
+## P3-2の実状態（P3-3互換検証用）
+
+`p3-2-coastal-observed.json` はP3-2コミット48ae9a8ad8baef18d66cfa03db180da29b5d270eの実エンジンから生成。seed7919、coastal、初期属性指定なし、autoChoices:true、events:[]で144月まで進行。143月終了時にrest/低強度を次月へ計画し、実際に実行した。各月advanceMonth→autoResolve、最後にexportSave。新しいNPC目標・方向別関係・独立NPCストリーム・確認済み情報を含み、npcTiersはまだ存在しない。手編集/架空の旧形式ではない。P0-1のfixtureはそのまま保持する。

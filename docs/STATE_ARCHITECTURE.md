@@ -85,3 +85,17 @@ UI・PWA・ゲームルールに変更はない。保存の識別・妥当性検
 ## P2-2 実装差分
 
 時間計算・条件確認・計画設定をtimeBudget.tsに分離。engineは実行と月末解決を担当し、economyは同じ予算から購入時間を確保する。任意の保存拡張で旧状態を保持。UIは共通の条件判定を参照し、不実行理由を表示する。シーン時計・詳細な家事分担・NPC時間予算は未実装。[TIME_AND_ACTIONS](TIME_AND_ACTIONS.md)参照。
+
+## P2-3 / P3-1
+
+実参加時間はtimeBudget、成長計算はcapabilities、代表rollの技能寄与はeventRulesに分離した。方向別関係はdirectedRelationsが所有し、PCのcloseness/trustは旧relationsを唯一の正本として参照する。通常UIはNPCの観測済み応対だけを読む。NPCの目標や実際の遅延更新はこの段階では未実装。
+
+## P3-2 NPC判断の所有
+
+npcAgencyが導入後の目標/時間/疲労/新判断を所有し、旧socialMonth/npcMonthと同じ仕事・接触・交際形成を二重処理しない。健康/死亡/制度の経過は旧処理を維持。NPC公知情報の表示はnpcKnowledgeViewに分離し、内部モデルへUIから直接依存しない。新乱数の導入境界を保存する。
+
+public advanceMonth/chooseは入力を深く複製する。chooseが専有する複製の月内再開だけは私有advanceOwnedMonthへ渡し、全履歴を重複複製しない。自動選択の一時コピーはseed以外を変更せず、chooseが深く複製してから実行する。入力と返却状態の入れ子の独立性をテストする。
+
+## P3-3 観測用の段階
+
+npcTiersはNPC状態そのものを移動せず、分類と実際に完了した更新の時計だけを持つ。engineが更新前の生存者IDを保持し、旧NPC生活更新とagency完了後に時計を記録する。再接触の分類更新は時計を補完しない。updates:fullによりDormant候補も毎月更新し、実遅延は保留。NPC_UPDATES.mdに理由と計測方法・実測を記録した。

@@ -34,7 +34,18 @@ export function visibleTraits(
     ? s.traits
     : s.capabilities.revealedTraits;
 }
+export type PracticeContext = "self" | "school" | "job";
 export function practiceSkill(s: GameState, skill: Skill, units = 1): void {
+  practiceHours(s, skill, units * 8);
+}
+export function practiceHours(
+  s: GameState,
+  skill: Skill,
+  hours: number,
+  context: PracticeContext = "self",
+): void {
+  if (!Number.isFinite(hours) || hours < 0) throw Error("練習時間が不正です");
+  if (hours === 0 || s.finished) return;
   s.capabilities ??= initialCapabilities(s.month, true);
   const c = s.capabilities;
   const affinity =
@@ -43,15 +54,34 @@ export function practiceSkill(s: GameState, skill: Skill, units = 1): void {
       : skill === "communication"
         ? "outgoing"
         : "resilient";
+  const density =
+    context === "school" ? 0.1 / 17.5 : context === "job" ? 0.1 / 20 : 1;
+  const units = (hours / 8) * density;
+  let environment =
+    (skill === "learning" &&
+      s.education !== "preschool" &&
+      s.education !== "working") ||
+    (skill === "professional" && s.career !== "none" && !s.retired)
+      ? 1.1
+      : 1;
+  const benefit =
+    skill === "learning"
+      ? "learning"
+      : skill === "professional"
+        ? "qualification"
+        : "social";
+  if ((s.benefits[benefit] ?? -1) >= s.month) environment *= 1.2;
   c.skills[skill] = Math.min(
     100,
     c.skills[skill] +
       units *
         (s.traits.includes(affinity) ? 1.2 : 1) *
+        Math.min(1, s.stats.health / 85) *
+        Math.max(0.2, 1 - s.stress / 125) *
+        environment *
         (1 - c.skills[skill] / 100),
   );
   c.practice[skill] += units;
-  // Qualitative discovery after activity; never draw new traits or consume RNG.
   const relevant: Record<Skill, Trait[]> = {
     learning: ["quickLearner", "creative"],
     communication: ["outgoing", "careful"],

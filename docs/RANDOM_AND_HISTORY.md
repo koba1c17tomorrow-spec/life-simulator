@@ -23,3 +23,7 @@ GameStateの任意フィールド `randomStreams` を使用すれば状態を保
 保存キー/3スロット、formatVersion:1、state.version:1は維持。追加項目は任意で、それぞれ小形式のversionを検査する。未対応version、範囲外ストリーム、重複/逆行ID、未来のイベント/知識時刻、不正dataを拒否する。新規履歴の人物IDは歴史的参照であり、現在のpeople集合との一致を強制しない。
 
 `tests/randomHistory.test.ts` はstream独立性、保存続行、旧fixture無変更、構造化データの複製、ID継続、実選択の一回記録、不正拡張拒否を検証する。P0-1/P0-2のテスト・fixtureは変更しない。P1-2で新しいNPC事実の記録と公開境界にこの基盤を利用する。
+
+## P3-2の局所適用
+
+新NPC判断だけnpcRelationsを消費する。既存ストリームは継続し、欠落時は初回使用時の現在seedから生成し、導入境界をnpcAgencyへ保存する。旧NPCの仕事/接触/交際形成判断をagencyへ移したため旧単一seedの消費順は過去版と異なるが、健康・イベント等を他ストリームへ全面移行しない。同一ルール/seed/操作列と保存再開は一致させる。文字列コード順の人物ID処理で環境依存localeを用いない。詳細はNPC_AGENCY.md。

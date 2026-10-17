@@ -1,3 +1,5 @@
+import { publicNpc, publicNpcLinks } from "./npcKnowledgeView";
+import { observedAttitude } from "./directedRelations";
 import { FocusControls } from "./FocusControls";
 import { actionReason, remainingHours } from "./timeBudget";
 import { CapabilityPanel } from "./CapabilityPanel";
@@ -446,10 +448,11 @@ function App() {
             <div className="summary">
               <h3>人間関係</h3>
               <p>
-                会わない日々に疎遠になったり、遠くの友人と再会することもあります。
+                会わない日々に疎遠になったり、遠くの友人と再会することもあります。生活情報は出会いや知らせで確認した内容です。
               </p>
               <div className="people-list">
-                {game.people.map((person) => {
+                {game.people.map((actualPerson) => {
+                  const person = publicNpc(game, actualPerson);
                   const r = game.relations.find((r) => r.id === person.id);
                   return (
                     <article className="person" key={person.id}>
@@ -479,7 +482,7 @@ function App() {
                           ／ {person.education ?? "在学中"}
                         </div>
                         <div className="hint">
-                          親密度 {Math.round(r?.closeness ?? 0)} ／ 信頼度{" "}
+                          あなたの気持ち：親密さ {Math.round(r?.closeness ?? 0)} ／ 信頼{" "}
                           {Math.round(r?.trust ?? 0)} ·{" "}
                           {r ? relationLabel(r) : "知人"}{" "}
                           {game.spouseId === person.id
@@ -488,6 +491,8 @@ function App() {
                               ? "交際中"
                               : ""}
                         </div>
+                        {!actualPerson.alive && person.alive && <p className="hint">現在は連絡が取れません。</p>}
+                        <div className="hint">観測した応対：{observedAttitude(game, person.id)}</div>
                         <div className="hint">
                           配偶者：
                           {game.spouseId === person.id
@@ -501,7 +506,7 @@ function App() {
                         <button
                           disabled={
                             locked ||
-                            !person.alive ||
+                            !actualPerson.alive ||
                             game.lastActionMonth === game.month || remainingHours(game) < 8
                           }
                           onClick={() =>
@@ -513,7 +518,7 @@ function App() {
                         <button
                           disabled={
                             locked ||
-                            !person.alive ||
+                            !actualPerson.alive ||
                             game.lastActionMonth === game.month || remainingHours(game) < 8
                           }
                           onClick={() =>
@@ -529,7 +534,7 @@ function App() {
               </div>
               {remainingHours(game) < 8 && <p>交流には8時間必要です。残り時間が不足しています。</p>}
               <h4>人物同士のつながり</h4>
-              {game.npcLinks.map((l, i) => (
+              {publicNpcLinks(game).map((l, i) => (
                 <p key={i}>
                   {game.people.find((p) => p.id === l.a)?.name} と{" "}
                   {game.people.find((p) => p.id === l.b)?.name}：

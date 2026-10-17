@@ -1,5 +1,10 @@
+import { cloneState } from "./cloneState";
+import { observeNpcTiers, validateNpcTiers, type NpcTiers } from "./npcTiers";
+import { prepareNpcAgency, npcAgencyMonth, npcReply, npcFreeHours, reserveNpcHours, validateNpcAgency } from "./npcAgency";
+import { registerInterest } from "./directedRelations";
+import { validateRelationshipModel } from "./directedRelations";
 import { actionReason, actionHours, actionCost, actionFactor, budgetFor, chargeTime, remainingHours, validateTimeExtensions, type TimeBudget, type FocusPlan, type Intensity } from "./timeBudget";
-import { initialCapabilities, practiceSkill, validateCapabilities, type Capabilities } from "./capabilities";
+import { initialCapabilities, practiceHours, validateCapabilities, type Capabilities } from "./capabilities";
 import { recordNpcFact, shareWorldEvents } from "./npcEvents";
 import { validateRandomStreams, type RandomStreams } from "./randomStreams";
 import { recordWorldEvent, validateWorldHistory, type WorldHistory } from "./worldHistory";
@@ -147,6 +152,7 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    npcTiers?: NpcTiers;
     timeBudget?: TimeBudget;
     focusPlan?: FocusPlan;
     capabilities?: Capabilities;
@@ -314,7 +320,11 @@ export function advanceMonth(
   original: GameState,
   events: EventDefinition[],
 ): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  return advanceOwnedMonth(cloneState(original), events);
+}
+// The caller exclusively owns this state; public entry points clone before mutation.
+function advanceOwnedMonth(original: GameState, events: EventDefinition[]): GameState {
+  const s = normalizeProgression(normalizeSocial(original));
   s.traits ??= [];
   s.origin ??= randomOrigin(() => 0.5);
   s.jobId ??= null;
@@ -379,12 +389,15 @@ export function advanceMonth(
     );
     updateAchievements(s);
     if (s.finished) { s.timeBudget = budgetFor(s); resolveFocus(s); return s; }
+    prepareNpcAgency(s);
     socialMonth(
       s,
       s.month,
       () => random(s),
       (text, fact) => recordNpcFact(s, text, fact),
     );
+    prepareNpcAgency(s);
+    const detailedNpcIds = s.people.filter(p=>p.alive).map(p=>p.id);
     npcMonth(
       s,
       () => random(s),
@@ -420,9 +433,16 @@ export function advanceMonth(
       (text) => log(s, text),
     );
     progressionMonth(s, (text) => log(s, text));
-    if (s.month >= 72 && s.education !== "working" && s.education !== "preschool") practiceSkill(s, "learning", 0.1);
-    if (s.career !== "none" && !s.retired && s.month >= 192) practiceSkill(s, "professional", 0.1);
     s.timeBudget = budgetFor(s);
+    const absent = !!s.illness && s.stats.health < 40;
+    s.timeBudget.participation = {
+      school: absent ? 0 : s.timeBudget.allocations.学業,
+      work: absent ? 0 : s.timeBudget.allocations.仕事,
+    };
+    practiceHours(s, "learning", s.timeBudget.participation.school, "school");
+    practiceHours(s, "professional", s.timeBudget.participation.work, "job");
+    npcAgencyMonth(s);
+    observeNpcTiers(s,detailedNpcIds);
     settleBudget(
       s,
       () => random(s),
@@ -630,7 +650,7 @@ export function choose(
   index: number,
   events: EventDefinition[],
 ): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (!s.pending || !s.pending.choices[index]) return s;
   const p = s.pending;
   const c = p.choices[index];
@@ -675,7 +695,22 @@ export function choose(
     s.graduatedUniversity = c.university;
     s.origin.universityAccepted = null;
   }
-  if (c.lifeAction === "date" && p.personId && canDate(s, p.personId)) {
+  let acceptedInvitation = true;
+  const eligibleInvitation = c.lifeAction === "date" ? !!p.personId && canDate(s,p.personId) : c.lifeAction === "marry" ? canMarry(s) : c.lifeAction === "child" ? canHaveChild(s) : false;
+  if (eligibleInvitation && c.lifeAction && p.personId) {
+    prepareNpcAgency(s);
+    const reply = npcReply(s,p.personId,c.lifeAction);
+    const hours = c.lifeAction === "date" ? 8 : 16;
+    acceptedInvitation = reply.accepted && remainingHours(s)>=hours;
+    if (acceptedInvitation) {
+      reserveNpcHours(s,p.personId,hours); chargeTime(s,"関係の相談",hours);
+      if (c.lifeAction === "date") { registerInterest(s,s.month,"player",p.personId,10); registerInterest(s,s.month,p.personId,"player",10); }
+    } else {
+      if (remainingHours(s)>=2) { chargeTime(s,"相談の試み",2); reserveNpcHours(s,p.personId,Math.min(1,npcFreeHours(s,p.personId))); }
+      recordNpcFact(s,"相談は成立しなかった。"+(reply.accepted?"生活時間が不足していた":reply.reason)+"。",{kind:"npc.refusal",personIds:["player",p.personId],data:{intent:c.lifeAction},visibility:"participants"});
+    }
+  }
+  if (acceptedInvitation && c.lifeAction === "date" && p.personId && canDate(s, p.personId)) {
     s.partnerId = p.personId;
     s.people.find((x) => x.id === p.personId)!.partnerId = "player";
     log(
@@ -685,12 +720,12 @@ export function choose(
         "と交際を始めた。",
     );
   }
-  if (c.lifeAction === "marry" && canMarry(s)) {
+  if (acceptedInvitation && c.lifeAction === "marry" && canMarry(s)) {
     s.spouseId = s.partnerId;
     s.people.find((x) => x.id === s.partnerId)!.spouseId = "player";
     log(s, "【結婚】結婚した。");
   }
-  if (c.lifeAction === "child" && canHaveChild(s)) {
+  if (acceptedInvitation && c.lifeAction === "child" && canHaveChild(s)) {
     addChild(
       s,
       (text) => log(s, text),
@@ -763,7 +798,7 @@ export function choose(
   });
   log(s, `${p.text} → ${c.label}`, choiceEvent.id);
   s.pending = null;
-  return advanceMonth(s, events);
+  return advanceOwnedMonth(s, events);
 }
 export function careerPrompt(s: GameState, eventId: string): PendingChoice {
   return {
@@ -798,7 +833,7 @@ export function autoResolve(
   let s = original;
   let count = 0;
   while (s.pending && s.autoChoices && count++ < 8) {
-    const copy = structuredClone(s);
+    const copy = { ...s }; // Only random(copy).seed changes before choose deep-clones.
     const index = Math.floor(random(copy) * copy.pending!.choices.length);
     s = choose(copy, index, events);
   }
@@ -823,7 +858,7 @@ export function takeAction(
   kind: "study" | "work" | "rest",
   intensity: Intensity = 1,
 ): GameState {
-  const s = normalizeSocial(structuredClone(original));
+  const s = normalizeSocial(cloneState(original));
   if (actionReason(s, kind, intensity)) return s;
   chargeTime(s, kind, actionHours(intensity));
   s.stats.money -= actionCost(kind, intensity);
@@ -863,7 +898,7 @@ export function takeAction(
   );
   if (kind === "study" && s.traits?.includes("quickLearner"))
     applyEffects(s, [{ stat: "knowledge", delta: factor * (s.month < 72 ? 0.04 : 0.8) }]);
-  if (kind !== "rest") practiceSkill(s, kind === "study" ? "learning" : "professional", factor);
+  if (kind !== "rest") practiceHours(s, kind === "study" ? "learning" : "professional", actionHours(intensity));
   log(s, a.text);
   return s;
 }
@@ -873,15 +908,22 @@ export function meetPerson(
   id: string,
   mode: "spend" | "talk" = "spend",
 ): GameState {
-  const s = normalizeSocial(structuredClone(original));
+  const s = normalizeSocial(cloneState(original));
   if (s.finished || s.pending || s.lastActionMonth === s.month || remainingHours(s) < 8) return s;
+  const target = s.people.find(p => p.id === id);
+  if (!target?.alive || !s.relations.some(r => r.id === id)) return s;
+  prepareNpcAgency(s);
+  const reply = npcReply(s,id,mode);
+  if (!reply.accepted) {
+    chargeTime(s,"誘いの試み",2); reserveNpcHours(s,id,Math.min(1,npcFreeHours(s,id)));
+    s.lastActionMonth=s.month;
+    recordNpcFact(s,target.name+"に誘いを断られた。"+reply.reason+"。",{kind:"npc.refusal",personIds:["player",id],data:{intent:mode},visibility:"participants"});
+    return s;
+  }
+  if (!reserveNpcHours(s,id,8)) return s;
   const message = contact(s, s.month, id, mode);
   if (!message) return s;
   chargeTime(s, "交流", 8);
-  if (s.traits?.includes("outgoing")) {
-    const relation = s.relations.find((r) => r.id === id);
-    if (relation) relation.closeness = Math.min(100, relation.closeness + 2);
-  }
   s.lastActionMonth = s.month;
   applyEffects(
     s,
@@ -892,14 +934,15 @@ export function meetPerson(
           { stat: "sociability", delta: 1 },
         ],
   );
-  practiceSkill(s, "communication");
+  practiceHours(s, "communication", 8);
   log(s, message);
   if (mode === "talk") shareWorldEvents(s, id);
+  if (s.npcTiers) observeNpcTiers(s);
   return s;
 }
 
 export function setCareer(original: GameState, career: Career): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
     s.pending ||
     s.finished ||
@@ -921,7 +964,7 @@ export function setCareer(original: GameState, career: Career): GameState {
   return s;
 }
 export function setUniversity(original: GameState, attend: boolean): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
     s.pending ||
     s.finished ||
@@ -946,7 +989,7 @@ function requestLifeDecision(
   if (original.pending || original.finished) return original;
   const pending = lifeDecision(original, action, id);
   if (!pending) return original;
-  const s = structuredClone(original);
+  const s = cloneState(original);
   s.pending = pending;
   s.monthStarted = true;
   s.lastChoiceMonth = s.month;
@@ -960,7 +1003,7 @@ export function marry(s: GameState): GameState {
   return requestLifeDecision(s, "marry");
 }
 export function separate(original: GameState): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (s.pending || s.finished || (!s.partnerId && !s.spouseId)) return s;
   const id = s.spouseId ?? s.partnerId;
   const p = s.people.find((p) => p.id === id);
@@ -1036,6 +1079,9 @@ export function normalizeGameState(value: unknown): GameState {
   if (v.capabilities === undefined) delete s.capabilities;
   else validateCapabilities(v.capabilities, s.month, s.traits);
   validateTimeExtensions(s);
+  validateRelationshipModel(s);
+  validateNpcAgency(s);
+  validateNpcTiers(s);
   s.birthSeed = v.birthSeed ?? null;
   s.initialIdentityChoice = v.initialIdentityChoice ?? {};
   const options: Record<string, readonly string[]> = {
@@ -1144,6 +1190,7 @@ export function normalizeGameState(value: unknown): GameState {
       (p) =>
         p &&
         typeof p.id === "string" &&
+        !["__proto__", "prototype", "constructor", "player"].includes(p.id) &&
         typeof p.name === "string" &&
         Number.isFinite(p.birthMonth) &&
         typeof p.alive === "boolean" &&

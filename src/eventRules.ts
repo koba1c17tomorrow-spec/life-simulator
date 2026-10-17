@@ -1,3 +1,4 @@
+import type { Capabilities } from "./capabilities";
 import type { Trait } from "./traits";
 import type { Origin } from "./origins";
 export type RuleStat =
@@ -37,6 +38,7 @@ export type RollRule = {
   wealthBonus?: number;
 };
 export type RuleContext = {
+  capabilities?: Capabilities;
   month: number;
   stats: Record<RuleStat, number>;
   origin?: Origin;
@@ -91,6 +93,20 @@ export function rollFactors(
 ): Record<string, number> {
   return {
     基礎: rule.base,
+    習得技能:
+      rule.stat && ctx.capabilities
+        ? Math.min(
+            5,
+            ctx.capabilities.skills[
+              rule.stat === "knowledge"
+                ? "learning"
+                : rule.stat === "sociability"
+                  ? "communication"
+                  : "professional"
+            ] / 20,
+          ) *
+          (["knowledge", "sociability", "money"].includes(rule.stat) ? 1 : 0)
+        : 0,
     能力: rule.stat ? (ctx.stats[rule.stat] ?? 0) * (rule.statFactor ?? 0) : 0,
     成績: (ctx.origin?.schoolPerformance ?? 0) * (rule.gradeFactor ?? 0),
     特性:
@@ -113,7 +129,11 @@ export function rollChance(ctx: RuleContext, rule: RollRule): number {
   return Math.max(
     0,
     Math.min(
-      100,
+      ctx.capabilities &&
+        rule.stat &&
+        ["knowledge", "sociability", "money"].includes(rule.stat)
+        ? 95
+        : 100,
       Math.round(
         Object.values(rollFactors(ctx, rule)).reduce((a, b) => a + b, 0),
       ),

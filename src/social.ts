@@ -1,3 +1,5 @@
+import { hasNpcActor, type NpcAgency } from "./npcAgency";
+import { interact, type RelationshipModel } from "./directedRelations";
 import { npcFact, type NpcReporter } from "./npcEvents";
 import type { Trait } from "./traits";
 import type { Origin } from "./origins";
@@ -33,6 +35,8 @@ export type Relation = {
   romance?: number;
 };
 export type SocialState = {
+  npcAgency?: NpcAgency;
+  relationshipModel?: RelationshipModel;
   npcLinks: { a: string; b: string; kind: string; since: number }[];
   people: Person[];
   relations: Relation[];
@@ -139,6 +143,7 @@ export function socialMonth(
     if (!p?.alive || p.kind !== "friend") continue;
     if (month - r.lastContactMonth >= 6)
       r.closeness = Math.max(0, r.closeness - (p.movedAway ? 0.4 : 0.2));
+    if (hasNpcActor(s,p.id)) continue;
     if (!p.movedAway && random() < 0.12) {
       const delta = 2 + Math.floor(random() * 4);
       r.closeness = Math.min(100, r.closeness + delta);
@@ -154,7 +159,7 @@ export function socialMonth(
     }
   }
   for (const p of s.people) {
-    if (p.kind !== "friend" || !p.alive) continue;
+    if (p.kind !== "friend" || !p.alive || hasNpcActor(s,p.id)) continue;
     const age = (month - p.birthMonth) / 12;
     if (
       age >= 18 &&
@@ -257,20 +262,8 @@ export function contact(
   const person = s.people.find((x) => x.id === id);
   const r = s.relations.find((x) => x.id === id);
   if (!person?.alive || !r) return null;
-  const bonus =
-    person.personality === "kind"
-      ? 2
-      : person.personality === "quiet" && mode === "talk"
-        ? 2
-        : person.personality === "bold" && mode === "spend"
-          ? 2
-          : 0;
-  r.closeness = Math.min(100, r.closeness + (mode === "spend" ? 7 : 2) + bonus);
-  r.trust = Math.min(100, r.trust + (mode === "talk" ? 6 : 2) + bonus);
-  r.lastContactMonth = month;
-  return mode === "talk"
-    ? person.name + "とじっくり話し、信頼を深めた。"
-    : person.name + "と一緒に過ごし、親しくなった。";
+  const response = interact(s, month, "player", id, mode);
+  return response ? person.name + "と" + response.attitude : null;
 }
 
 export function relationLabel(r: Relation): string {

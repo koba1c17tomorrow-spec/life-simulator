@@ -3,6 +3,7 @@ export type ActionKind = "study" | "work" | "rest";
 export type Intensity = 1 | 2 | 3;
 export type TimeBudget = {
   version: 1;
+  participation?: { school: number; work: number };
   month: number;
   allocations: Record<string, number>;
   activities: { kind: string; hours: number }[];
@@ -145,6 +146,19 @@ export function validateTimeExtensions(s: GameState): void {
       b.overload < 0
     )
       throw Error("時間予算が不正です");
+    if (
+      b.participation !== undefined &&
+      (!b.participation ||
+        !["school", "work"].every((k) => {
+          const x = b.participation![k as "school" | "work"];
+          return (
+            Number.isFinite(x) &&
+            x >= 0 &&
+            x <= (b.allocations[k === "school" ? "学業" : "仕事"] ?? 0)
+          );
+        }))
+    )
+      throw Error("参加時間が不正です");
     const values = Object.values(b.allocations);
     if (
       !values.every((x) => Number.isFinite(x) && x >= 0) ||
