@@ -52,7 +52,7 @@ export function learnWorldEvent(
       : source === "public"
         ? event.visibility === "public"
         : informantId !== undefined
-          ? event.personIds.includes(informantId) &&
+          ? event.data.disclosable !== false && event.personIds.includes(informantId) &&
             s.people.some((p) => p.id === informantId && p.alive)
           : deathNoticeAllowed(s, event);
   if (!allowed) return false;
