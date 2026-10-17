@@ -131,3 +131,11 @@ Personへ任意のdeathMonthを追加した。新たに生存→死亡となっ�
 ## P1-2 知識境界
 
 新しいNPC事実はworldHistoryに保存し、明示的な公開時だけpcKnowledgeと任意のLogEntry.worldEventIdを付ける。欠落した旧履歴を再分類・削除せず、知識や内部の過去を捏造しない。保存再開時に再公開しない。公開ルールと未対応範囲は [KNOWLEDGE_BOUNDARY](KNOWLEDGE_BOUNDARY.md) を参照。保存ファイルには内部履歴も含み、UIでの非公開とファイルの秘匿性は別である。
+
+## P2-1 任意の人物能力観測
+
+`capabilities` version 1を追加。外側のformatVersion/state.version、キー、スロット形式は維持する。`stats`/`traits`/教育職業履歴は移動・削除しない。旧セーブの欠落はそのまま維持し、最初の実活動時から`legacyBaseline: true`で観測を開始する。導入前技能は未知。値域0..100、観測年月、公開資質のtraits参照、観測量の非負有限値を検証し、違反は拒否する。元データ保護は既存のインポート経路に従う。詳細は[CAPABILITIES](CAPABILITIES.md)。
+
+## P2-2 任意の時間拡張
+
+任意の`timeBudget` version 1と`focusPlan`を追加。旧fixtureは補完なしで一致する。月の確保時間・活動・計画状態を保持し、選択待ち/再開で二重実行しない。時間の合計720以下、月の上限、非負有限値、強度と実行時間の対応を検証し、不正な拡張は拒否する。旧途中月の過去時間は不明であり推定しないが、既存の月1回制限は維持する。外側の版/キー/3スロットは変更しない。旧アプリへの逆移行（時間ルールの実行・検証）は保証しない。詳細は[TIME_AND_ACTIONS](TIME_AND_ACTIONS.md)。

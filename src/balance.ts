@@ -84,3 +84,10 @@ export function monthlyDrift(
   if (focus === "learning") growth.happiness -= 0.004;
   return growth;
 }
+
+/** Existing 0..100 scale: repeated gains above the observed school-age band taper. */
+export function abilityGain(current: number, delta: number): number {
+  return delta > 0 && current > 60
+    ? delta * Math.max(0, (100 - current) / 40)
+    : delta;
+}

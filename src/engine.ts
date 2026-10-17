@@ -1,3 +1,5 @@
+import { actionReason, actionHours, actionCost, actionFactor, budgetFor, chargeTime, remainingHours, validateTimeExtensions, type TimeBudget, type FocusPlan, type Intensity } from "./timeBudget";
+import { initialCapabilities, practiceSkill, validateCapabilities, type Capabilities } from "./capabilities";
 import { recordNpcFact, shareWorldEvents } from "./npcEvents";
 import { validateRandomStreams, type RandomStreams } from "./randomStreams";
 import { recordWorldEvent, validateWorldHistory, type WorldHistory } from "./worldHistory";
@@ -52,7 +54,7 @@ import {
   type Origin,
 } from "./origins";
 import { randomTraits, traitMonthlyEffects, type Trait } from "./traits";
-import { monthlyDrift } from "./balance";
+import { monthlyDrift, abilityGain } from "./balance";
 import {
   randomIdentity,
   compatible,
@@ -145,6 +147,9 @@ export type GameState = SocialState &
   Economy &
   School &
   Vitality & {
+    timeBudget?: TimeBudget;
+    focusPlan?: FocusPlan;
+    capabilities?: Capabilities;
     version: 1;
     randomStreams?: RandomStreams;
     worldHistory?: WorldHistory;
@@ -195,6 +200,7 @@ export function newGame(
     worldId,
     birthSeed: seed >>> 0,
     initialIdentityChoice: { ...identityChoice },
+    capabilities: initialCapabilities(),
     version: STATE_VERSION,
     month: 0,
     seed: seed >>> 0,
@@ -238,7 +244,11 @@ export function applyEffects(s: GameState, effects: Effect[] = []) {
       if (e.stat === "money" && e.delta < 0 && s.stats.money + e.delta < 0) {
         s.debt += -(s.stats.money + e.delta);
         s.stats.money = 0;
-      } else s.stats[e.stat] = clamp(s.stats[e.stat] + e.delta, e.stat);
+      } else {
+        const delta = e.stat === "knowledge" || e.stat === "sociability"
+          ? abilityGain(s.stats[e.stat], e.delta) : e.delta;
+        s.stats[e.stat] = clamp(s.stats[e.stat] + delta, e.stat);
+      }
     }
   }
 }
@@ -368,7 +378,7 @@ export function advanceMonth(
       (text) => log(s, text),
     );
     updateAchievements(s);
-    if (s.finished) return s;
+    if (s.finished) { s.timeBudget = budgetFor(s); resolveFocus(s); return s; }
     socialMonth(
       s,
       s.month,
@@ -410,6 +420,9 @@ export function advanceMonth(
       (text) => log(s, text),
     );
     progressionMonth(s, (text) => log(s, text));
+    if (s.month >= 72 && s.education !== "working" && s.education !== "preschool") practiceSkill(s, "learning", 0.1);
+    if (s.career !== "none" && !s.retired && s.month >= 192) practiceSkill(s, "professional", 0.1);
+    s.timeBudget = budgetFor(s);
     settleBudget(
       s,
       () => random(s),
@@ -607,6 +620,8 @@ export function advanceMonth(
     applyEffects(s, e.effects);
     if (e.presentation === "log") log(s, text);
   }
+  s.timeBudget = budgetFor(s);
+  resolveFocus(s);
   s.monthStarted = false;
   return s;
 }
@@ -789,19 +804,31 @@ export function autoResolve(
   }
   return s;
 }
+function resolveFocus(s: GameState): void {
+  const p = s.focusPlan;
+  if (!p || p.month !== s.month || p.status !== "planned") return;
+  const reason = actionReason(s, p.kind, p.intensity);
+  if (reason) {
+    p.status = "blocked"; p.reason = reason;
+    log(s, "重点行動を実行できなかった：" + reason);
+  } else {
+    const result = takeAction(s, p.kind, p.intensity);
+    Object.assign(s, result);
+    s.focusPlan!.status = "executed";
+    s.focusPlan!.actualHours = actionHours(p.intensity);
+  }
+}
 export function takeAction(
   original: GameState,
   kind: "study" | "work" | "rest",
+  intensity: Intensity = 1,
 ): GameState {
   const s = normalizeSocial(structuredClone(original));
-  if (
-    s.finished ||
-    s.pending ||
-    s.lastActionMonth === s.month ||
-    (kind === "work" && s.month < 192) ||
-    (kind === "study" && s.month < 36)
-  )
-    return s;
+  if (actionReason(s, kind, intensity)) return s;
+  chargeTime(s, kind, actionHours(intensity));
+  s.stats.money -= actionCost(kind, intensity);
+  const factor = actionFactor(intensity);
+  if (kind !== "rest") s.stress = Math.min(100, s.stress + ({ 1: 0, 2: 1, 3: 3 })[intensity]);
   const actions = {
     study: {
       text: "自主的に勉強した。",
@@ -831,11 +858,12 @@ export function takeAction(
     s,
     a.effects.map((e) => ({
       ...e,
-      delta: kind === "study" && s.month < 72 ? e.delta * 0.05 : e.delta,
+      delta: factor * (kind === "study" && s.month < 72 ? e.delta * 0.05 : e.delta),
     })),
   );
   if (kind === "study" && s.traits?.includes("quickLearner"))
-    applyEffects(s, [{ stat: "knowledge", delta: s.month < 72 ? 0.04 : 0.8 }]);
+    applyEffects(s, [{ stat: "knowledge", delta: factor * (s.month < 72 ? 0.04 : 0.8) }]);
+  if (kind !== "rest") practiceSkill(s, kind === "study" ? "learning" : "professional", factor);
   log(s, a.text);
   return s;
 }
@@ -846,9 +874,10 @@ export function meetPerson(
   mode: "spend" | "talk" = "spend",
 ): GameState {
   const s = normalizeSocial(structuredClone(original));
-  if (s.finished || s.pending || s.lastActionMonth === s.month) return s;
+  if (s.finished || s.pending || s.lastActionMonth === s.month || remainingHours(s) < 8) return s;
   const message = contact(s, s.month, id, mode);
   if (!message) return s;
+  chargeTime(s, "交流", 8);
   if (s.traits?.includes("outgoing")) {
     const relation = s.relations.find((r) => r.id === id);
     if (relation) relation.closeness = Math.min(100, relation.closeness + 2);
@@ -863,6 +892,7 @@ export function meetPerson(
           { stat: "sociability", delta: 1 },
         ],
   );
+  practiceSkill(s, "communication");
   log(s, message);
   if (mode === "talk") shareWorldEvents(s, id);
   return s;
@@ -1003,6 +1033,9 @@ export function normalizeGameState(value: unknown): GameState {
       origin: { ...base.origin, ...v.origin },
     }),
   );
+  if (v.capabilities === undefined) delete s.capabilities;
+  else validateCapabilities(v.capabilities, s.month, s.traits);
+  validateTimeExtensions(s);
   s.birthSeed = v.birthSeed ?? null;
   s.initialIdentityChoice = v.initialIdentityChoice ?? {};
   const options: Record<string, readonly string[]> = {

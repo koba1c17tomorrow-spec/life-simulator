@@ -1,3 +1,7 @@
+import { FocusControls } from "./FocusControls";
+import { actionReason, remainingHours } from "./timeBudget";
+import { CapabilityPanel } from "./CapabilityPanel";
+import { visibleTraits } from "./capabilities";
 import { PwaStatus } from "./PwaStatus";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -248,7 +252,7 @@ function App() {
             {orientationLabel(game.identity.orientation)}
           </div>
           <div className="hint">
-            特性：{game.traits.map((t) => traitNames[t]).join("・")}
+            特性：{visibleTraits(game).map((t) => traitNames[t]).join("・")}
           </div>
           <div className="muted" role="status">
             {game.finished
@@ -324,23 +328,21 @@ function App() {
           </label>
           <p className="hint">重大な決断も自動で選びます。</p>
           <div className="divider" />
+          <FocusControls game={game} change={setGame} locked={locked} />
           <div className="eyebrow">自主行動（月1回）</div>
           <div className="action-grid">
             {(["study", "work", "rest"] as const).map((kind) => (
               <button
                 key={kind}
-                disabled={
-                  locked ||
-                  game.lastActionMonth === game.month ||
-                  (kind === "work" && game.month < 192) ||
-                  (kind === "study" && game.month < 36)
-                }
+                title={actionReason(game, kind)}
+                disabled={locked || !!actionReason(game, kind)}
                 onClick={() => setGame((s) => takeAction(s, kind))}
               >
                 {{ study: "勉強", work: "仕事", rest: "休息" }[kind]}
               </button>
             ))}
           </div>
+          {(["study", "work", "rest"] as const).map(kind => actionReason(game, kind) && <p className="hint" key={kind}>{{ study: "勉強", work: "仕事", rest: "休息" }[kind]}：{actionReason(game, kind)}</p>)}
         </aside>
         <main className="panel feed">
           <div className="feedhead">
@@ -400,6 +402,7 @@ function App() {
           )}
           {tab === "status" && (
             <div className="summary">
+              <CapabilityPanel game={game} />
               <h3>出生条件と個性</h3>
               <p>
                 家庭：{wealthNames[game.origin.wealth]} ／{" "}
@@ -417,7 +420,7 @@ function App() {
                   ]
                 }
               </p>
-              {game.traits.map((t) => (
+              {visibleTraits(game).map((t) => (
                 <p key={t}>
                   <strong>{traitNames[t]}</strong>：{traitDescriptions[t]}
                 </p>
@@ -499,7 +502,7 @@ function App() {
                           disabled={
                             locked ||
                             !person.alive ||
-                            game.lastActionMonth === game.month
+                            game.lastActionMonth === game.month || remainingHours(game) < 8
                           }
                           onClick={() =>
                             setGame((s) => meetPerson(s, person.id, "spend"))
@@ -511,7 +514,7 @@ function App() {
                           disabled={
                             locked ||
                             !person.alive ||
-                            game.lastActionMonth === game.month
+                            game.lastActionMonth === game.month || remainingHours(game) < 8
                           }
                           onClick={() =>
                             setGame((s) => meetPerson(s, person.id, "talk"))
@@ -524,6 +527,7 @@ function App() {
                   );
                 })}
               </div>
+              {remainingHours(game) < 8 && <p>交流には8時間必要です。残り時間が不足しています。</p>}
               <h4>人物同士のつながり</h4>
               {game.npcLinks.map((l, i) => (
                 <p key={i}>

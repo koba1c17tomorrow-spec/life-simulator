@@ -109,6 +109,9 @@ export function jobChance(
         ),
       );
 }
+export function promotionMonths(level: number): number {
+  return 60 + 24 * level;
+}
 export function progressionMonth(
   s: GameState,
   log: (message: string) => void,
@@ -131,7 +134,7 @@ export function progressionMonth(
   if (s.month === 264 && s.graduatedUniversity) log("大学を卒業した。");
   if (s.month >= 216 && s.career !== "none") {
     s.experience++;
-    if (s.experience >= 60 && s.careerLevel < 5) {
+    if (s.experience >= promotionMonths(s.careerLevel) && s.careerLevel < 5) {
       s.careerLevel++;
       s.experience = 0;
       log("仕事で昇進した。");
