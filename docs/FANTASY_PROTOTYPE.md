@@ -13,3 +13,5 @@ fantasy.tsはfantasyだけの小さな月次方針。72か月から寺子屋・�
 未実装: 多地域、戦闘/ダンジョン、詳細な魔法体系、種族別の成人年齢、fantasyの結婚/出産/世代交代/職業資格/老後制度/金融・買い物、NPC家計、統計較正。PCの旧円建て婚姻/求人/買い物APIはfantasyでは無効にし、単位混在を避ける。共通NPC自律行動の成人/就労判断には旧18歳/65歳などの閾値が残る。NPCの実遅延（Issue #7）は行わない。実行時AI/APIなし。
 
 検証: tests/fantasy.test.ts（実就業と収支、900/1440か月の非冒険人生、魔法/シーン、保存/3スロット、非公開保護/版拒否）、browser-tests/scenariosWorlds.spec.ts（新規世界/種族選択、PC/スマホ、途中保存/手動/自動）、pages-tests/fantasy.spec.ts（本番サブパスでオフライン3JSON・新規開始・月進行・保存）。実機Safari/Android、WebKit実行可否はVALIDATIONへ分けて記録する。
+
+公開のfantasy人物イベントは現在log型2本だけで、通常人生の選択イベントは増やしていない。分岐は共通シナリオで実装する。将来choice型JSONを追加する際は、fantasy月次方針へのpending/queue処理統合と保存回帰が必要。世界定義のデータ形が共通でも、全ての旧現代イベントをfantasyへそのまま流用できるとは主張しない。
