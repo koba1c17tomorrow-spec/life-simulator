@@ -1,9 +1,8 @@
+import { WORLD_RULES } from "./worldRules";
 import { JOBS } from "./careers";
 import type { EventDefinition } from "./engine";
-export const WORLDS = [
-  { id: "modern", name: "現代の人生" },
-  { id: "coastal", name: "海辺の町の人生" },
-];
+export const WORLDS = Object.values(WORLD_RULES).map(({ id, name }) => ({ id, name }));
+
 export function validateManifest(
   value: unknown,
   id: string,
