@@ -1,3 +1,4 @@
+import { cloneState } from "./cloneState";
 import { observeNpcTiers, validateNpcTiers, type NpcTiers } from "./npcTiers";
 import { prepareNpcAgency, npcAgencyMonth, npcReply, npcFreeHours, reserveNpcHours, validateNpcAgency } from "./npcAgency";
 import { registerInterest } from "./directedRelations";
@@ -319,7 +320,7 @@ export function advanceMonth(
   original: GameState,
   events: EventDefinition[],
 ): GameState {
-  return advanceOwnedMonth(structuredClone(original), events);
+  return advanceOwnedMonth(cloneState(original), events);
 }
 // The caller exclusively owns this state; public entry points clone before mutation.
 function advanceOwnedMonth(original: GameState, events: EventDefinition[]): GameState {
@@ -649,7 +650,7 @@ export function choose(
   index: number,
   events: EventDefinition[],
 ): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (!s.pending || !s.pending.choices[index]) return s;
   const p = s.pending;
   const c = p.choices[index];
@@ -857,7 +858,7 @@ export function takeAction(
   kind: "study" | "work" | "rest",
   intensity: Intensity = 1,
 ): GameState {
-  const s = normalizeSocial(structuredClone(original));
+  const s = normalizeSocial(cloneState(original));
   if (actionReason(s, kind, intensity)) return s;
   chargeTime(s, kind, actionHours(intensity));
   s.stats.money -= actionCost(kind, intensity);
@@ -907,7 +908,7 @@ export function meetPerson(
   id: string,
   mode: "spend" | "talk" = "spend",
 ): GameState {
-  const s = normalizeSocial(structuredClone(original));
+  const s = normalizeSocial(cloneState(original));
   if (s.finished || s.pending || s.lastActionMonth === s.month || remainingHours(s) < 8) return s;
   const target = s.people.find(p => p.id === id);
   if (!target?.alive || !s.relations.some(r => r.id === id)) return s;
@@ -941,7 +942,7 @@ export function meetPerson(
 }
 
 export function setCareer(original: GameState, career: Career): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
     s.pending ||
     s.finished ||
@@ -963,7 +964,7 @@ export function setCareer(original: GameState, career: Career): GameState {
   return s;
 }
 export function setUniversity(original: GameState, attend: boolean): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (
     s.pending ||
     s.finished ||
@@ -988,7 +989,7 @@ function requestLifeDecision(
   if (original.pending || original.finished) return original;
   const pending = lifeDecision(original, action, id);
   if (!pending) return original;
-  const s = structuredClone(original);
+  const s = cloneState(original);
   s.pending = pending;
   s.monthStarted = true;
   s.lastChoiceMonth = s.month;
@@ -1002,7 +1003,7 @@ export function marry(s: GameState): GameState {
   return requestLifeDecision(s, "marry");
 }
 export function separate(original: GameState): GameState {
-  const s = normalizeProgression(normalizeSocial(structuredClone(original)));
+  const s = normalizeProgression(normalizeSocial(cloneState(original)));
   if (s.pending || s.finished || (!s.partnerId && !s.spouseId)) return s;
   const id = s.spouseId ?? s.partnerId;
   const p = s.people.find((p) => p.id === id);

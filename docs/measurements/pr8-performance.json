@@ -1,0 +1,1486 @@
+{
+  "baselineCommit": "2a904b0217660a116dd620a094442394af6e5f3c",
+  "command": "node scripts/life-performance-study.mjs output.json",
+  "conditions": "Same machine, sequential runs, 100 seeds i*7919, alternating coastal/modern, five original policies, age-480 JSON roundtrip. Before run CPU-profiled; after unprofiled. Simulation timer excludes hash computation; no parallel suites. Timing is observational, not a portable CI guarantee.",
+  "sourceSha256": {
+    "src/engine.ts": "31c990f2c99c273c38293275408f20fe92bee84a040cf2d7f63e416dfc3ebb32",
+    "src/cloneState.ts": "614f764a32000b689c8a8bb383a63161011d57b0f798c8e3607574cfc1a5867d",
+    "scripts/life-performance-study.mjs": "0f6d2641fdc500975b3bda46c9ff3d8cfddf4c75892b44e30946226ab22a7f2d"
+  },
+  "profile": {
+    "totalSamples": 241993,
+    "topSelfSamples": [
+      [
+        "structuredClone node:internal/worker/js_transferable",
+        114321
+      ],
+      [
+        " file:///workspace/life-simulator/scripts/life-performance-study.mjs",
+        57501
+      ],
+      [
+        "update node:internal/crypto/hash",
+        27900
+      ],
+      [
+        "advanceMonth file:///workspace/life-simulator/src/engine.ts",
+        12080
+      ],
+      [
+        "advanceOwnedMonth file:///workspace/life-simulator/src/engine.ts",
+        5995
+      ],
+      [
+        "choose file:///workspace/life-simulator/src/engine.ts",
+        5362
+      ],
+      [
+        "(garbage collector) ",
+        2442
+      ],
+      [
+        "npcAgencyMonth file:///workspace/life-simulator/src/npcAgency.ts",
+        1585
+      ],
+      [
+        "prepareNpcAgency file:///workspace/life-simulator/src/npcAgency.ts",
+        1481
+      ],
+      [
+        " file:///workspace/life-simulator/src/social.ts",
+        1252
+      ],
+      [
+        "normalizeSocial file:///workspace/life-simulator/src/social.ts",
+        1100
+      ],
+      [
+        "npcMonth file:///workspace/life-simulator/src/relationships.ts",
+        983
+      ],
+      [
+        "(program) ",
+        883
+      ],
+      [
+        "budgetFor file:///workspace/life-simulator/src/timeBudget.ts",
+        745
+      ]
+    ]
+  },
+  "before": {
+    "node": "v24.19.0",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "lives": [
+      {
+        "seed": 7919,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 2064.3006470000037,
+        "hash": "146db48e0df410a104ac9f2c9be85de73d6f2d5cef51caa1a8930cbc104b1844"
+      },
+      {
+        "seed": 15838,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 2125.532422,
+        "hash": "de1f0358451a36995d6799d650dcccbbce878a8cd94af127ee1f23138619a0ef"
+      },
+      {
+        "seed": 23757,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 2033.9998790000054,
+        "hash": "dd977e6837dfb94ce4d18afb2afc4c8fa1bea6f34257b62551f42fb06fe714d2"
+      },
+      {
+        "seed": 31676,
+        "world": "modern",
+        "months": 1157,
+        "simulationMs": 1743.6732310000025,
+        "hash": "31df6ae26ab3535a83a0bf25eadef10048c5298b3bc1f967f6150fc060809a10"
+      },
+      {
+        "seed": 39595,
+        "world": "coastal",
+        "months": 1040,
+        "simulationMs": 1512.6809440000143,
+        "hash": "5d94864863d7b24ca874bb57befdfcb4fb4f46d59c3821ce7445a2624d3b79f6"
+      },
+      {
+        "seed": 47514,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1988.7445219999918,
+        "hash": "b3a836fe2d33a22d3ec88dc76b9567480e34d365be50a0f185a0a65b10f3331b"
+      },
+      {
+        "seed": 55433,
+        "world": "coastal",
+        "months": 1155,
+        "simulationMs": 1926.2313409999879,
+        "hash": "4a1c5a3c9c284f9a41ed49f772211b061ad9741be5553a6da7d22de779c7ea3a"
+      },
+      {
+        "seed": 63352,
+        "world": "modern",
+        "months": 976,
+        "simulationMs": 1315.3777340000634,
+        "hash": "9da10ebfa3af1f4066d6fac3c279f86752dbc5515d3838ebcd76bc9e7b9052ce"
+      },
+      {
+        "seed": 71271,
+        "world": "coastal",
+        "months": 1126,
+        "simulationMs": 1812.9192140000014,
+        "hash": "3d66e4e419e0f083e5f089aee1c84e9529ddf6bf0bdff402022e196d5c5e0744"
+      },
+      {
+        "seed": 79190,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1933.2644879999898,
+        "hash": "02e2846a59d29b5da22434da9ae39f34de3c230ba391e597195622496f15d76a"
+      },
+      {
+        "seed": 87109,
+        "world": "coastal",
+        "months": 1102,
+        "simulationMs": 1702.2781330000507,
+        "hash": "3d25fccd7dd64b4e5b1344353e58160a692d50004db3f8703c64d9c08899c83b"
+      },
+      {
+        "seed": 95028,
+        "world": "modern",
+        "months": 1188,
+        "simulationMs": 1793.8102390000386,
+        "hash": "743f30b264333de95d18e28b5d6176acb3775f2b17321da063f1484f035ae408"
+      },
+      {
+        "seed": 102947,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1970.557883999747,
+        "hash": "03308af1a3507d5ac5de8831a694def1e68bc7d239ae25ca959fbb6e12d6dabe"
+      },
+      {
+        "seed": 110866,
+        "world": "modern",
+        "months": 1099,
+        "simulationMs": 1835.358999999975,
+        "hash": "b871a1eb01b3ddc397db1f6cc2822f3846eec66ae21b7f33ff1e22becd2bd290"
+      },
+      {
+        "seed": 118785,
+        "world": "coastal",
+        "months": 1081,
+        "simulationMs": 1522.361728000018,
+        "hash": "f073e860f8645965026e3c90d8162524b82a9ae2a27006ea62249060e38b2782"
+      },
+      {
+        "seed": 126704,
+        "world": "modern",
+        "months": 1178,
+        "simulationMs": 1801.3841729999112,
+        "hash": "3ebf6ed503435c9761f7dd15ed346eb479c250946ac14a5dcb24d9b1a2d5fb80"
+      },
+      {
+        "seed": 134623,
+        "world": "coastal",
+        "months": 1026,
+        "simulationMs": 1512.754559000059,
+        "hash": "46e9addb55bfd96b43132b1038f133ea0ede05a1f0085d885f19577aa0eb98fb"
+      },
+      {
+        "seed": 142542,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1992.0371300001352,
+        "hash": "45713a3e17c8ad61a9df6476c9d884959dcf200e4bc381c035e72a3475950cbf"
+      },
+      {
+        "seed": 150461,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1996.156044000083,
+        "hash": "94d4545800400b02f56ad3a21b38b1797c861abb0b13897ed656c253c377d588"
+      },
+      {
+        "seed": 158380,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 2045.475994000095,
+        "hash": "ac3f8f068dca5eacd4c7804944c34e1fcdecc2ad14cbfab61fc8579eb17cd065"
+      },
+      {
+        "seed": 166299,
+        "world": "coastal",
+        "months": 1014,
+        "simulationMs": 1524.8141429998577,
+        "hash": "d8621232ae2b4f211bbc7dc773aec47c28b031fb6906218fa8a502794089db2c"
+      },
+      {
+        "seed": 174218,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1757.1963580000447,
+        "hash": "897d271f4f9a6c802df1c4f68998db46bab2ce5a8cd0d2b994bd2ab62c55efcf"
+      },
+      {
+        "seed": 182137,
+        "world": "coastal",
+        "months": 919,
+        "simulationMs": 1264.3465939999514,
+        "hash": "d8fcab6be183dbf283c4f55a3af14d551ffaaa432f2e11f55b1931f59a5814c8"
+      },
+      {
+        "seed": 190056,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1848.8393680000445,
+        "hash": "432bdd5b66c837ec08591b390112d3f0db3da2bcd44fdadea77f0c3e21af7e39"
+      },
+      {
+        "seed": 197975,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1854.509572000432,
+        "hash": "6161fa484d69128153385dbb6d287af55c6fe0ba995f91370d27d7208b615d8a"
+      },
+      {
+        "seed": 205894,
+        "world": "modern",
+        "months": 1149,
+        "simulationMs": 1910.0481409998902,
+        "hash": "ee70bd6daffb1fae80de3f454744ccf65e25e62cfa91bdd9473235c1506878d3"
+      },
+      {
+        "seed": 213813,
+        "world": "coastal",
+        "months": 984,
+        "simulationMs": 1369.5786210001243,
+        "hash": "6d8d951db58ea85e4d5980d035a464278b8b3b020be808853c44c21969cd150b"
+      },
+      {
+        "seed": 221732,
+        "world": "modern",
+        "months": 960,
+        "simulationMs": 1362.7527779998782,
+        "hash": "06520fdf294cee1c451edf556dab0bb70e344e5f4150664c20e3aee72aef792a"
+      },
+      {
+        "seed": 229651,
+        "world": "coastal",
+        "months": 1194,
+        "simulationMs": 1997.0004100002989,
+        "hash": "57f4b6857075f4c10d89bb5f01eb83c5300432e3b5bf7456883b435434667188"
+      },
+      {
+        "seed": 237570,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 2063.453991999937,
+        "hash": "655cca2a863167f2c391e848e79e03d3c39ee3c033b2952ec2927e39fe825629"
+      },
+      {
+        "seed": 245489,
+        "world": "coastal",
+        "months": 911,
+        "simulationMs": 1309.3476289996906,
+        "hash": "01dad71b1f328e866fc276b10d28ddd876f035514a0bc04bea952747a04d3f5b"
+      },
+      {
+        "seed": 253408,
+        "world": "modern",
+        "months": 1188,
+        "simulationMs": 1988.842236000317,
+        "hash": "0c07382497a093e475f5dd300692cfde465b1cf4d1a1a0705abc76cd1dfd1a44"
+      },
+      {
+        "seed": 261327,
+        "world": "coastal",
+        "months": 1118,
+        "simulationMs": 1816.1287969999976,
+        "hash": "268bf40764a8d11a21f72845020d4c5380fd85fa04f8b64d505cbced273e6837"
+      },
+      {
+        "seed": 269246,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1927.7114050000819,
+        "hash": "6e92bee363e8ad12daf7d6ef05692cbf7abf8f33c4457aab99379cb195899e9a"
+      },
+      {
+        "seed": 277165,
+        "world": "coastal",
+        "months": 1002,
+        "simulationMs": 1520.8696950001322,
+        "hash": "b8b9cc8be2921b873303a9bf8b3889f3db756cd2ba5a8ec71ec620268dd07c0e"
+      },
+      {
+        "seed": 285084,
+        "world": "modern",
+        "months": 987,
+        "simulationMs": 1606.852520000175,
+        "hash": "1ba375ffe45b1f471454b98ec372131e436a380d654a956747711305e3f1e83d"
+      },
+      {
+        "seed": 293003,
+        "world": "coastal",
+        "months": 1042,
+        "simulationMs": 1647.648528999649,
+        "hash": "f9e34b680571df2fa7b5ed658ae3657651cec672e85492d9924d9d51f2c5c01a"
+      },
+      {
+        "seed": 300922,
+        "world": "modern",
+        "months": 1119,
+        "simulationMs": 1783.0823500002152,
+        "hash": "f2a4deb09f3d49200158342b7f420a439b9e7646fddfe9f45c9ccf35a9127f2f"
+      },
+      {
+        "seed": 308841,
+        "world": "coastal",
+        "months": 1115,
+        "simulationMs": 1741.7754519997106,
+        "hash": "3eac030855bd9a0daaf82ecfc7e34551fb8470bc0eac5d5991a662a5528a52ac"
+      },
+      {
+        "seed": 316760,
+        "world": "modern",
+        "months": 1061,
+        "simulationMs": 1472.9912500000355,
+        "hash": "107400db04ccf3c5dc8fa7c8be6334d6b547c7a8f47a748cbd6ca1dbd9867fff"
+      },
+      {
+        "seed": 324679,
+        "world": "coastal",
+        "months": 1036,
+        "simulationMs": 1569.428048000118,
+        "hash": "da25a0d2895dae857c3bc72f930208d846b083bc6af4b8fea41119e296c9385f"
+      },
+      {
+        "seed": 332598,
+        "world": "modern",
+        "months": 1099,
+        "simulationMs": 1907.6436830002494,
+        "hash": "3c180babb0929a4bce690fe509317a42925136f83f70db40f0d8f31028233007"
+      },
+      {
+        "seed": 340517,
+        "world": "coastal",
+        "months": 1157,
+        "simulationMs": 2077.079457999949,
+        "hash": "bbd0b865d3565efc9da0a0c1a9d55d99639810d582f73dd9b09b0d5a76c0635f"
+      },
+      {
+        "seed": 348436,
+        "world": "modern",
+        "months": 1186,
+        "simulationMs": 1977.3464479997783,
+        "hash": "0c0574bdb96132cf79325809a2f38795aefe0301720cdb5ffce3030f2a482774"
+      },
+      {
+        "seed": 356355,
+        "world": "coastal",
+        "months": 990,
+        "simulationMs": 1497.627291000128,
+        "hash": "4b549bb69bf973d16feef18063be66202c07665c2a390e11dc36b7c5e65b722d"
+      },
+      {
+        "seed": 364274,
+        "world": "modern",
+        "months": 1012,
+        "simulationMs": 1553.3732300002303,
+        "hash": "848240989f7dc7e4bb2c5a23ea9c0ab18e7c2ef023af81cb676f24425f48e07c"
+      },
+      {
+        "seed": 372193,
+        "world": "coastal",
+        "months": 1034,
+        "simulationMs": 1615.9095940003026,
+        "hash": "fb96a2d82f8b20af161591c4519a2fa1ce4e584958584be7cc940b8cbd13093d"
+      },
+      {
+        "seed": 380112,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 2166.412243999701,
+        "hash": "6f9e9212f1c4f21b4eac2fc4758316d46559ca3b57f5c68530651322bf1e8c2b"
+      },
+      {
+        "seed": 388031,
+        "world": "coastal",
+        "months": 920,
+        "simulationMs": 1297.6041730001598,
+        "hash": "d1d2f8076411a4dd692531f31ec6e5765e94fa6634b0aa74d9e9f31d0a555e55"
+      },
+      {
+        "seed": 395950,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 2254.583517999956,
+        "hash": "cb72b1abbab4ee1ce522f200a1eabe405d31217b361df029c098c43cb416745d"
+      },
+      {
+        "seed": 403869,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1976.3346369997307,
+        "hash": "c65d189fbf058343882957029035e7abd0023755c3bb7d3a26c9658019d96600"
+      },
+      {
+        "seed": 411788,
+        "world": "modern",
+        "months": 1033,
+        "simulationMs": 1637.7666769999487,
+        "hash": "490a22e57f0b037d03b43650d2fa7ecaa5cf3ac88852a6106eb0ff3c02e28327"
+      },
+      {
+        "seed": 419707,
+        "world": "coastal",
+        "months": 1159,
+        "simulationMs": 2101.0942540003452,
+        "hash": "d8b3e1b67dbcb4f7f048bdb815d2d091bba2ba9d2c75d4f3c13b8ee004688145"
+      },
+      {
+        "seed": 427626,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1690.1148959997518,
+        "hash": "f1e4f35c65e621388fda029003315ae1ba6f55656b07ba9938dc6b8861703535"
+      },
+      {
+        "seed": 435545,
+        "world": "coastal",
+        "months": 1029,
+        "simulationMs": 1395.642058999656,
+        "hash": "d1ca123a10213e62dc972fa01ad25d9add937cd1b7658e09aaa11102dab36b41"
+      },
+      {
+        "seed": 443464,
+        "world": "modern",
+        "months": 1080,
+        "simulationMs": 1586.4913850000303,
+        "hash": "9f75951c61debf0ee6d1e625754d92bbe8dd8dc1144748117ba0d1a7aef62452"
+      },
+      {
+        "seed": 451383,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1877.1808650006424,
+        "hash": "ed9dc5426af1e0f16d8b08a3a276d4ce64c5d5dc2d5acd4014e50513ef511683"
+      },
+      {
+        "seed": 459302,
+        "world": "modern",
+        "months": 1134,
+        "simulationMs": 1988.5548709992145,
+        "hash": "0cdfed07552248fd43a2d33c0807598a55e0de23b5081cb047662d363db50f85"
+      },
+      {
+        "seed": 467221,
+        "world": "coastal",
+        "months": 991,
+        "simulationMs": 1557.150668000395,
+        "hash": "d30281df14c96c159c80e8bd86b7464bf8acb228171e20a767c31ffa2b825329"
+      },
+      {
+        "seed": 475140,
+        "world": "modern",
+        "months": 1105,
+        "simulationMs": 1769.6511920000194,
+        "hash": "2dba7c8fc137a0d4a1ba7fc45faf18ee4c759b748a02708db0d98cf7e315dc58"
+      },
+      {
+        "seed": 483059,
+        "world": "coastal",
+        "months": 1092,
+        "simulationMs": 1391.1058389995887,
+        "hash": "fffb45e95f4e09a7372d2dcff8b75b6cb067293aa8747221e5b3ec201e1906d8"
+      },
+      {
+        "seed": 490978,
+        "world": "modern",
+        "months": 1141,
+        "simulationMs": 1734.1675509997876,
+        "hash": "b3cf92f6014bdb8172495ad5a7c935dfeebc6eb5d6b8b352f3102634427126d8"
+      },
+      {
+        "seed": 498897,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1879.9856790001795,
+        "hash": "b5995515bff4fbf60970266aaee84cd74f2d97b6652b8dd795828e6522fef64d"
+      },
+      {
+        "seed": 506816,
+        "world": "modern",
+        "months": 1149,
+        "simulationMs": 1841.6443760008551,
+        "hash": "a5de3ce6a1c5b2a06a2df59f42ee621c2dd11e62d1f226c5bac6c6e588e2339c"
+      },
+      {
+        "seed": 514735,
+        "world": "coastal",
+        "months": 1190,
+        "simulationMs": 1842.4056680000795,
+        "hash": "f11f0a34deb611729926cbf66691d9046c5bae7d9a1bd27a629344109885030a"
+      },
+      {
+        "seed": 522654,
+        "world": "modern",
+        "months": 1165,
+        "simulationMs": 1768.1050770001602,
+        "hash": "23d17670038a1760002b0cbf67de08aeab30b7be23c0c16563aa02c447458f6e"
+      },
+      {
+        "seed": 530573,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1663.4926040010178,
+        "hash": "51434903da9b54651324c4f2147e08163a160e60b910bda55d59bb33117c4826"
+      },
+      {
+        "seed": 538492,
+        "world": "modern",
+        "months": 1180,
+        "simulationMs": 2045.652388000046,
+        "hash": "6cf7f39801afe6da660544df2b9e651e96c5cd6a15f0d052f737ec1fac0a2ec0"
+      },
+      {
+        "seed": 546411,
+        "world": "coastal",
+        "months": 1111,
+        "simulationMs": 1609.8156630002195,
+        "hash": "abfd31403be15767aa825f7b381b66cfad3dd85d57f26ff13b73870f5c3991c7"
+      },
+      {
+        "seed": 554330,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1931.934069999872,
+        "hash": "75c0263ec4f4fe29a898c5dd0a4aab584688525d121ce6e0b0a6f577440ed352"
+      },
+      {
+        "seed": 562249,
+        "world": "coastal",
+        "months": 1064,
+        "simulationMs": 1536.2897119998233,
+        "hash": "3eb21e81232419679940bf6d3bbdd7d9d6cf93396c68cbf5513ffa6983be3522"
+      },
+      {
+        "seed": 570168,
+        "world": "modern",
+        "months": 1060,
+        "simulationMs": 1466.57145199948,
+        "hash": "3e45bbca24610a4eb048c706b4b147d7066ea27bb7b3ae60286872f3f748f3a8"
+      },
+      {
+        "seed": 578087,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1946.6238890006498,
+        "hash": "7c34ceba4f0cd05d548c6772d9f0a7866fc293e2f831080c0f7b79e86695b973"
+      },
+      {
+        "seed": 586006,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1820.999186999048,
+        "hash": "c5b93fb369a245d442168af9f632e1065088bcd32f5d3ae4bcbcd5c7f8c83623"
+      },
+      {
+        "seed": 593925,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1904.802458000544,
+        "hash": "5f1e8346bd2bb7c54299e4603fda7a363f38d33e664a67da6507c22fead536aa"
+      },
+      {
+        "seed": 601844,
+        "world": "modern",
+        "months": 1189,
+        "simulationMs": 1858.624351999868,
+        "hash": "009b37bf5418b4c4ceafb94a56954e5e4b00414e372bc4045f2d3f0e6ca6991c"
+      },
+      {
+        "seed": 609763,
+        "world": "coastal",
+        "months": 1128,
+        "simulationMs": 1707.4559650002338,
+        "hash": "f6de03ce41e0578afe75da3b04d13ef373e4f218f8e047608ed316cb921e9014"
+      },
+      {
+        "seed": 617682,
+        "world": "modern",
+        "months": 1191,
+        "simulationMs": 1902.8319590002066,
+        "hash": "47f8862a7526ddc79ac7f891d51adddf54c997c4974182c2793fba64db634f23"
+      },
+      {
+        "seed": 625601,
+        "world": "coastal",
+        "months": 940,
+        "simulationMs": 1324.9309959999227,
+        "hash": "707d80bade6127a22d7fda7cae0f8f13973fec8f3af31aa20c8b32709ff60d4e"
+      },
+      {
+        "seed": 633520,
+        "world": "modern",
+        "months": 1095,
+        "simulationMs": 1739.6874469993636,
+        "hash": "fc9a88b66288a429fa268bbd3c40cdae8ddcf1020e3d26c633740b792fab6821"
+      },
+      {
+        "seed": 641439,
+        "world": "coastal",
+        "months": 1190,
+        "simulationMs": 1935.610689000081,
+        "hash": "91db7a86a6fc489dcb69d4d65907d8dcd0848c5b6f913b21dc06bc7704e43fa6"
+      },
+      {
+        "seed": 649358,
+        "world": "modern",
+        "months": 985,
+        "simulationMs": 1382.202891000139,
+        "hash": "cff53d33ebfd0fa884923e868231a5ccf9ba8e429395c24821b895a2894d9ff5"
+      },
+      {
+        "seed": 657277,
+        "world": "coastal",
+        "months": 1153,
+        "simulationMs": 1928.241884999792,
+        "hash": "aadc5865ac1e03c07a95e7cb7c78e37d4f76acc734272b4c9ca3ae2fb4b99fe5"
+      },
+      {
+        "seed": 665196,
+        "world": "modern",
+        "months": 1133,
+        "simulationMs": 1727.9605369995406,
+        "hash": "8a97379d85d01d122cd7460aa5d9954eae729e9864bff6176094973bf75a6657"
+      },
+      {
+        "seed": 673115,
+        "world": "coastal",
+        "months": 985,
+        "simulationMs": 1388.154934000253,
+        "hash": "e0d9dfabb639407d6c44b6e9ef13233228358e3fc48560740a71a04f8a309244"
+      },
+      {
+        "seed": 681034,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 2100.6062080005067,
+        "hash": "750300902844cf375b46081ff7936283c0aa7bdbf91c6aa8b6d58ea64d921e71"
+      },
+      {
+        "seed": 688953,
+        "world": "coastal",
+        "months": 1139,
+        "simulationMs": 1738.145116999891,
+        "hash": "a6bd5c46b7f349d56640bfb8fc79ad2b9b87fe2daa710462c64256402995794d"
+      },
+      {
+        "seed": 696872,
+        "world": "modern",
+        "months": 1134,
+        "simulationMs": 1786.1399739988556,
+        "hash": "649765f74cc64984a5f3d0906178e7183164f29b30487f855a5a169edc3e86ee"
+      },
+      {
+        "seed": 704791,
+        "world": "coastal",
+        "months": 1022,
+        "simulationMs": 1515.477101000317,
+        "hash": "0adbef5317c902d7fc757a4b419dad976355e2979247f79e61147379b7091cf8"
+      },
+      {
+        "seed": 712710,
+        "world": "modern",
+        "months": 943,
+        "simulationMs": 1264.2809230001003,
+        "hash": "7ba76fa7081566f73e549171927eb9e1cd45e1c4153cdbb16ae0427530a366a0"
+      },
+      {
+        "seed": 720629,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1793.6426210007921,
+        "hash": "0f92c777fd741cf23bdb29211f595a2f565c1dd022ee5692e2f8ce1f5a204ba6"
+      },
+      {
+        "seed": 728548,
+        "world": "modern",
+        "months": 931,
+        "simulationMs": 1209.466969000001,
+        "hash": "6d15d8f0c70c4a49b523b5409dee018cacbc5d041ad8f4e57e859f0fffd13ed6"
+      },
+      {
+        "seed": 736467,
+        "world": "coastal",
+        "months": 1039,
+        "simulationMs": 1519.6117280003382,
+        "hash": "476c9418adee4e537500f58ae308db1a8818d51cfeadb7cb1f9429cb520d084d"
+      },
+      {
+        "seed": 744386,
+        "world": "modern",
+        "months": 1052,
+        "simulationMs": 1540.7875799998583,
+        "hash": "ef702f09fa933571060b3c7f0429ae3522c4d1cd392df270aabcf4149cdde5ff"
+      },
+      {
+        "seed": 752305,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1917.5489910002798,
+        "hash": "cf6b8b80c19414d33caafab2998f6f31b55b95cfe478fbab97c64122e354584a"
+      },
+      {
+        "seed": 760224,
+        "world": "modern",
+        "months": 1138,
+        "simulationMs": 1917.9325320003554,
+        "hash": "be3a9b1d42fdfe2acd04eeb35c5154f5ddb988ea435b341b3a2935a2a44036e2"
+      },
+      {
+        "seed": 768143,
+        "world": "coastal",
+        "months": 1055,
+        "simulationMs": 1573.3589470001752,
+        "hash": "cd4b192ea6b0e05100c736d941d62e4f622800ed19a23c8917b1be475f7d71c8"
+      },
+      {
+        "seed": 776062,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 1981.7649310005945,
+        "hash": "dbe56290329af3c384c37206b1fdca91a284c0b54154f5f5d34f48d1f59b7d35"
+      },
+      {
+        "seed": 783981,
+        "world": "coastal",
+        "months": 1115,
+        "simulationMs": 1795.065165999229,
+        "hash": "caaa2eeff493c2e29746dccde34db9b568163b13ef39c92f804fc664dc251aad"
+      },
+      {
+        "seed": 791900,
+        "world": "modern",
+        "months": 1092,
+        "simulationMs": 1717.5435109995888,
+        "hash": "406b31827c6005940dfa310a6ec38f0abbbe9d3301db3f407863b6d5cde1aea6"
+      }
+    ],
+    "simulationMs": 174544.34790400258
+  },
+  "after": {
+    "node": "v24.19.0",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "lives": [
+      {
+        "seed": 7919,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 1060.8321840000003,
+        "hash": "146db48e0df410a104ac9f2c9be85de73d6f2d5cef51caa1a8930cbc104b1844"
+      },
+      {
+        "seed": 15838,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 921.3244179999933,
+        "hash": "de1f0358451a36995d6799d650dcccbbce878a8cd94af127ee1f23138619a0ef"
+      },
+      {
+        "seed": 23757,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 929.2565009999917,
+        "hash": "dd977e6837dfb94ce4d18afb2afc4c8fa1bea6f34257b62551f42fb06fe714d2"
+      },
+      {
+        "seed": 31676,
+        "world": "modern",
+        "months": 1157,
+        "simulationMs": 774.9526680000072,
+        "hash": "31df6ae26ab3535a83a0bf25eadef10048c5298b3bc1f967f6150fc060809a10"
+      },
+      {
+        "seed": 39595,
+        "world": "coastal",
+        "months": 1040,
+        "simulationMs": 681.099572999985,
+        "hash": "5d94864863d7b24ca874bb57befdfcb4fb4f46d59c3821ce7445a2624d3b79f6"
+      },
+      {
+        "seed": 47514,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 836.0852180000074,
+        "hash": "b3a836fe2d33a22d3ec88dc76b9567480e34d365be50a0f185a0a65b10f3331b"
+      },
+      {
+        "seed": 55433,
+        "world": "coastal",
+        "months": 1155,
+        "simulationMs": 743.4638720000366,
+        "hash": "4a1c5a3c9c284f9a41ed49f772211b061ad9741be5553a6da7d22de779c7ea3a"
+      },
+      {
+        "seed": 63352,
+        "world": "modern",
+        "months": 976,
+        "simulationMs": 549.8183310000295,
+        "hash": "9da10ebfa3af1f4066d6fac3c279f86752dbc5515d3838ebcd76bc9e7b9052ce"
+      },
+      {
+        "seed": 71271,
+        "world": "coastal",
+        "months": 1126,
+        "simulationMs": 761.1701710000452,
+        "hash": "3d66e4e419e0f083e5f089aee1c84e9529ddf6bf0bdff402022e196d5c5e0744"
+      },
+      {
+        "seed": 79190,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 850.0285660000663,
+        "hash": "02e2846a59d29b5da22434da9ae39f34de3c230ba391e597195622496f15d76a"
+      },
+      {
+        "seed": 87109,
+        "world": "coastal",
+        "months": 1102,
+        "simulationMs": 753.7498310000301,
+        "hash": "3d25fccd7dd64b4e5b1344353e58160a692d50004db3f8703c64d9c08899c83b"
+      },
+      {
+        "seed": 95028,
+        "world": "modern",
+        "months": 1188,
+        "simulationMs": 792.2539089999264,
+        "hash": "743f30b264333de95d18e28b5d6176acb3775f2b17321da063f1484f035ae408"
+      },
+      {
+        "seed": 102947,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 895.2083820000007,
+        "hash": "03308af1a3507d5ac5de8831a694def1e68bc7d239ae25ca959fbb6e12d6dabe"
+      },
+      {
+        "seed": 110866,
+        "world": "modern",
+        "months": 1099,
+        "simulationMs": 841.6600969999781,
+        "hash": "b871a1eb01b3ddc397db1f6cc2822f3846eec66ae21b7f33ff1e22becd2bd290"
+      },
+      {
+        "seed": 118785,
+        "world": "coastal",
+        "months": 1081,
+        "simulationMs": 710.738437999953,
+        "hash": "f073e860f8645965026e3c90d8162524b82a9ae2a27006ea62249060e38b2782"
+      },
+      {
+        "seed": 126704,
+        "world": "modern",
+        "months": 1178,
+        "simulationMs": 757.6834989998752,
+        "hash": "3ebf6ed503435c9761f7dd15ed346eb479c250946ac14a5dcb24d9b1a2d5fb80"
+      },
+      {
+        "seed": 134623,
+        "world": "coastal",
+        "months": 1026,
+        "simulationMs": 705.7565110000651,
+        "hash": "46e9addb55bfd96b43132b1038f133ea0ede05a1f0085d885f19577aa0eb98fb"
+      },
+      {
+        "seed": 142542,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 827.2741440000646,
+        "hash": "45713a3e17c8ad61a9df6476c9d884959dcf200e4bc381c035e72a3475950cbf"
+      },
+      {
+        "seed": 150461,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 895.4907829999029,
+        "hash": "94d4545800400b02f56ad3a21b38b1797c861abb0b13897ed656c253c377d588"
+      },
+      {
+        "seed": 158380,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 924.017785999924,
+        "hash": "ac3f8f068dca5eacd4c7804944c34e1fcdecc2ad14cbfab61fc8579eb17cd065"
+      },
+      {
+        "seed": 166299,
+        "world": "coastal",
+        "months": 1014,
+        "simulationMs": 648.1400400000421,
+        "hash": "d8621232ae2b4f211bbc7dc773aec47c28b031fb6906218fa8a502794089db2c"
+      },
+      {
+        "seed": 174218,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 775.5225019999198,
+        "hash": "897d271f4f9a6c802df1c4f68998db46bab2ce5a8cd0d2b994bd2ab62c55efcf"
+      },
+      {
+        "seed": 182137,
+        "world": "coastal",
+        "months": 919,
+        "simulationMs": 615.4084090000106,
+        "hash": "d8fcab6be183dbf283c4f55a3af14d551ffaaa432f2e11f55b1931f59a5814c8"
+      },
+      {
+        "seed": 190056,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 857.4036730000153,
+        "hash": "432bdd5b66c837ec08591b390112d3f0db3da2bcd44fdadea77f0c3e21af7e39"
+      },
+      {
+        "seed": 197975,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 764.5070029999042,
+        "hash": "6161fa484d69128153385dbb6d287af55c6fe0ba995f91370d27d7208b615d8a"
+      },
+      {
+        "seed": 205894,
+        "world": "modern",
+        "months": 1149,
+        "simulationMs": 880.0541660000235,
+        "hash": "ee70bd6daffb1fae80de3f454744ccf65e25e62cfa91bdd9473235c1506878d3"
+      },
+      {
+        "seed": 213813,
+        "world": "coastal",
+        "months": 984,
+        "simulationMs": 614.503552000082,
+        "hash": "6d8d951db58ea85e4d5980d035a464278b8b3b020be808853c44c21969cd150b"
+      },
+      {
+        "seed": 221732,
+        "world": "modern",
+        "months": 960,
+        "simulationMs": 617.5788690001064,
+        "hash": "06520fdf294cee1c451edf556dab0bb70e344e5f4150664c20e3aee72aef792a"
+      },
+      {
+        "seed": 229651,
+        "world": "coastal",
+        "months": 1194,
+        "simulationMs": 853.0397640000374,
+        "hash": "57f4b6857075f4c10d89bb5f01eb83c5300432e3b5bf7456883b435434667188"
+      },
+      {
+        "seed": 237570,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 790.1466079999518,
+        "hash": "655cca2a863167f2c391e848e79e03d3c39ee3c033b2952ec2927e39fe825629"
+      },
+      {
+        "seed": 245489,
+        "world": "coastal",
+        "months": 911,
+        "simulationMs": 538.1865840000028,
+        "hash": "01dad71b1f328e866fc276b10d28ddd876f035514a0bc04bea952747a04d3f5b"
+      },
+      {
+        "seed": 253408,
+        "world": "modern",
+        "months": 1188,
+        "simulationMs": 803.5776160001114,
+        "hash": "0c07382497a093e475f5dd300692cfde465b1cf4d1a1a0705abc76cd1dfd1a44"
+      },
+      {
+        "seed": 261327,
+        "world": "coastal",
+        "months": 1118,
+        "simulationMs": 755.8583370000051,
+        "hash": "268bf40764a8d11a21f72845020d4c5380fd85fa04f8b64d505cbced273e6837"
+      },
+      {
+        "seed": 269246,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 759.4339880001426,
+        "hash": "6e92bee363e8ad12daf7d6ef05692cbf7abf8f33c4457aab99379cb195899e9a"
+      },
+      {
+        "seed": 277165,
+        "world": "coastal",
+        "months": 1002,
+        "simulationMs": 625.182244999909,
+        "hash": "b8b9cc8be2921b873303a9bf8b3889f3db756cd2ba5a8ec71ec620268dd07c0e"
+      },
+      {
+        "seed": 285084,
+        "world": "modern",
+        "months": 987,
+        "simulationMs": 630.0405069999833,
+        "hash": "1ba375ffe45b1f471454b98ec372131e436a380d654a956747711305e3f1e83d"
+      },
+      {
+        "seed": 293003,
+        "world": "coastal",
+        "months": 1042,
+        "simulationMs": 669.224798999945,
+        "hash": "f9e34b680571df2fa7b5ed658ae3657651cec672e85492d9924d9d51f2c5c01a"
+      },
+      {
+        "seed": 300922,
+        "world": "modern",
+        "months": 1119,
+        "simulationMs": 714.143600999756,
+        "hash": "f2a4deb09f3d49200158342b7f420a439b9e7646fddfe9f45c9ccf35a9127f2f"
+      },
+      {
+        "seed": 308841,
+        "world": "coastal",
+        "months": 1115,
+        "simulationMs": 735.7520899999508,
+        "hash": "3eac030855bd9a0daaf82ecfc7e34551fb8470bc0eac5d5991a662a5528a52ac"
+      },
+      {
+        "seed": 316760,
+        "world": "modern",
+        "months": 1061,
+        "simulationMs": 606.8733970001194,
+        "hash": "107400db04ccf3c5dc8fa7c8be6334d6b547c7a8f47a748cbd6ca1dbd9867fff"
+      },
+      {
+        "seed": 324679,
+        "world": "coastal",
+        "months": 1036,
+        "simulationMs": 641.5963400002074,
+        "hash": "da25a0d2895dae857c3bc72f930208d846b083bc6af4b8fea41119e296c9385f"
+      },
+      {
+        "seed": 332598,
+        "world": "modern",
+        "months": 1099,
+        "simulationMs": 823.9947729999258,
+        "hash": "3c180babb0929a4bce690fe509317a42925136f83f70db40f0d8f31028233007"
+      },
+      {
+        "seed": 340517,
+        "world": "coastal",
+        "months": 1157,
+        "simulationMs": 870.7195880003128,
+        "hash": "bbd0b865d3565efc9da0a0c1a9d55d99639810d582f73dd9b09b0d5a76c0635f"
+      },
+      {
+        "seed": 348436,
+        "world": "modern",
+        "months": 1186,
+        "simulationMs": 751.0377750002663,
+        "hash": "0c0574bdb96132cf79325809a2f38795aefe0301720cdb5ffce3030f2a482774"
+      },
+      {
+        "seed": 356355,
+        "world": "coastal",
+        "months": 990,
+        "simulationMs": 665.0139689998323,
+        "hash": "4b549bb69bf973d16feef18063be66202c07665c2a390e11dc36b7c5e65b722d"
+      },
+      {
+        "seed": 364274,
+        "world": "modern",
+        "months": 1012,
+        "simulationMs": 626.8341389999114,
+        "hash": "848240989f7dc7e4bb2c5a23ea9c0ab18e7c2ef023af81cb676f24425f48e07c"
+      },
+      {
+        "seed": 372193,
+        "world": "coastal",
+        "months": 1034,
+        "simulationMs": 702.2661880001833,
+        "hash": "fb96a2d82f8b20af161591c4519a2fa1ce4e584958584be7cc940b8cbd13093d"
+      },
+      {
+        "seed": 380112,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 938.6813350003649,
+        "hash": "6f9e9212f1c4f21b4eac2fc4758316d46559ca3b57f5c68530651322bf1e8c2b"
+      },
+      {
+        "seed": 388031,
+        "world": "coastal",
+        "months": 920,
+        "simulationMs": 568.6441990000603,
+        "hash": "d1d2f8076411a4dd692531f31ec6e5765e94fa6634b0aa74d9e9f31d0a555e55"
+      },
+      {
+        "seed": 395950,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 917.1431669999292,
+        "hash": "cb72b1abbab4ee1ce522f200a1eabe405d31217b361df029c098c43cb416745d"
+      },
+      {
+        "seed": 403869,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 820.4265460000461,
+        "hash": "c65d189fbf058343882957029035e7abd0023755c3bb7d3a26c9658019d96600"
+      },
+      {
+        "seed": 411788,
+        "world": "modern",
+        "months": 1033,
+        "simulationMs": 682.0811509998166,
+        "hash": "490a22e57f0b037d03b43650d2fa7ecaa5cf3ac88852a6106eb0ff3c02e28327"
+      },
+      {
+        "seed": 419707,
+        "world": "coastal",
+        "months": 1159,
+        "simulationMs": 878.8972800003976,
+        "hash": "d8b3e1b67dbcb4f7f048bdb815d2d091bba2ba9d2c75d4f3c13b8ee004688145"
+      },
+      {
+        "seed": 427626,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 726.6775140001846,
+        "hash": "f1e4f35c65e621388fda029003315ae1ba6f55656b07ba9938dc6b8861703535"
+      },
+      {
+        "seed": 435545,
+        "world": "coastal",
+        "months": 1029,
+        "simulationMs": 612.8198269999411,
+        "hash": "d1ca123a10213e62dc972fa01ad25d9add937cd1b7658e09aaa11102dab36b41"
+      },
+      {
+        "seed": 443464,
+        "world": "modern",
+        "months": 1080,
+        "simulationMs": 671.4165170001361,
+        "hash": "9f75951c61debf0ee6d1e625754d92bbe8dd8dc1144748117ba0d1a7aef62452"
+      },
+      {
+        "seed": 451383,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 885.4633589997247,
+        "hash": "ed9dc5426af1e0f16d8b08a3a276d4ce64c5d5dc2d5acd4014e50513ef511683"
+      },
+      {
+        "seed": 459302,
+        "world": "modern",
+        "months": 1134,
+        "simulationMs": 869.3308979996946,
+        "hash": "0cdfed07552248fd43a2d33c0807598a55e0de23b5081cb047662d363db50f85"
+      },
+      {
+        "seed": 467221,
+        "world": "coastal",
+        "months": 991,
+        "simulationMs": 710.5321740003274,
+        "hash": "d30281df14c96c159c80e8bd86b7464bf8acb228171e20a767c31ffa2b825329"
+      },
+      {
+        "seed": 475140,
+        "world": "modern",
+        "months": 1105,
+        "simulationMs": 759.4124909998645,
+        "hash": "2dba7c8fc137a0d4a1ba7fc45faf18ee4c759b748a02708db0d98cf7e315dc58"
+      },
+      {
+        "seed": 483059,
+        "world": "coastal",
+        "months": 1092,
+        "simulationMs": 687.8212470003491,
+        "hash": "fffb45e95f4e09a7372d2dcff8b75b6cb067293aa8747221e5b3ec201e1906d8"
+      },
+      {
+        "seed": 490978,
+        "world": "modern",
+        "months": 1141,
+        "simulationMs": 784.1685609995911,
+        "hash": "b3cf92f6014bdb8172495ad5a7c935dfeebc6eb5d6b8b352f3102634427126d8"
+      },
+      {
+        "seed": 498897,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 881.3606510002719,
+        "hash": "b5995515bff4fbf60970266aaee84cd74f2d97b6652b8dd795828e6522fef64d"
+      },
+      {
+        "seed": 506816,
+        "world": "modern",
+        "months": 1149,
+        "simulationMs": 961.2339900005463,
+        "hash": "a5de3ce6a1c5b2a06a2df59f42ee621c2dd11e62d1f226c5bac6c6e588e2339c"
+      },
+      {
+        "seed": 514735,
+        "world": "coastal",
+        "months": 1190,
+        "simulationMs": 845.1868360002554,
+        "hash": "f11f0a34deb611729926cbf66691d9046c5bae7d9a1bd27a629344109885030a"
+      },
+      {
+        "seed": 522654,
+        "world": "modern",
+        "months": 1165,
+        "simulationMs": 878.9797380001401,
+        "hash": "23d17670038a1760002b0cbf67de08aeab30b7be23c0c16563aa02c447458f6e"
+      },
+      {
+        "seed": 530573,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 824.1780940001336,
+        "hash": "51434903da9b54651324c4f2147e08163a160e60b910bda55d59bb33117c4826"
+      },
+      {
+        "seed": 538492,
+        "world": "modern",
+        "months": 1180,
+        "simulationMs": 921.9047589998954,
+        "hash": "6cf7f39801afe6da660544df2b9e651e96c5cd6a15f0d052f737ec1fac0a2ec0"
+      },
+      {
+        "seed": 546411,
+        "world": "coastal",
+        "months": 1111,
+        "simulationMs": 732.093723000231,
+        "hash": "abfd31403be15767aa825f7b381b66cfad3dd85d57f26ff13b73870f5c3991c7"
+      },
+      {
+        "seed": 554330,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 818.2539340005314,
+        "hash": "75c0263ec4f4fe29a898c5dd0a4aab584688525d121ce6e0b0a6f577440ed352"
+      },
+      {
+        "seed": 562249,
+        "world": "coastal",
+        "months": 1064,
+        "simulationMs": 683.4111790001043,
+        "hash": "3eb21e81232419679940bf6d3bbdd7d9d6cf93396c68cbf5513ffa6983be3522"
+      },
+      {
+        "seed": 570168,
+        "world": "modern",
+        "months": 1060,
+        "simulationMs": 705.1671539998788,
+        "hash": "3e45bbca24610a4eb048c706b4b147d7066ea27bb7b3ae60286872f3f748f3a8"
+      },
+      {
+        "seed": 578087,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 870.0201270003017,
+        "hash": "7c34ceba4f0cd05d548c6772d9f0a7866fc293e2f831080c0f7b79e86695b973"
+      },
+      {
+        "seed": 586006,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 766.7890470003767,
+        "hash": "c5b93fb369a245d442168af9f632e1065088bcd32f5d3ae4bcbcd5c7f8c83623"
+      },
+      {
+        "seed": 593925,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 801.3074619999825,
+        "hash": "5f1e8346bd2bb7c54299e4603fda7a363f38d33e664a67da6507c22fead536aa"
+      },
+      {
+        "seed": 601844,
+        "world": "modern",
+        "months": 1189,
+        "simulationMs": 780.0513960000098,
+        "hash": "009b37bf5418b4c4ceafb94a56954e5e4b00414e372bc4045f2d3f0e6ca6991c"
+      },
+      {
+        "seed": 609763,
+        "world": "coastal",
+        "months": 1128,
+        "simulationMs": 777.4047610006528,
+        "hash": "f6de03ce41e0578afe75da3b04d13ef373e4f218f8e047608ed316cb921e9014"
+      },
+      {
+        "seed": 617682,
+        "world": "modern",
+        "months": 1191,
+        "simulationMs": 817.1446689991571,
+        "hash": "47f8862a7526ddc79ac7f891d51adddf54c997c4974182c2793fba64db634f23"
+      },
+      {
+        "seed": 625601,
+        "world": "coastal",
+        "months": 940,
+        "simulationMs": 607.2793709999823,
+        "hash": "707d80bade6127a22d7fda7cae0f8f13973fec8f3af31aa20c8b32709ff60d4e"
+      },
+      {
+        "seed": 633520,
+        "world": "modern",
+        "months": 1095,
+        "simulationMs": 783.5732679998619,
+        "hash": "fc9a88b66288a429fa268bbd3c40cdae8ddcf1020e3d26c633740b792fab6821"
+      },
+      {
+        "seed": 641439,
+        "world": "coastal",
+        "months": 1190,
+        "simulationMs": 878.0318430005864,
+        "hash": "91db7a86a6fc489dcb69d4d65907d8dcd0848c5b6f913b21dc06bc7704e43fa6"
+      },
+      {
+        "seed": 649358,
+        "world": "modern",
+        "months": 985,
+        "simulationMs": 631.8575980000314,
+        "hash": "cff53d33ebfd0fa884923e868231a5ccf9ba8e429395c24821b895a2894d9ff5"
+      },
+      {
+        "seed": 657277,
+        "world": "coastal",
+        "months": 1153,
+        "simulationMs": 895.7751050007355,
+        "hash": "aadc5865ac1e03c07a95e7cb7c78e37d4f76acc734272b4c9ca3ae2fb4b99fe5"
+      },
+      {
+        "seed": 665196,
+        "world": "modern",
+        "months": 1133,
+        "simulationMs": 797.4767200003262,
+        "hash": "8a97379d85d01d122cd7460aa5d9954eae729e9864bff6176094973bf75a6657"
+      },
+      {
+        "seed": 673115,
+        "world": "coastal",
+        "months": 985,
+        "simulationMs": 677.2563390001596,
+        "hash": "e0d9dfabb639407d6c44b6e9ef13233228358e3fc48560740a71a04f8a309244"
+      },
+      {
+        "seed": 681034,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 923.1191190002137,
+        "hash": "750300902844cf375b46081ff7936283c0aa7bdbf91c6aa8b6d58ea64d921e71"
+      },
+      {
+        "seed": 688953,
+        "world": "coastal",
+        "months": 1139,
+        "simulationMs": 810.4762669994088,
+        "hash": "a6bd5c46b7f349d56640bfb8fc79ad2b9b87fe2daa710462c64256402995794d"
+      },
+      {
+        "seed": 696872,
+        "world": "modern",
+        "months": 1134,
+        "simulationMs": 824.6625049998693,
+        "hash": "649765f74cc64984a5f3d0906178e7183164f29b30487f855a5a169edc3e86ee"
+      },
+      {
+        "seed": 704791,
+        "world": "coastal",
+        "months": 1022,
+        "simulationMs": 729.8252320000029,
+        "hash": "0adbef5317c902d7fc757a4b419dad976355e2979247f79e61147379b7091cf8"
+      },
+      {
+        "seed": 712710,
+        "world": "modern",
+        "months": 943,
+        "simulationMs": 572.6070530002762,
+        "hash": "7ba76fa7081566f73e549171927eb9e1cd45e1c4153cdbb16ae0427530a366a0"
+      },
+      {
+        "seed": 720629,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 735.4094930001302,
+        "hash": "0f92c777fd741cf23bdb29211f595a2f565c1dd022ee5692e2f8ce1f5a204ba6"
+      },
+      {
+        "seed": 728548,
+        "world": "modern",
+        "months": 931,
+        "simulationMs": 543.1488189994707,
+        "hash": "6d15d8f0c70c4a49b523b5409dee018cacbc5d041ad8f4e57e859f0fffd13ed6"
+      },
+      {
+        "seed": 736467,
+        "world": "coastal",
+        "months": 1039,
+        "simulationMs": 665.3821989997232,
+        "hash": "476c9418adee4e537500f58ae308db1a8818d51cfeadb7cb1f9429cb520d084d"
+      },
+      {
+        "seed": 744386,
+        "world": "modern",
+        "months": 1052,
+        "simulationMs": 748.1038140000601,
+        "hash": "ef702f09fa933571060b3c7f0429ae3522c4d1cd392df270aabcf4149cdde5ff"
+      },
+      {
+        "seed": 752305,
+        "world": "coastal",
+        "months": 1200,
+        "simulationMs": 894.3580100000254,
+        "hash": "cf6b8b80c19414d33caafab2998f6f31b55b95cfe478fbab97c64122e354584a"
+      },
+      {
+        "seed": 760224,
+        "world": "modern",
+        "months": 1138,
+        "simulationMs": 837.1867279996804,
+        "hash": "be3a9b1d42fdfe2acd04eeb35c5154f5ddb988ea435b341b3a2935a2a44036e2"
+      },
+      {
+        "seed": 768143,
+        "world": "coastal",
+        "months": 1055,
+        "simulationMs": 698.118080000073,
+        "hash": "cd4b192ea6b0e05100c736d941d62e4f622800ed19a23c8917b1be475f7d71c8"
+      },
+      {
+        "seed": 776062,
+        "world": "modern",
+        "months": 1200,
+        "simulationMs": 794.1170119999151,
+        "hash": "dbe56290329af3c384c37206b1fdca91a284c0b54154f5f5d34f48d1f59b7d35"
+      },
+      {
+        "seed": 783981,
+        "world": "coastal",
+        "months": 1115,
+        "simulationMs": 754.9712059996964,
+        "hash": "caaa2eeff493c2e29746dccde34db9b568163b13ef39c92f804fc664dc251aad"
+      },
+      {
+        "seed": 791900,
+        "world": "modern",
+        "months": 1092,
+        "simulationMs": 708.9982310001506,
+        "hash": "406b31827c6005940dfa310a6ec38f0abbbe9d3301db3f407863b6d5cde1aea6"
+      }
+    ],
+    "simulationMs": 76637.64320200382
+  },
+  "matchingMonthlyTraceHashes": 100
+}
